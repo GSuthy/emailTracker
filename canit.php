@@ -40,7 +40,7 @@ date_default_timezone_set('America/Denver');
             <td>Start Date: </td>
             <td><input type="datetime-local" id="start_date" name="start_date" value="<?php echo date('Y-m-d\TH:i', mktime(date('H'), date('i'), 0, date('m'), date('d')-1, date('Y'))); ?>"/></td>
         </tr>
-                                                                    <!--TODO: Make the date time persist after doing POST-->
+        <!--TODO: Make the date time persist after doing POST-->
         <tr>
             <td>End Date: </td>
             <td><input type="datetime-local" id="end_date" name="end_date" value="<?php echo date('Y-m-d\TH:i'); ?>"/></td>
