@@ -1,6 +1,7 @@
 <?php
 	require_once("canit-api-client.php");
 	require_once("settings.php");
+	require_once("exchange.php");
 
 	$show_table = false;
 	$search_params = array();
@@ -161,6 +162,27 @@ if ($show_table)
 		echo "<br/><br/>";
 		echo $table_string;
 	}
+	
+
+	//UNCOMMENT THE FOLLOWING TO ENABLE EXCHANGE SEARCH
+	//it just spits out the data, I haven't formatted it into a table.
+	//also, it runs really slow and I don't know why--running the queries in MySQL Workbench goes really fast
+	/*
+	$sender = $search_params['sender'];
+	$sender_contains = ($search_params['senderSearchType'] == 'contains');
+	
+	$recipient = $search_params['recipient'];
+	$recipient_contains = ($search_params['recipientSearchType'] == 'contains');
+	
+	$subject = $search_params['subject'];
+	$subject_contains = ($search_params['subjectSearchType'] == 'contains');
+	
+	$startDttm = $search_params['start_date'];
+	$endDttm = $search_params['end_date'];
+	
+	$exchangeResults = ExchangeClient::getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm);
+	echo(json_encode($exchangeResults));
+	*/
 }
 
 ?>
