@@ -2,13 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: stevenc4
- * Date: 1/13/14
- * Time: 3:30 PM
+ * Date: 1/21/14
+ * Time: 11:06 AM
  */
-
-ini_set('max_execution_time', 0);
-
-$con = mysqli_connect("sienna.byu.edu", "oit#greplogadmin", "1t5T00lTime", "syslog");
 
 function getFromID($id_to_search) {
     $search_results = mysqli_query($GLOBALS['con'], "select * from systemevents where message like ' " . $id_to_search . "%'");
@@ -27,89 +23,67 @@ function getFromID($id_to_search) {
     }
 }
 
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+$inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE);
+
+//TODO: sanitize variables/check for SQL injection
+$sender = $input["sender"];
+$recipient = $input["recipient"];
+$startDate = $input["startDate"];
+$endDate = $input["endDate"];
+
+$to_and_from = false;
+if (!is_null($sender) && is_null($recipient)) {
+    $query =
+        "SELECT * " .
+        "FROM systemevents " .
+        "WHERE " .
+        "Message LIKE \"%from=<" . $sender . ">%\" " .
+        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
+        "ORDER by ReceivedAt DESC";
+} else if (is_null($sender) && !$is_null($recipient)) {
+    $query =
+        "SELECT * " .
+        "FROM systemevents " .
+        "WHERE " .
+        "Message LIKE \"%to=%" . $to . "%" .
+        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
+        "ORDER by ReceivedAt DESC";
 } else {
-    $queue_id;
+    $query =
+        "SELECT * " .
+        "FROM systemevents " .
+        "WHERE " .
+        "Message LIKE \"%to=%" . $to . "%" .
+        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
+        "ORDER by ReceivedAt DESC";
+    $to_and_from = true;
+}
 
-//    $to = "parker@taco.byu.edu";
-    $to = "parker_bradshaw@byu.edu";
-    $from = "";
-    $beginDate = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 10, date('Y')));;
-    $endDate = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d'), date('Y')));
 
-    echo $beginDate . " " . $endDate . "<br/>";
+$con = mysqli_connect("Sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
+if (mysqli_connect_errno())
+{
+    echo "Failed to connect to database: " . mysqli_connect_error(); //TODO: better failure message
+    return;
+}
 
-    $results = mysqli_query($con, "select * from systemevents where message like '%to=<" . $to . ">%' and receivedat between '" . $beginDate . "' and '" . $endDate . "'");
+$result = mysqli_query($con, $query);
 
-    foreach ($results as $result) {
-        $parameters = preg_split("/[:,]?\s+/", $result['Message']);
+if(!$result) {
+    echo "Query failed: " . mysqli_error($con); //TODO: better failure message
+    return;
+}
 
-        $queue_id = $parameters[1];
-        echo "<b>Queue ID: $queue_id</b><br/>";
+foreach ($results as $result) {
+    $message = preg_split("/[:,]?\s+/", $result['Message']);
+    $queue_id = $parameters[1];
+    $queue_id_array = array($queue_id);
 
-        $queue_id_array = array($queue_id);
-
-        $index = 0;
-        $continue = true;
-        while ($index < count($queue_id_array)) {
-            getFromID($queue_id_array[$index++]);
-        }
-
-        /*$results_2 = mysqli_query($con, "select * from systemevents where message like '%" . $queue_id . "%'");
-        $to_dst = array();
-        $to_array = array();
-        $from_array = "";
-        foreach ($results_2 as $result_2) {
-            echo htmlspecialchars($result_2['Message']) . "<br>";
-            $matches;
-
-            preg_match("/to=<.+>,\sdelay/", $result_2['Message'], $matches);
-            if (count($matches) > 0) {
-                array_push($to_dst, substr($matches[0], 4, strlen($matches[0]) - 12));
-
-                $secondary_id;
-                preg_match("/stat=Sent\s\(.+\sMessage accepted/", $result_2['Message'], $secondary_id);
-                if (count($secondary_id) > 0) {
-                    array_push($queue_id_array, substr($secondary_id[0], 11, strlen($secondary_id[0]) - 28));
-                }
-            }
-
-            preg_match("/to=[^<]+,\sdelay/", $result_2['Message'], $matches);
-            if (count($matches) > 0) {
-                array_push($to_array, substr($matches[0], 3, strlen($matches[0]) - 10));
-                $secondary_id;
-                preg_match("/stat=Sent(\s.+\sMessage accepted/", $result_2['Message'], $secondary_id);
-                echo $result_2['Message'];
-                if (count($secondary_id) > 0) {
-                    echo "Success";
-                }
-            }
-
-            preg_match("/from=<.+>,\ssize/", $result_2['Message'], $matches);
-            if (count($matches) > 0) {
-                $from_array = substr($matches[0], 6, strlen($matches[0]) - 13);
-            }
-        }
-        echo "<br/>";
-//        echo "To: <i>$to_dst</i><br/>";
-        foreach ($to_dst as $toAddr) {
-            if (!is_null($toAddr))
-                echo "To: <i>$toAddr</i><br/>";
-        }
-        foreach ($to_array as $toAddr) {
-            if (!is_null($toAddr))
-            echo "To: <i>$toAddr</i><br/>";
-        }
-        echo "From: <i>$from_array</i><br/>";
-        echo "<br/><br/>";
-        echo "<pre>";
-        print_r($queue_id_array);
-        echo "</pre>";*/
+    $index = 0;
+    while ($index < count($queue_id_array)) {
+        getFromID($queue_id_array[$index++]);
     }
-
-
-
 }
 
 mysqli_close($con);
