@@ -1,0 +1,387 @@
+/* Grid */
+
+.grid_1 {width: 2.91667%;} /* 28px / 960px */ 
+.grid_2 {width: 11.25%;} /* 108px / 960px */ 
+.grid_3 {width: 19.5833%;} /* 188px / 960px */ 
+.grid_4 {width: 27.9167%;} /* 268px / 960px */ 
+.grid_5 {width: 36.25%;} /* 348px / 960px */ 
+.grid_6 {width: 44.5833%;} /* 428px / 960px */ 
+.grid_7 {width: 52.9167%;} /* 508px / 960px */ 
+.grid_8 {width: 61.25%;} /* 588px / 960px */ 
+.grid_9 {width: 69.5833%;} /* 668px / 960px */ 
+.grid_10 {width: 77.9167%;} /* 748px / 960px */ 
+.grid_11 {width: 86.25%;} /* 828px / 960px */ 
+.grid_12 {width: 94.5833%;} /* 908px / 960px */ 
+.column {margin: 0 1.04167% 0 1.04167%; /* 10px / 960px */
+         overflow: hidden;
+         float: left;
+         padding: 0.9375em;
+         border: 1px;
+         display: inline;}
+.row {width: 60em; /* 960px / 16px  */
+      margin: 0 auto;
+      overflow: hidden;}
+.row .row {margin: 0 -1.04167% 0 -1.04167%; /* 10px / 960px */
+           width: auto;
+           display: inline-block;}
+
+/* Global */
+body, html {
+	padding: 0;
+	margin: 0;
+
+	background: white;
+	font-size:16px;
+
+	font-family: 'Roboto', sans-serif;
+	width: 100%;
+}
+
+.column {
+     border: 1px solid #cacaca;
+     margin-bottom: 0.9375em;
+}
+
+div#banner {
+	background: #003b65;
+	height: 40px;
+}
+
+div#banner img {
+	margin-top:12px;
+}
+
+div.container {
+	width:62em;
+	margin:0 auto;
+}
+
+form.search {
+	border: 1px solid #ccc;
+	border-top-width: 0;
+	border-left:;
+}
+
+form.search h1 {
+	margin: 1em 0 .5em .625em;
+	font-family: 'PT Serif';
+	color: #003b65;
+}
+
+span.recipient {
+	float: left;
+	width: 49.5%;
+}
+
+span.sender {
+	float: right;
+	width: 49%;
+}
+
+form.search label {
+	display: inline-block;
+}
+
+form.search input, form.search input:active {
+	padding: 5px;
+	font-family: inherit;
+	font-size: inherit;
+
+	outline: none;
+	border: 1px solid #c9c9c9;
+	border-left-width: 0;
+	background: #fafafa;
+
+	margin: 0;
+
+	display: inline;
+	width: 57%;
+	border-radius: 0 3px 3px 0;
+}
+
+
+span.sender input, span.sender input:active {
+	width:61%;
+}
+
+div.subject input, div.subject input:active {
+/*	width: 60%;*/
+}
+
+div.subject {
+	float: left;
+}
+
+
+form.search input:active, form.search input:focus {
+	background: white;
+	border-color: #aaa;
+	font-style: normal;
+	color: #000;
+}
+
+form.search select {
+	font-family: inherit;
+	font-size: inherit;
+	background:url('../img/down_chevron.png') left center no-repeat #196499;
+	padding: 5px 5px 5px 20px;
+	border: 1px solid #003b65;
+	color: white;
+	margin: 0 -4px 0 0;
+	border-radius: 3px 0 0 3px;
+	-webkit-appearance: none;
+	-moz-appearance:window;
+}
+
+/* Browser Hack to get rid of dropdown - MSIE */
+form.search select::-ms-expand {
+    display: none;
+}
+
+/* Browser hack to get rid of dropdown - FF for Mac (Fix doesn't work on Windows) */
+@-moz-document url-prefix() {
+form.search span.moz-select-wrap {
+	background:url('../img/down_chevron.png') left center no-repeat #196499;
+	padding: 5px 5px 5px 0px;
+	border: 1px solid #003b65;
+	color: white;
+	margin: 0 -4px 0 0;
+	border-radius: 3px 0 0 3px;
+  }
+} 
+
+form.search select, form.search select:active, form.search select:hover {
+	outline: none;
+	cursor: pointer;
+}
+
+form.search select:focus{
+	border-color: #333;
+	background-color: #1E79BA;
+}
+
+form.search h3 {
+	margin: 0;
+	padding: 0;
+}
+
+form.search .datepair input {
+	border-radius: 3px;
+	width: 130px;
+	font-size: .875em;
+	border-width: 1px;
+	margin-bottom: 4px;
+}
+
+div.date-and-time {
+	float: left;
+	clear: left;
+}
+
+div.date-and-time p.datepair {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+
+/* Server selection */
+div.server-select {
+	float: right;
+	overflow: hidden;
+	position: relative;
+}
+
+div.server-select h3 {
+	margin: 0 0 10px;
+}
+
+div.server-select h3 span {
+	font-size: .75em;
+	font-weight: normal;
+	font-style: italic;
+}
+
+div.server-select div.box-selector {
+	width: 28%;
+	height:100px;
+	float:left;
+	border: 1px solid #ccc;
+	margin:0;
+	text-align: center;
+	color: #777;
+	position: relative; /* necessary for status-indicator positioning */
+
+	/* Get rid of annoying accidental selection */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div.server-select div.box-selector p {
+	font-size: .75em;
+	margin: 0;
+	padding: 0;
+}
+
+div.server-select div.box-selector h4 {
+	margin: 30px 0 0;
+}
+
+div.server-select div.box-selector.on {
+	border-color: #137C9C;
+	color:#000;
+}
+
+div.server-select div.box-selector:hover {
+	cursor: pointer;
+	color: #333;
+	border-color: #777;
+}
+
+div.server-select div.box-selector.on:hover {
+	cursor: pointer;
+	border-color: #137C9C;
+	color:#000;
+}
+
+div.server-select div.server-arrow {
+	width: 28px;
+	height: 100px;
+	display: block;
+	float:left;
+	border:1px solid white;
+	background:url('../img/server_arrow.png') center center no-repeat #ccc;
+}
+
+div.server-select div.server-arrow.on {
+	background-color: #137C9C;
+}
+
+div.server-select div.box-selector div.status-indicator
+{
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	height: 25px;
+	width: 25px;
+	background: url('../img/server_no.png') center center no-repeat transparent;
+}
+
+div.server-select div.box-selector.on div.status-indicator {
+	background-image:url('../img/server_yes.png');
+}
+
+div.server-select input[type="checkbox"]
+{
+	visibility: hidden;
+	position:absolute;
+}
+
+form.search input[type="submit"], form.search input[type="submit"]:active  {
+	font-family: inherit;
+	font-size: inherit;
+	background: #196499;
+	padding: 5px;
+	float: right;
+	border: 1px solid #003b65;
+	color: white;
+	margin: 1px 1.04167% 16px 0;
+	border-radius: 3px;
+	-webkit-appearance: none;
+	width: 47.6%;
+	box-shadow:0px 2px 0px #003b65;
+}
+
+form.search input[type="submit"]:hover {
+	cursor: pointer;
+	background-color: #1B6DA8;
+}
+
+form.search input[type="submit"]:active {
+	background-color: #1E79BA;
+	box-shadow:0px 1px 0px #003b65;
+	margin: 2px 1.04167% 15px 0;
+}
+
+/* Table CSS */
+
+table.results, table.results * {
+	border-collapse: collapse;
+}
+
+table.results {
+	width: 100%;
+	font-size: 0.9375em;
+	font-weight: normal;
+}
+
+table.results th {
+	background: #236597;
+	color: white;
+	font-weight: normal;
+}
+
+table.results tr {
+	border:1px solid #759bb8;
+	border-width: 0 1px;
+}
+
+table.results tr:last-child {
+	border-bottom-width: 1px;
+}
+
+table.results tr:nth-child(even)
+{
+	background: #c8dff0;
+}
+
+table.results tr:hover {
+	cursor: pointer;
+	background: #9cbad1;
+}
+
+table.results tr.table-information:hover, table.results tr.log:hover, table.results th:hover {
+	cursor: auto;
+}
+
+table.results tr.table-information:hover, table.results tr.log:hover {
+	background-color: white;
+}
+
+table.results td, table.results th {
+	padding:5px;
+}
+
+table.results tr td:nth-child(1), 
+table.results tr td:nth-child(2), 
+table.results tr td:nth-child(6), 
+table.results tr td:nth-child(7) {
+	text-align: center;
+}
+
+table.results tr.table-information {
+	border-width: 0;
+	background-color: white;
+}
+
+table.results tr.table-information td {
+	text-align: left;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 1.25em;
+}
+
+table.results tr.log {
+	background-color: white;
+	/*display: none;*/
+}
+
+table.results tr.log p {
+	padding: 10px;
+	text-align: left;
+	font-family: courier new;
+}
+
