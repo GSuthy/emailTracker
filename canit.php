@@ -72,7 +72,7 @@
 </html>
 
 <?php
-$canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
+$canit_url = "https://gw3.byu.edu/canit/api/2.0";
 
 $options = array(
 	CURLOPT_SSL_VERIFYPEER => false
@@ -163,11 +163,6 @@ if ($show_table)
 		echo $table_string;
 	}
 	
-
-	//UNCOMMENT THE FOLLOWING TO ENABLE EXCHANGE SEARCH
-	//it just spits out the data, I haven't formatted it into a table.
-	//also, it runs really slow and I don't know why--running the queries in MySQL Workbench goes really fast
-	/*
 	$sender = $search_params['sender'];
 	$sender_contains = ($search_params['senderSearchType'] == 'contains');
 	
@@ -180,9 +175,41 @@ if ($show_table)
 	$startDttm = $search_params['start_date'];
 	$endDttm = $search_params['end_date'];
 	
-	$exchangeResults = ExchangeClient::getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm);
-	echo(json_encode($exchangeResults));
-	*/
+	$exchangeResults = ExchangeClient::getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm, $num_results);
+	if (isset($exchangeResults['error'])) {
+		print "Exchange request failed: " . $exchangeResults['error'] . "\n";
+	} else {
+		$count = 1;
+		$table_string = "<form method='POST'><table border='1'>";
+		$table_string .= "<th></th><th>Event ID</th><th>Timestamp</th><th>Sender</th><th>Recipient</th><th>Subject</th><th>Client Hostname</th><th>Server Hostname</th>";
+		foreach ($exchangeResults as $result)
+		{
+			$table_string .= "<tr>";
+			$table_string .= "<td>$count</td>";
+			
+			$table_string .= "<td>";
+			if ($result['event_id'])
+			{
+				$table_string .= "$result[event_id]"; 
+			}
+			$table_string .= "</td>";
+		
+			$table_string .= "<td>$result[date_time]</td>";
+			$table_string .= "<td>$result[sender_address]</td>";
+			
+			$table_string .= "<td>$result[recipient_address]</td>";
+		
+			$table_string .= "<td>$result[message_subject]</td>";
+			$table_string .= "<td>$result[client_hostname]</td>";
+			$table_string .= "<td>$result[server_hostname]</td>";
+		
+			$count++;
+		}
+		$table_string .= "</table></form>";
+		
+		echo "<br/><br/>";
+		echo $table_string;
+	}
 }
 
 ?>
