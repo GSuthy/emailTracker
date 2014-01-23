@@ -58,6 +58,7 @@ class RouterClient {
                 "FROM systemevents " .
                 "WHERE " .
                 "Message LIKE \"%from=<" . $sender . ">%\" " .
+                "OR Message LIKE \"%from=" . $sender . ", size%\" " .
                 "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
                 "ORDER by ReceivedAt DESC";
         } else if (is_null($sender) && !is_null($recipient)) {
@@ -66,7 +67,7 @@ class RouterClient {
                 "FROM systemevents " .
                 "WHERE " .
                 "Message LIKE \"%to=" . $recipient . ",%\" " .
-                "OR Message LIKE \%to=<" . $recipient . ">%" .
+                "OR Message LIKE \"%to=<" . $recipient . ">%\" " .
                 "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
                 "ORDER by ReceivedAt DESC";
         } else {
@@ -116,16 +117,16 @@ class RouterClient {
                 $this->getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
             }
 
-            $message_from = preg_split("/from=<|>, size/", $log_lines[0]['Message']);
+            $message_from = preg_split("/from=[<]?|[>]?, size/", $log_lines[0]['Message']);
             $temp_sender = $message_from[1];
 
             $message_to = preg_split("/to=[<]?|[>]?, delay/", $log_lines[count($log_lines) - 1]['Message']);
             $temp_recipient = $message_to[1];
 
-            $temp_status = "";
-            if (preg_match("/.*Queued.*/", $log_lines[count($log_lines) - 1]['Message'])) {
-                $temp_status = "Queued";
-            }
+            $message_dsn = preg_split("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Message']);
+            $temp_dsn = $message_dsn[1];
+
+            $temp_status = $temp_dsn;
 
             $temp_array['Date'] = $date;
             $temp_array['Time'] = $time;
@@ -133,18 +134,29 @@ class RouterClient {
             $temp_array['Recipient'] = $temp_recipient;
             $temp_array['Subject'] = "";
             $temp_array['Status'] = $temp_status;
-            $temp_array['Score'] = "";
             $temp_array['Loglines'] = $log_lines;
+
+            $push_results = false;
             if ($to_and_from) {
                 if ($sender_contains) {
-                    //Replace all instances of '%' in a string with '.*' and see if the expression matches the $temp_sender var
+                    echo $temp_sender . " ";
+                    $sender_regex = str_replace("%", ".*", $sender);
+                    if (preg_match("/" . $sender_regex . "/", $temp_sender)) {
+                        $push_results = true;
+                    }
                 } else {
-                    //See if $sender and $temp_sender are equal
+                    if ($sender === $temp_sender)
+                    {
+                        $push_results = true;
+                    }
                 }
             } else {
+                $push_results = true;
+            }
+
+            if ($push_results) {
                 array_push($return_array, $temp_array);
             }
-//            array_push($return_array, $temp_array);
         }
         mysqli_close($con);
 
@@ -154,8 +166,8 @@ class RouterClient {
 
 $routerClient = new RouterClient();
 
-$sender = "stevencarroll90@gmail.com";
-$recipient = "stevenc4";
+$sender = "support-bounces@roaringpenguin.com";
+$recipient = "parker";
 $startDttm = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 10, date('Y')));
 $endDttm = null;
 $maxResults = 0;
