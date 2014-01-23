@@ -32,11 +32,12 @@ if (mysqli_connect_errno()) {
 } else {
     $queue_id;
 
-//    $to = "parker@taco.byu.edu";
+    $to = "parker@taco.byu.edu";
 //    $to = "parker_bradshaw@byu.edu";
-    $to = "stevenc4@taco.byu.edu";
-    $from = "steven";
-    $beginDate = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 1, date('Y')));
+//    $to = "stevenc4@taco.byu.edu";
+//    $from = "parker@taco.byu.edu";
+    $from = "p-bradshaw";
+    $beginDate = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 10, date('Y')));
     $endDate = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d'), date('Y')));
 
     echo $beginDate . " " . $endDate . "<br/>";

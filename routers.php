@@ -6,84 +6,163 @@
  * Time: 11:06 AM
  */
 
-function getFromID($id_to_search) {
-    $search_results = mysqli_query($GLOBALS['con'], "select * from systemevents where message like ' " . $id_to_search . "%'");
-    foreach ($search_results as $result) {
-        $secondary_id = array();
-        preg_match("/stat=Sent\s\(.+\sMessage accepted/", $result['Message'], $secondary_id);
-        echo "<pre>";
-        echo htmlspecialchars($result['Message']);
-        echo "</pre>";
-        if (count($secondary_id) > 0) {
-            $id_to_add = substr($secondary_id[0], 11, strlen($secondary_id[0]) - 28);
-            if (in_array($id_to_add, $GLOBALS['queue_id_array']) != true) {
-                array_push($GLOBALS['queue_id_array'], $id_to_add);
+class RouterClient {
+
+    private function routerError($errorMessage) {
+        unset($errorReturn);
+        $errorReturn["error"] = $errorMessage;
+        return $errorReturn;
+    }
+
+    private function getFromID($con, $id_to_search, &$queue_id_array, &$log_lines) {
+        $search_results = mysqli_query($con, "select * from systemevents where message like ' " . $id_to_search . "%'");
+        foreach ($search_results as $result) {
+            $secondary_id = array();
+            preg_match("/stat=Sent\s\(.+\sMessage accepted/", $result['Message'], $secondary_id);
+
+            array_push($log_lines, $result);
+            if (count($secondary_id) > 0) {
+                $id_to_add = substr($secondary_id[0], 11, strlen($secondary_id[0]) - 28);
+                if (in_array($id_to_add, $queue_id_array) != true) {
+                    array_push($queue_id_array, $id_to_add);
+                }
             }
         }
     }
-}
 
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE);
+    public function getRouterResults($sender, $sender_contains, $recipient, $recipient_contains, $startDttm, $endDttm, $maxResults) {
+        if (!is_null($sender)) {
+            if ($sender_contains) {
+                $sender = "%" . $sender . "%";
+            }
+        }
 
-//TODO: sanitize variables/check for SQL injection
-$sender = $input["sender"];
-$recipient = $input["recipient"];
-$startDate = $input["startDate"];
-$endDate = $input["endDate"];
+        if (!is_null($recipient)) {
+            if ($recipient_contains) {
+                $recipient = "%" . $recipient . "%";
+            }
+        }
 
-$to_and_from = false;
-if (!is_null($sender) && is_null($recipient)) {
-    $query =
-        "SELECT * " .
-        "FROM systemevents " .
-        "WHERE " .
-        "Message LIKE \"%from=<" . $sender . ">%\" " .
-        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
-        "ORDER by ReceivedAt DESC";
-} else if (is_null($sender) && !$is_null($recipient)) {
-    $query =
-        "SELECT * " .
-        "FROM systemevents " .
-        "WHERE " .
-        "Message LIKE \"%to=%" . $to . "%" .
-        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
-        "ORDER by ReceivedAt DESC";
-} else {
-    $query =
-        "SELECT * " .
-        "FROM systemevents " .
-        "WHERE " .
-        "Message LIKE \"%to=%" . $to . "%" .
-        "AND ReceivedAt BETWEEN \"" . $startDate . "\" AND \"" . $endDate . "\" " .
-        "ORDER by ReceivedAt DESC";
-    $to_and_from = true;
-}
+        if (!$startDttm) {
+            return RouterClient::routerError("Mus specify a startDttm"); //TODO: better fail message
+        }
+
+        if (!$endDttm) {
+            $endDttm = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d'), date('Y')));;
+        }
+
+        $to_and_from = false;
+        if (!is_null($sender) && is_null($recipient)) {
+            $query =
+                "SELECT * " .
+                "FROM systemevents " .
+                "WHERE " .
+                "Message LIKE \"%from=<" . $sender . ">%\" " .
+                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
+                "ORDER by ReceivedAt DESC";
+        } else if (is_null($sender) && !is_null($recipient)) {
+            $query =
+                "SELECT * " .
+                "FROM systemevents " .
+                "WHERE " .
+                "Message LIKE \"%to=" . $recipient . ",%\" " .
+                "OR Message LIKE \%to=<" . $recipient . ">%" .
+                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
+                "ORDER by ReceivedAt DESC";
+        } else {
+            $query =
+                "SELECT * " .
+                "FROM systemevents " .
+                "WHERE " .
+                "Message LIKE \"%to=" . $recipient . ",%\" " .
+                "OR Message LIKE \"%to=<" . $recipient . ">%\" " .
+                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
+                "ORDER by ReceivedAt DESC";
+            $to_and_from = true;
+        }
+
+        $con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
+        if (mysqli_connect_errno())
+        {
+            return RouterClient::routerError("Failed to connect to database: " . mysqli_connect_error()); //TODO: better fail message
+        }
+
+        $results = mysqli_query($con, $query);
+
+        if(!$results) {
+            return RouterClient::routerError("Query failed: " . mysqli_error($con)); //TODO: better failure message;
+        }
+
+        $return_array = array();
+        foreach ($results as $result) {
+            $temp_array = array();
+
+            $timestamp = $result['ReceivedAt'];
+
+            $date = substr($timestamp, 5, 2) . "/" .
+                substr($timestamp, 8, 2) . "/" .
+                substr($timestamp, 0, 4);
+
+            $time = substr($timestamp, 11, 5);
 
 
-$con = mysqli_connect("Sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
-if (mysqli_connect_errno())
-{
-    echo "Failed to connect to database: " . mysqli_connect_error(); //TODO: better failure message
-    return;
-}
+            $message_split = preg_split("/[:,]?\s+/", $result['Message']);
+            $queue_id = $message_split[1];
+            $queue_id_array = array($queue_id);
 
-$result = mysqli_query($con, $query);
+            $index = 0;
+            $log_lines = array();
+            while ($index < count($queue_id_array)) {
+                $this->getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
+            }
 
-if(!$result) {
-    echo "Query failed: " . mysqli_error($con); //TODO: better failure message
-    return;
-}
+            $message_from = preg_split("/from=<|>, size/", $log_lines[0]['Message']);
+            $temp_sender = $message_from[1];
 
-foreach ($results as $result) {
-    $message = preg_split("/[:,]?\s+/", $result['Message']);
-    $queue_id = $parameters[1];
-    $queue_id_array = array($queue_id);
+            $message_to = preg_split("/to=[<]?|[>]?, delay/", $log_lines[count($log_lines) - 1]['Message']);
+            $temp_recipient = $message_to[1];
 
-    $index = 0;
-    while ($index < count($queue_id_array)) {
-        getFromID($queue_id_array[$index++]);
+            $temp_status = "";
+            if (preg_match("/.*Queued.*/", $log_lines[count($log_lines) - 1]['Message'])) {
+                $temp_status = "Queued";
+            }
+
+            $temp_array['Date'] = $date;
+            $temp_array['Time'] = $time;
+            $temp_array['Sender'] = $temp_sender;
+            $temp_array['Recipient'] = $temp_recipient;
+            $temp_array['Subject'] = "";
+            $temp_array['Status'] = $temp_status;
+            $temp_array['Score'] = "";
+            $temp_array['Loglines'] = $log_lines;
+            if ($to_and_from) {
+                if ($sender_contains) {
+                    //Replace all instances of '%' in a string with '.*' and see if the expression matches the $temp_sender var
+                } else {
+                    //See if $sender and $temp_sender are equal
+                }
+            } else {
+                array_push($return_array, $temp_array);
+            }
+//            array_push($return_array, $temp_array);
+        }
+        mysqli_close($con);
+
+        return $return_array;
     }
 }
 
-mysqli_close($con);
+$routerClient = new RouterClient();
+
+$sender = "stevencarroll90@gmail.com";
+$recipient = "stevenc4";
+$startDttm = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 10, date('Y')));
+$endDttm = null;
+$maxResults = 0;
+
+$results = $routerClient->getRouterResults($sender, false, $recipient, true, $startDttm, $endDttm, $maxResults);
+
+echo "<pre>";
+print_r($results);
+echo "</pre>";
+
