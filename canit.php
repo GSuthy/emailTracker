@@ -7,7 +7,7 @@
 	$search_params = array();
 	$queue_id_clicked;
 	$reporting_host_clicked;
-	if(isset($_POST['submit'])){
+	if(isset($_POST['searching'])){
 		$show_table = true;
 		$search_params = $_POST;
 	} 
@@ -65,7 +65,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" name="submit" value="Search"/>
+		<input type="submit" name="searching" value="Search"/>
 	</form>
 	<br/>
 </body>

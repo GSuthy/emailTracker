@@ -30,17 +30,21 @@ class RouterClient {
         }
     }
 
-    public function getRouterResults($sender, $sender_contains, $recipient, $recipient_contains, $startDttm, $endDttm, $maxResults) {
+    public function getRouterResults($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
         if (!is_null($sender)) {
             if ($sender_contains) {
                 $sender = "%" . $sender . "%";
             }
+        } else if ($sender === "") {
+            $sender = null;
         }
 
         if (!is_null($recipient)) {
             if ($recipient_contains) {
                 $recipient = "%" . $recipient . "%";
             }
+        } else if ($recipient === "") {
+            $recipient = null;
         }
 
         if (!$startDttm) {
@@ -48,39 +52,25 @@ class RouterClient {
         }
 
         if (!$endDttm) {
-            $endDttm = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d'), date('Y')));;
+//            $endDttm = date('Y-m-d\TH:i', mktime(date('H'), date('i'), 0, date('m'), date('d')-1, date('Y')));
+//            $endDttm = date('m') . "/" . date('d') . "/" . date('Y');
+            $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
         }
 
+
         $to_and_from = false;
+        $query = "SELECT * FROM systemevents WHERE ";
         if (!is_null($sender) && is_null($recipient)) {
-            $query =
-                "SELECT * " .
-                "FROM systemevents " .
-                "WHERE " .
-                "Message LIKE \"%from=<" . $sender . ">%\" " .
-                "OR Message LIKE \"%from=" . $sender . ", size%\" " .
-                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
-                "ORDER by ReceivedAt DESC";
+            $query .= "(Message LIKE \"%from=<" . $sender . ">%\" OR Message LIKE \"%from=" . $sender . ", size%\") ";
         } else if (is_null($sender) && !is_null($recipient)) {
-            $query =
-                "SELECT * " .
-                "FROM systemevents " .
-                "WHERE " .
-                "Message LIKE \"%to=" . $recipient . ",%\" " .
-                "OR Message LIKE \"%to=<" . $recipient . ">%\" " .
-                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
-                "ORDER by ReceivedAt DESC";
+            $query .=
+                "(Message LIKE \"%to=" . $recipient . ",%\" OR Message LIKE \"%to=<" . $recipient . ">%\") ";
         } else {
-            $query =
-                "SELECT * " .
-                "FROM systemevents " .
-                "WHERE " .
-                "Message LIKE \"%to=" . $recipient . ",%\" " .
-                "OR Message LIKE \"%to=<" . $recipient . ">%\" " .
-                "AND ReceivedAt BETWEEN \"" . $startDttm . "\" AND \"" . $endDttm . "\" " .
-                "ORDER by ReceivedAt DESC";
+            $query .= "(Message LIKE \"%to=" . $recipient . ",%\" OR Message LIKE \"%to=<" . $recipient . ">%\") ";
             $to_and_from = true;
         }
+        $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC";
+
 
         $con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
         if (mysqli_connect_errno())
@@ -139,7 +129,6 @@ class RouterClient {
             $push_results = false;
             if ($to_and_from) {
                 if ($sender_contains) {
-                    echo $temp_sender . " ";
                     $sender_regex = str_replace("%", ".*", $sender);
                     if (preg_match("/" . $sender_regex . "/", $temp_sender)) {
                         $push_results = true;
@@ -163,18 +152,3 @@ class RouterClient {
         return $return_array;
     }
 }
-
-$routerClient = new RouterClient();
-
-$sender = "support-bounces@roaringpenguin.com";
-$recipient = "parker";
-$startDttm = date('Y-m-d\TH:i:s', mktime(date('H'), date('i'), 0, date('m'), date('d') - 10, date('Y')));
-$endDttm = null;
-$maxResults = 0;
-
-$results = $routerClient->getRouterResults($sender, false, $recipient, true, $startDttm, $endDttm, $maxResults);
-
-echo "<pre>";
-print_r($results);
-echo "</pre>";
-
