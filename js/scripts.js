@@ -78,20 +78,61 @@ $(document).ready(function() {
 		arrowChecker($(this));
 	});
 
-	$('table.results tr').not('.table-information').click(function(){
-			if($(this).next().hasClass('log'))
-			{
-				$(this).next().remove();
-			}
-			else
-			{
-				rowExpander($(this), $(this).parent());
-			}
-	});
+	// This was the click function to drop down the logs
+	// $('table.results tr').not('.table-information').click(function(){
+	// 		if($(this).next().hasClass('log'))
+	// 		{
+	// 			$(this).next().remove();
+	// 		}
+	// 		else
+	// 		{
+	// 			rowExpander($(this), $(this).parent());
+	// 		}
+	// });
 	
-	$('table.results tr').children('th').click(function(e)
+	// $('table.results tr').children('th').click(function(e)
+	// {
+	// 	e.stopPropagation();
+	// });
+
+    $('table.results tr').not('.table-information').mouseover(function() {
+    	var passedInfo = $(this);
+        var $rowOverlay = $('#rowOverlay');
+        var rowWidth = $(this).width() + 2;
+        var rowHeight = $(this).height() + 2;
+        var rowPos = $(this).position();
+       	var rowTop = rowPos.top - 1;
+        var rowLeft = rowPos.left;
+        $rowOverlay.css({
+        	display: 'block',
+            position: 'absolute',
+            top: rowTop,
+            left: rowLeft,
+            width: rowWidth,
+            height: rowHeight
+        });
+        $rowOverlay.children('.external-link-wrap').css({
+        	height: rowHeight - 2
+        });
+        $(this).addClass('tr-hover-state');
+ 		
+        $('a#viewLogs').click([passedInfo], function(){
+        	passedInfo.hide();
+        });
+
+    });
+
+	$('table.results tr').children('th').mouseover(function(e)
 	{
 		e.stopPropagation();
 	});
+
+    $('#rowOverlay').mouseleave(function() {
+        $('#rowOverlay').hide();
+        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
+    });
+
+
+
 
 });

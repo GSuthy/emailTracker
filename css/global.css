@@ -338,9 +338,8 @@ table.results tr:nth-child(even)
 	background: #c8dff0;
 }
 
-table.results tr:hover {
-	cursor: pointer;
-	background: #9cbad1;
+table.results tr.tr-hover-state, #rowOverlay .external-link-wrap {
+	background: #6da7d3;
 }
 
 table.results tr.table-information:hover, table.results tr.log:hover, table.results th:hover {
@@ -385,3 +384,36 @@ table.results tr.log p {
 	font-family: courier new;
 }
 
+#rowOverlay {
+	/*background: rgba(156, 186, 209, 0.75);*/
+	/*background-color: rgba(0,0,0,.75);*/
+	font-size: inherit;
+	display: none;
+	overflow: hidden;
+}
+
+#rowOverlay .external-link-wrap
+{
+	display: block;
+	overflow: hidden;
+	float: right;
+	padding: 0;
+	margin: 1px 0 0;
+}
+
+#rowOverlay .external-link-wrap a {
+	display: block;
+	float: left;
+	text-decoration: none;
+	color: #196499;
+	margin: 4px 7px;
+	font-size: .75em;
+	padding: 3px;
+	border-radius: 4px;
+	color: white;
+	background: #196499;
+}
+
+#rowOverlay .external-link-wrap a:hover {
+	background: #003b65;
+}
