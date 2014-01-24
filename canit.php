@@ -16,93 +16,82 @@
 	date_default_timezone_set('America/Denver');
 ?>
 
-<!DOCTYPE html>
-<html>
-<body>
-	<b>Search Parameters</b>
-	<form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
-		<table>
-			<tr>
-				<td>Start Date: </td>
-				<td><input type="datetime-local" id="start_date" name="start_date" value="<?php echo date('Y-m-d\TH:i', mktime(date('H'), date('i'), 0, date('m'), date('d')-1, date('Y'))); ?>"/></td>
-			</tr>
-			<tr>
-				<td>End Date: </td>
-				<td><input type="datetime-local" id="end_date" name="end_date" value="<?php echo date('Y-m-d\TH:i'); ?>"/></td>
-			</tr>
-			<tr>
-				<td>Net ID:</td>
-				<td><input type="text" id="net_id" name="net_id" value="<?php if ($search_params) echo $search_params['net_id']; ?>"/></td>
-			</tr>
-			<tr>
-				<td>Sender:</td>
-				<td><input type="text" id="sender" name="sender" value="<?php if ($search_params) echo $search_params['sender']; ?>"/></td>
-				<td>
-					<select name="senderSearchType">
-						<option name="senderContains">contains</option>
-						<option name="senderIs" <?php if ($search_params && $search_params['senderSearchType'] == 'equals') echo "selected"; ?>>equals</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Recipient: </td>
-				<td><input type="text" id="recipient" name="recipient" value="<?php if ($search_params) echo $search_params['recipient']; ?>"/>
-				<td>
-					<select name="recipientSearchType">
-						<option name="recipientContains">contains</option>
-						<option name="recipientIs" <?php if ($search_params && $search_params['recipientSearchType'] == 'equals') echo "selected"; ?>>equals</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Subject:</td>
-				<td><input type="text" name="subject" value="<?php if ($search_params) echo $search_params['subject']; ?>"/></td>
-				<td>
-					<select name="subjectSearchType">
-						<option name="subjectContains">contains</option>
-						<option name="subjectIs" <?php if ($search_params && $search_params['subjectSearchType'] == 'equals') echo "selected"; ?>>equals</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<input type="submit" name="searching" value="Search"/>
-	</form>
-	<br/>
-</body>
-</html>
+
 
 <?php
-$canit_url = "https://gw3.byu.edu/canit/api/2.0";
 
-$options = array(
-	CURLOPT_SSL_VERIFYPEER => false
-);
-
-$api = new CanItAPIClient($canit_url);
+class CanitClient {
 
 
-$success = $api->login($credentials['username'], $credentials['password']);
+    private function canitError($errorMessage){
+        unset($errorReturn);
+        $errorReturn["error"] = $errorMessage;
+        return $errorReturn;
+    }
 
-$users = $api->do_get('realm/@@/users');
+    public function getCanitResults ($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults){
+        /*if (!is_null($sender)) {
+            if ($sender_contains) {
+                $sender = "%" . $sender . "%";
+            }
+        } else if ($sender === "") {
+            $sender = null;
+        }
 
-$num_results = 2000;
+        if (!is_null($recipient)) {
+            if ($recipient_contains) {
+                $recipient = "%" . $recipient . "%";
+            }
+        } else if ($recipient === "") {
+            $recipient = null;
+        }*/
+
+        global $credentials;
+        $canit_url = "https://gw3.byu.edu/canit/api/2.0";
+        $api = new CanItAPIClient($canit_url);
+        $success = $api->login($credentials['username'], $credentials['password']);
+        $users = $api->do_get('realm/@@/users');
+        $num_results = 2000;
+        $search_string = 'log/search/0/'.$maxResults.'?sender='.$sender.'&recipients='.$recipient.'&subject='.$subject;
+
+        if ($sender_contains)
+        {
+            $search_string = $search_string . '&rel_sender=contains';
+        }
+        if ($recipient_contains)
+        {
+            $search_string = $search_string . '&rel_recipients=contains';
+        }
+        if ($subject_contains)
+        {
+            $search_string = $search_string . '&rel_subject=contains';
+        }
+
+        echo $search_string . '<br>';
+        $results = $api->do_get($search_string);
+	    if (!$api->succeeded()) {
+		    print "GET request failed: " . $api->get_last_error() . "\n";
+	    } else {
+            echo "Yea canit made a call <br>";
+            print_r ($results[0]);
+            return $results;
+        }
+
+    }
+
+
+
+
+
+
+
+}
+
 
 if ($show_table)
 {
-	$search_string = 'log/search/0/'.$num_results.'?stream='.$search_params['net_id'].'&sender='.$search_params['sender'].'&recipients='.$search_params['recipient'].'&subject='.$search_params['subject'];
-	
-	if ($search_params['senderSearchType'] == 'contains')
-	{
-		$search_string = $search_string . '&rel_sender=contains';
-	}
-	if ($search_params['recipientSearchType'] == 'contains')
-	{
-		$search_string = $search_string . '&rel_recipients=contains';
-	}
-	if ($search_params['subjectSearchType'] == 'contains')
-	{
-		$search_string = $search_string . '&rel_subject=contains';
-	}
+
+
 	
 	$results = $api->do_get($search_string);
 	if (!$api->succeeded()) {

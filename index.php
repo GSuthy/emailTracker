@@ -1,5 +1,9 @@
 <?php
     require_once("routers.php");
+    require_once("canit-api-client.php");
+    require_once("canit.php");
+    require_once("settings.php");
+    require_once("exchange.php");
 
     $show_table = false;
     if(isset($_POST['search'])) {
@@ -11,7 +15,7 @@
 
 <head>
     <title>
-        Grep Logs Redesign
+        Email Tracking and Filtering
     </title>
 
     <meta name="format-detection" content="telephone=no">
@@ -134,21 +138,61 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 <br/>
 <?php
 if ($show_table) {
+
+    //Initialize canit connection
+    $canitClient = new CanitClient();
+
+    //Initialize router connection
     $routerClient = new RouterClient();
 
     $recipient = strtolower($_POST['recipient']);
     $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
     $sender = strtolower($_POST['sender']);
     $senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
+    $subject = ($_POST['subject']);
+    $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
     $date = $_POST['start_date'];
     $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
     $date = $_POST['end_date'];
     $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T11:59:59.999";
     $max_results = 0;
 
+
+    $canitResults = $canitClient->getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
     $routerResults = $routerClient->getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
-    $table_string = "<table class='results'>" .
+    $canit_table_string = "<table class='results'>" .
+        "<tbody>" .
+        "<tr class='table-information'>" .
+        "<td colspan='6'>Router Results</td>" .
+        "<tr>" .
+        "<th>Date</th>" .
+        "<th>Time</th>" .
+        "<th>Sender</th>" .
+        "<th>Recipients</th>" .
+        "<th>Subject</th>" .
+        "<th>Status</th>" .
+        "<th>Score</th>" .
+        "</tr>";
+
+        foreach($canitResults as $canit_row){
+            $canit_table_string = $canit_table_string . "<tr>".
+                "<td>" . date('m/d/Y -- h:i', $canit_row['ts'])."</td>" .
+                "<td>" . date('m/d/Y -- h:i', $canit_row['ts'])."</td>" .
+                "<td>" . $canit_row['sender'] . "</td>".
+                "<td>" . $canit_row['recipients'][0]. "</td>" .
+                "<td>" . $canit_row['subject'] . "</td>" .
+                "<td>" . $canit_row['what'] . "</td>" .
+                "<td>" . $canit_row['score'] ."</td>";
+        }
+
+        $canit_table_string = $canit_table_string ."</tbody>" .
+        "</table>" .
+        "<br/>";
+
+    echo $canit_table_string;
+
+    $router_table_string = "<table class='results'>" .
         "<tbody>" .
         "<tr class='table-information'>" .
         "<td colspan='6'>Router Results</td>" .
@@ -162,7 +206,7 @@ if ($show_table) {
         "</tr>";
 
         foreach($routerResults as $row) {
-            $table_string = $table_string . "<tr>" .
+             $router_table_string = $router_table_string . "<tr>" .
                 "<td>" . $row['Date'] . "</td>" .
                 "<td>" . $row['Time'] . "</td>" .
                 "<td>" . $row['Sender'] . "</td>" .
@@ -172,11 +216,11 @@ if ($show_table) {
                 "</tr>";
         }
 
-        $table_string = $table_string ."</tbody>" .
+        $router_table_string = $router_table_string ."</tbody>" .
         "</table>" .
         "<br/>";
 
-    echo $table_string;
+    echo $router_table_string;
 }
 ?>
 <table class="results">
