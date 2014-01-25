@@ -72,8 +72,10 @@ class CanitClient {
 	    if (!$api->succeeded()) {
 		    print "GET request failed: " . $api->get_last_error() . "\n";
 	    } else {
-            echo "Yea canit made a call <br>";
-            print_r ($results[0]);
+//            echo "Yea canit made a call <br>";
+           /* echo "<pre>";
+            print_r ($results);
+            echo "</pre>";*/
             return $results;
         }
 
