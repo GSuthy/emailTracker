@@ -154,8 +154,8 @@ if ($show_table) {
     $date = $_POST['start_date'];
     $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
     $date = $_POST['end_date'];
-    $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T11:59:59.999";
-    $max_results = 0;
+    $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
+    $max_results = 100;
 
 
     $canitResults = $canitClient->getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
@@ -221,6 +221,36 @@ if ($show_table) {
         "<br/>";
 
     echo $router_table_string;
+	
+	$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+	
+	$exchange_table_string = "<table class='results'>" .
+        "<tbody>" .
+        "<tr class='table-information'>" .
+        "<td colspan='6'>Exchange Results</td>" .
+        "<tr>" .
+        "<th>Timestamp</th>" .
+        "<th>Sender</th>" .
+        "<th>Recipient</th>" .
+        "<th>Subject</th>" .
+        "</tr>";
+
+        foreach($exchangeResults as $row) {
+             $exchange_table_string = $exchange_table_string . "<tr>" .
+                "<td>" . $row['date_time'] . "</td>" .
+                "<td>" . $row['sender_address'] . "</td>" .
+                "<td>" . $row['recipient_address'] . "</td>" .
+                "<td>" . $row['message_subject'] . "</td>" .
+                "</tr>";
+        }
+
+        $exchange_table_string = $exchange_table_string ."</tbody>" .
+        "</table>" .
+        "<br/>";
+
+    echo $exchange_table_string;
+	
+	
 }
 ?>
 <table class="results">
