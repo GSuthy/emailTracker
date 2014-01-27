@@ -12,6 +12,7 @@
 ?>
 
 <!DOCTYPE html>
+<html>
 
 <head>
     <title>
@@ -245,6 +246,7 @@ if ($show_table) {
         "<br/>";
 
     echo $router_table_string;
+	}
 	
 	$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 	
