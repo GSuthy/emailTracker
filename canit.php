@@ -3,22 +3,22 @@
 	require_once("settings.php");
 	require_once("exchange.php");
 
-	$show_table = false;
+//	$show_table = false;
 	$search_params = array();
 	$queue_id_clicked;
 	$reporting_host_clicked;
-	if(isset($_POST['searching'])){
+	/*if(isset($_POST['searching'])){
 		$show_table = true;
 		$search_params = $_POST;
-	} 
+	} */
 	
 	//date_default_timezone_set(date_default_timezone_get());
 	date_default_timezone_set('America/Denver');
-?>
+/*?><!--
 
 
 
-<?php
+<?php*/
 
 class CanitClient {
 
@@ -90,7 +90,7 @@ class CanitClient {
 }
 
 
-if ($show_table)
+/*if ($show_table)
 {
 
 
@@ -201,7 +201,7 @@ if ($show_table)
 		echo "<br/><br/>";
 		echo $table_string;
 	}
-}
+}*/
 
 ?>
 

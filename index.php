@@ -149,13 +149,13 @@ if ($show_table) {
     $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
     $sender = strtolower($_POST['sender']);
     $senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
-    $subject = ($_POST['subject']);
+    $subject = strtolower($_POST['subject']);
     $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
     $date = $_POST['start_date'];
     $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
     $date = $_POST['end_date'];
     $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T11:59:59.999";
-    $max_results = 0;
+    $max_results = 20;
 
 
     $canitResults = $canitClient->getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
@@ -180,8 +180,10 @@ if ($show_table) {
             "<th>Score</th>" .
             "</tr>";
 
+        $is_even = true;
+
         foreach($canitResults as $canit_row){
-            $canit_table_string = $canit_table_string . "<tr>".
+            $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
                 "<td>" . date('m/d/Y', $canit_row['ts'])."</td>" .
                 "<td>" . date('h:i', $canit_row['ts'])."</td>" .
                 "<td>" . $canit_row['sender'] . "</td>".
@@ -193,6 +195,7 @@ if ($show_table) {
                 "<td>" . $canit_row['subject'] . "</td>" .
                 "<td>" . $canit_row['what'] . "</td>" .
                 "<td>" . $canit_row['score'] ."</td>";
+            $is_even = !$is_even;
         }
 
         $canit_table_string = $canit_table_string ."</tbody>" .
@@ -206,7 +209,7 @@ if ($show_table) {
      *              Prints the Router table if the checkbox was selected
      */
 
-    if ($_POST['routerSelect'] == true) {
+    if ($_POST['routerSelect'] == true && !is_null($routerResults)) {
         $router_table_string = "<table class='results'>" .
             "<tbody>" .
             "<tr class='table-information'>" .
@@ -220,8 +223,9 @@ if ($show_table) {
             "<th>Status</th>" .
             "</tr>";
 
+        $is_even = true;
         foreach($routerResults as $row) {
-            $router_table_string = $router_table_string . "<tr>" .
+            $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
                 "<td>" . $row['Date'] . "</td>" .
                 "<td>" . $row['Time'] . "</td>" .
                 "<td>" . $row['Sender'] . "</td>" .
@@ -233,6 +237,7 @@ if ($show_table) {
             $router_table_string .= "</td>" .
                 "<td>" . $row['Status'] . "</td>" .
                 "</tr>";
+            $is_even = !$is_even;
         }
 
         $router_table_string = $router_table_string ."</tbody>" .
@@ -321,7 +326,7 @@ if ($show_table) {
         <td>4.35</td>
     </tr>
 
-    <tr>
+    <tr class='Odd-Row'>
         <td>01/20/2014</td>
         <td>08:00</td>
         <td>marriotcenter@byu.edu</td>
@@ -331,7 +336,7 @@ if ($show_table) {
         <td>0.35</td>
     </tr>
 
-    <tr>
+    <tr class='Even-Row'>
         <td>01/20/2014</td>
         <td>08:00</td>
         <td>marriotcenter@byu.edu</td>

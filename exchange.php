@@ -8,7 +8,7 @@ class ExchangeClient {
 		return $errorReturn;
 	}
 
-	public static function getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults) {	
+	public static function getExchangeResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults) {
 		if(empty($sender)) {
 			$sender = null;
 		} else if($sender_contains) {
