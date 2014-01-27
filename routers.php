@@ -106,7 +106,7 @@ class RouterClient {
             $index = 0;
             $log_lines = array();
             while ($index < count($queue_id_array)) {
-                $this->getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
+                RouterClient::getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
             }
 
             /*echo "<br/>";

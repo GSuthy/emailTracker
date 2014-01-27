@@ -139,13 +139,6 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 <br/>
 <?php
 if ($show_table) {
-
-    //Initialize canit connection
-    $canitClient = new CanitClient();
-
-    //Initialize router connection
-    $routerClient = new RouterClient();
-
     $recipient = strtolower($_POST['recipient']);
     $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
     $sender = strtolower($_POST['sender']);
@@ -158,9 +151,9 @@ if ($show_table) {
     $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     $max_results = 100;
 
-
-    $canitResults = $canitClient->getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
-    $routerResults = $routerClient->getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
+    $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+    $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
+    $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
     /*
      *              Prints the CanIt table if the checkbox was selected
@@ -185,8 +178,8 @@ if ($show_table) {
 
         foreach($canitResults as $canit_row){
             $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
-                "<td>" . date('m/d/Y', $canit_row['ts'])."</td>" .
-                "<td>" . date('h:i', $canit_row['ts'])."</td>" .
+                "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
+                "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
                 "<td>" . $canit_row['sender'] . "</td>".
                 "<td>";
             foreach ($canit_row['recipients'] as $recip) {
@@ -220,7 +213,6 @@ if ($show_table) {
             "<th>Time</th>" .
             "<th>Sender</th>" .
             "<th>Recipients</th>" .
-//        "<th>Subject</th>" .
             "<th>Status</th>" .
             "</tr>";
 
@@ -234,7 +226,6 @@ if ($show_table) {
                 foreach ($row['Recipients'] as $recip) {
                     $router_table_string .= $recip . "<br/>";
                 }
-//                "<td>" . $row['Subject'] . "</td>" .
             $router_table_string .= "</td>" .
                 "<td>" . $row['Status'] . "</td>" .
                 "</tr>";
@@ -245,38 +236,46 @@ if ($show_table) {
         "</table>" .
         "<br/>";
 
-    echo $router_table_string;
+        echo $router_table_string;
 	}
-	
-	$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
-	
-	$exchange_table_string = "<table class='results'>" .
-        "<tbody>" .
-        "<tr class='table-information'>" .
-        "<td colspan='6'>Exchange Results</td>" .
-        "<tr>" .
-        "<th>Timestamp</th>" .
-        "<th>Sender</th>" .
-        "<th>Recipient</th>" .
-        "<th>Subject</th>" .
-        "</tr>";
 
+    /*
+     *              Prints the Exchange table if the checkbox was selected
+     */
+
+    if ($_POST['exchangeSelect'] == true && !is_null($exchangeResults)) {
+        $exchange_table_string = "<table class='results'>" .
+            "<tbody>" .
+            "<tr class='table-information'>" .
+            "<td colspan='6'>Exchange Results</td>" .
+            "<tr>" .
+            "<th>Date</th>" .
+            "<th>Time</th>" .
+            "<th>Sender</th>" .
+            "<th>Recipient</th>" .
+            "<th>Subject</th>" .
+            "<th>Server Hostname</th>" .
+            "</tr>";
+
+        $is_even = true;
         foreach($exchangeResults as $row) {
-             $exchange_table_string = $exchange_table_string . "<tr>" .
-                "<td>" . $row['date_time'] . "</td>" .
+            $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
+                "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
+                "<td>" . date('h:i', strtotime($row['date_time'])) . "</td>" .
                 "<td>" . $row['sender_address'] . "</td>" .
                 "<td>" . $row['recipient_address'] . "</td>" .
                 "<td>" . $row['message_subject'] . "</td>" .
+                "<td>" . $row['server_hostname'] . "</td>" .
                 "</tr>";
+            $is_even = !$is_even;
         }
 
         $exchange_table_string = $exchange_table_string ."</tbody>" .
-        "</table>" .
-        "<br/>";
+            "</table>" .
+            "<br/>";
 
-    echo $exchange_table_string;
-	
-	
+        echo $exchange_table_string;
+    }
 }
 ?>
 <!--<table class="results">
