@@ -59,7 +59,6 @@ div.container {
 form.search {
 	border: 1px solid #ccc;
 	border-top-width: 0;
-	border-left:;
 }
 
 form.search h1 {
@@ -335,7 +334,7 @@ table.results tr:last-child {
 
 table.results tr:nth-child(even)
 {
-	background: #c8dff0;
+	background: #EFF6FC;
 }
 
 table.results tr.tr-hover-state, #rowOverlay .external-link-wrap {
@@ -373,10 +372,11 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
-table.results tr.log {
-	background-color: white;
+table.results tr.log, table.results tr.log:hover {
+	background-color: #f3f3f3;
 	/*display: none;*/
 }
+
 
 table.results tr.log p {
 	padding: 10px;

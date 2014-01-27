@@ -1,4 +1,4 @@
-var arrowChecker = function(currentBox) {
+function arrowChecker(currentBox) {
 	var prevArrow = $(currentBox).prev('.server-arrow');
 	var nextArrow = $(currentBox).next('.server-arrow');
 
@@ -19,24 +19,28 @@ var arrowChecker = function(currentBox) {
 	{
 		nextArrow.removeClass('on');
 	}
-
 };
 
-var checkboxHandler = function(name, onOrOff) {
+function checkboxHandler(name, onOrOff) {
 	$(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 
 };
 
-var rowExpander = function(currentBox, currentTable)
+function rowExpander(rowClass)
 {
 	var boxText = "Message id: 1 Filename: /opt/mail/quarantine/20140121/spam/qfs0LBT80R022330<br/> Transport layer information:<br/> -----------------------------------------------------------------------<br/> Sending host: mta.newsletter.rakuten.com [198.245.80.132]<br/> Envelope From: address: bounce-2883_HTML-12992025-106607-6196309-1814@bounce.newsletter.rakuten.com<br/> Final recipient address: brandonbrasmussen@gmail.com<br/> Envelope To: addresses: brasmussen@byu.edu<br/> Message header:<br/> ----------------------------------------------------------------------<br/> Received: from mta.newsletter.rakuten.com (mta.newsletter.rakuten.com [198.245.80.132])<br/> by gridley.byu.edu (8.14.3/8.13.8) with ESMTP id s0LBT80R022330<br/> Subject: 10% Back on TV & Home Theater! Samsung LED HDTV $497.99, Harman Kardon Receiver $369.99 + More!<br/> Date: Tue, 21 Jan 2014 05:29:07 -0600<br/> MIME-Version: 1.0<br/>";
 	var insertionText = '<tr class="log"><td colspan="7"><p>' + boxText + '</p></td></tr>';
 
-	$(insertionText).insertAfter($(currentTable).find("tr").eq($(currentBox).index()));
+	var insertionText = '<tr class="log"><td colspan="7"><p>hello!</p></td></tr>';
+	// var insertOnce = true;
+
+		$(insertionText).insertAfter('tr.' + rowClass + '');
+
 }
 
 $(document).ready(function() {
 
+	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
 	    inline: true,  
 	    showOtherMonths: true,  
@@ -62,9 +66,11 @@ $(document).ready(function() {
 		}
 	});
 
+	// Put today's date as the default dates for Start & End
 	$("#datepickerStart").val($.datepicker.formatDate('mm/dd/yy', new Date()));
 	$("#datepickerEnd").val($.datepicker.formatDate('mm/dd/yy', new Date()));
 
+	// This is for the button clicks on the server boxes
 	$('div.box-selector').click(function(){
 		if ($(this).hasClass('on')) {
 			$(this).removeClass('on');
@@ -96,8 +102,11 @@ $(document).ready(function() {
 	// });
 
     $('table.results tr').not('.table-information').mouseover(function() {
-    	var passedInfo = $(this);
         var $rowOverlay = $('#rowOverlay');
+        var currentTable = $(this).parents('table');
+    	var rowIndex = $(this).index();
+    	var currentRow = $(this);
+
         var rowWidth = $(this).width() + 2;
         var rowHeight = $(this).height() + 2;
         var rowPos = $(this).position();
@@ -116,9 +125,26 @@ $(document).ready(function() {
         });
         $(this).addClass('tr-hover-state');
  		
-        $('a#viewLogs').click([passedInfo], function(){
-        	passedInfo.hide();
-        });
+        // $('a#viewLogs').click({'source': '5'}, function(){
+        // 	alert(event.source);
+        // });
+
+    	$("a#viewLogs").off("click");
+
+    	// if($(this).next().hasClass('logs'))
+    	
+    	
+	    $("a#viewLogs").on("click", function()
+	    {
+	    	if($(currentRow).next().hasClass('log'))
+	    	{
+	    		$(currentRow).next().remove();
+	 		}
+	 		else
+	 		{
+	    		rowExpander('tr-hover-state');
+	    	}
+	    });
 
     });
 
@@ -131,8 +157,6 @@ $(document).ready(function() {
         $('#rowOverlay').hide();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
-
-
 
 
 });
