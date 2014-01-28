@@ -332,9 +332,14 @@ table.results tr:last-child {
 	border-bottom-width: 1px;
 }
 
-table.results tr:nth-child(even)
+table tr.even-row
 {
 	background: #EFF6FC;
+}
+
+table tr.odd-row
+{
+	background: white;
 }
 
 table.results tr.tr-hover-state, #rowOverlay .external-link-wrap {
@@ -383,6 +388,26 @@ table.results tr.log p {
 	text-align: left;
 	font-family: courier new;
 }
+
+table.results td span.spam-score-good,
+table.results td span.spam-score-quarantined,
+table.results td span.spam-score-warning 
+{
+	background: #cbe7d3;
+	padding: 2px;
+	border-radius: 4px;
+}
+
+table.results td span.spam-score-warning {
+	background: #EE8800;
+	color: white;
+}
+
+table.results td span.spam-score-quarantined {
+	background: #990011;
+	color: white;
+}
+
 
 #rowOverlay {
 	/*background: rgba(156, 186, 209, 0.75);*/

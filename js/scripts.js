@@ -84,23 +84,6 @@ $(document).ready(function() {
 		arrowChecker($(this));
 	});
 
-	// This was the click function to drop down the logs
-	// $('table.results tr').not('.table-information').click(function(){
-	// 		if($(this).next().hasClass('log'))
-	// 		{
-	// 			$(this).next().remove();
-	// 		}
-	// 		else
-	// 		{
-	// 			rowExpander($(this), $(this).parent());
-	// 		}
-	// });
-	
-	// $('table.results tr').children('th').click(function(e)
-	// {
-	// 	e.stopPropagation();
-	// });
-
     $('table.results tr').not('.table-information').mouseover(function() {
         var $rowOverlay = $('#rowOverlay');
         var currentTable = $(this).parents('table');
@@ -123,23 +106,33 @@ $(document).ready(function() {
         $rowOverlay.children('.external-link-wrap').css({
         	height: rowHeight - 2
         });
+
+        var externalLinkWrapHeight = $rowOverlay.children('.external-link-wrap').height();
+        var externalLinkWrapAnchorHeight = $rowOverlay.children('.external-link-wrap').children('a').innerHeight();
+        var anchorTagMarginTop = (externalLinkWrapHeight - externalLinkWrapAnchorHeight) / 2;
+
+        // alert(externalLinkWrapHeight + " " + externalLinkWrapAnchorHeight + " " + anchorTagMarginTop);
+        // alert(alertString);
+
+        $rowOverlay.children('.external-link-wrap').children('a').css({
+        	'margin-top': anchorTagMarginTop
+        });
+
+        // This adds the class so you can change the color of the entire row	
         $(this).addClass('tr-hover-state');
- 		
-        // $('a#viewLogs').click({'source': '5'}, function(){
-        // 	alert(event.source);
-        // });
 
-    	$("a#viewLogs").off("click");
+    	// unbinds the click function so it doesn't fire on multiple rows
+    	$("a#viewLogs").off("click");    	
 
-    	// if($(this).next().hasClass('logs'))
-    	
-    	
+		// Binds the click function to the "view logs"    	
 	    $("a#viewLogs").on("click", function()
 	    {
+	    	// Closes the log if it's currently open
 	    	if($(currentRow).next().hasClass('log'))
 	    	{
 	    		$(currentRow).next().remove();
 	 		}
+	 		// Opens the log if it's not open
 	 		else
 	 		{
 	    		rowExpander('tr-hover-state');
@@ -148,11 +141,13 @@ $(document).ready(function() {
 
     });
 
+	// This prevents the click/hover effect from happening when you mouseover the table header
 	$('table.results tr').children('th').mouseover(function(e)
 	{
 		e.stopPropagation();
 	});
 
+	// This takes off the hover effect when you move off of the row
     $('#rowOverlay').mouseleave(function() {
         $('#rowOverlay').hide();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');

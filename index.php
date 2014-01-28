@@ -29,7 +29,6 @@
     <link href='http://fonts.googleapis.com/
 css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
-    <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -168,6 +167,8 @@ if ($show_table) {
     echo "End date: " . $endDttm . "<br/>";
 
     $max_results = 20;
+    $warning_level_spam_score = 5;
+    $maximum_spam_score = 30;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 
@@ -196,7 +197,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($canitResults as $canit_row){
-                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
                     "<td>" . $canit_row['sender'] . "</td>".
@@ -204,10 +205,17 @@ if ($show_table) {
                 foreach ($canit_row['recipients'] as $recip) {
                     $canit_table_string .= $recip . "<br/>";
                 }
+                $canit_spam_score_string = "";
+                $canit_spam_score = $canit_row['score'];
+                if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
+                else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
+                else if ($canit_spam_score > $maximum_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
+                else { $canit_spam_score_string = "spam-score-warning"; }
+
                 $canit_table_string .= "</td>" .
                     "<td>" . $canit_row['subject'] . "</td>" .
                     "<td>" . $canit_row['what'] . "</td>" .
-                    "<td>" . $canit_row['score'] ."</td>";
+                    "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
                 $is_even = !$is_even;
             }
 
@@ -305,6 +313,13 @@ if ($show_table) {
 }
 ?>
 
+</div>
+
+<div id="rowOverlay" style="">
+    <span class="external-link-wrap">
+    <a href="#" id ="viewLogs">View Logs</a>
+    <a href="#">Open in CanIt</a>
+    </span>
 </div>
 
 </body>
