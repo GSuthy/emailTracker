@@ -161,7 +161,7 @@ if ($show_table) {
 
     $canitResults = $canitClient->getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
     $routerResults = $routerClient->getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
-
+	
     /*
      *              Prints the CanIt table if the checkbox was selected
      */
@@ -248,33 +248,40 @@ if ($show_table) {
     echo $router_table_string;
 	}
 	
-	$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+	/*
+     *              Prints the Exchange table if the checkbox was selected
+     */
 	
-	$exchange_table_string = "<table class='results'>" .
-        "<tbody>" .
-        "<tr class='table-information'>" .
-        "<td colspan='6'>Exchange Results</td>" .
-        "<tr>" .
-        "<th>Timestamp</th>" .
-        "<th>Sender</th>" .
-        "<th>Recipient</th>" .
-        "<th>Subject</th>" .
-        "</tr>";
+	if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
+	
+		$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+		
+		$exchange_table_string = "<table class='results'>" .
+			"<tbody>" .
+			"<tr class='table-information'>" .
+			"<td colspan='6'>Exchange Results</td>" .
+			"<tr>" .
+			"<th>Timestamp</th>" .
+			"<th>Sender</th>" .
+			"<th>Recipient</th>" .
+			"<th>Subject</th>" .
+			"</tr>";
 
-        foreach($exchangeResults as $row) {
-             $exchange_table_string = $exchange_table_string . "<tr>" .
-                "<td>" . $row['date_time'] . "</td>" .
-                "<td>" . $row['sender_address'] . "</td>" .
-                "<td>" . $row['recipient_address'] . "</td>" .
-                "<td>" . $row['message_subject'] . "</td>" .
-                "</tr>";
-        }
+			foreach($exchangeResults as $row) {
+				 $exchange_table_string = $exchange_table_string . "<tr>" .
+					"<td>" . $row['date_time'] . "</td>" .
+					"<td>" . $row['sender_address'] . "</td>" .
+					"<td>" . $row['recipient_address'] . "</td>" .
+					"<td>" . $row['message_subject'] . "</td>" .
+					"</tr>";
+			}
 
-        $exchange_table_string = $exchange_table_string ."</tbody>" .
-        "</table>" .
-        "<br/>";
+			$exchange_table_string = $exchange_table_string . "</tbody>" .
+				"</table>" .
+				"<br/>";
 
-    echo $exchange_table_string;
+			echo $exchange_table_string;
+	}
 	
 	
 }

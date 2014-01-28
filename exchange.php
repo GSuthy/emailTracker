@@ -55,7 +55,7 @@ class ExchangeClient {
 		$query .= "ORDER BY logmain.internal_message_id, logmain.date_time, logmain.id ";
 		$query .= "LIMIT " . $maxResults;
 		
-		echo $query . "<br>";
+		//echo $query . "<br>";
 		
 		set_time_limit(60); //TODO: FIND ANOTHER SOLUTION TO THE TIMEOUT ISSUE
 			
@@ -65,12 +65,8 @@ class ExchangeClient {
 			return ExchangeClient::exchangeError("Failed to connect to database: " . mysqli_connect_error()); //TODO: better failure message
 		}
 		
-		echo "connected " . date("Y-m-d H:i:s") . "<br>";
-
 		$result = mysqli_query($con, $query);
 		
-		echo "finished " . date("Y-m-d H:i:s") . "<br>";
-
 		if(!$result) {
 			return ExchangeClient::exchangeError("Query failed: " . mysqli_error($con)); //TODO: better failure message;
 		}
@@ -83,7 +79,6 @@ class ExchangeClient {
 			$rowNum++;
 		}
 		mysqli_close($con);
-		echo date("Y-m-d H:i:s") . "\n";
 		
 		return $returnValue;
 	}
