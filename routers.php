@@ -10,13 +10,13 @@ ini_set('max_execution_time', 300);
 
 class RouterClient {
 
-    private function routerError($errorMessage) {
+    private static function routerError($errorMessage) {
         unset($errorReturn);
         $errorReturn["error"] = $errorMessage;
         return $errorReturn;
     }
 
-    private function getFromID($con, $id_to_search, &$queue_id_array, &$log_lines) {
+    private static function getFromID($con, $id_to_search, &$queue_id_array, &$log_lines) {
         $search_results = mysqli_query($con, "select * from systemevents where message like ' " . $id_to_search . "%'");
         foreach ($search_results as $result) {
             $secondary_id = array();
@@ -32,7 +32,7 @@ class RouterClient {
         }
     }
 
-    public function getRouterResults($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
+    public static function getRouterResults($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
         if (!is_null($sender)) {
             if ($sender === "") {
                 $sender = null;
@@ -70,7 +70,7 @@ class RouterClient {
             $query .= "(Message LIKE \"%to=" . $recipient . ",%delay%\" OR Message LIKE \"%to=<" . $recipient . ">,%delay%\") ";
             $to_and_from = true;
         }
-        $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC";
+        $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC LIMIT " . $maxResults;
 
 //        echo $query . "<br/>";
 
@@ -106,7 +106,7 @@ class RouterClient {
             $index = 0;
             $log_lines = array();
             while ($index < count($queue_id_array)) {
-                $this->getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
+                RouterClient::getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
             }
 
             /*echo "<br/>";
