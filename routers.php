@@ -54,8 +54,6 @@ class RouterClient {
         }
 
         if (!$endDttm) {
-//            $endDttm = date('Y-m-d\TH:i', mktime(date('H'), date('i'), 0, date('m'), date('d')-1, date('Y')));
-//            $endDttm = date('m') . "/" . date('d') . "/" . date('Y');
             $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
         }
 
@@ -71,8 +69,6 @@ class RouterClient {
             $to_and_from = true;
         }
         $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC LIMIT " . $maxResults;
-
-//        echo $query . "<br/>";
 
         $con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
         if (mysqli_connect_errno())
@@ -109,29 +105,16 @@ class RouterClient {
                 RouterClient::getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
             }
 
-            /*echo "<br/>";
-            foreach ($log_lines as $line) {
-                echo htmlspecialchars($line['Message']) . "<br/>";
-            }
-            echo "<br/>";*/
-
             $message_from = preg_split("/.*from=[<]?|[>]?, size.*/", $log_lines[0]['Message']);
             $temp_sender = $message_from[1];
-
-            /*echo "Sender: " . $temp_sender . "<br/>";
-
-            echo htmlspecialchars($log_lines[0]['Message']) . "<br/>";*/
 
             $message_to = preg_split("/.*to=[<]?|>,<|[>]?, delay.*/", $log_lines[count($log_lines) - 1]['Message']);
             $temp_recipients = Array();
             foreach ($message_to as $temp_recip) {
                 if ($temp_recip != "") {
-//                    echo "Recipient: " . $temp_recip . "<br/>";
                     array_push($temp_recipients, $temp_recip);
                 }
             }
-
-//            echo htmlspecialchars($log_lines[count($log_lines) - 1]['Message']) . "<br/>";
 
             $message_dsn = preg_split("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Message']);
             $temp_dsn = $message_dsn[1];

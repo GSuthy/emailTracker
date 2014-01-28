@@ -87,24 +87,24 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 
         <div class="column grid_6 server-select">
             <h3>Servers: <span>(click to toggle)</span></h3>
-            <div class="box-selector on" id="canit">
+            <div <?php if (($show_table && isset($_POST['canitSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="canit">
                 <h4>CanIt</h4><p>(Spam Filtering)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div class="server-arrow"></div>
-            <div class="box-selector on" id="routers">
+            <div <?php if (($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div class="server-arrow"></div>
-            <div class="box-selector on" id="Exchange">
+            <div <?php if (($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
             <!-- Checkboxes for Server Selection -->
-            <input type="checkbox" name="canitSelect" value="Canit" checked="checked">
-            <input type="checkbox" name="routerSelect" value="Routers" checked="checked">
-            <input type="checkbox" name="exchangeSelect" value="Exchange" checked="checked">
+            <input type="checkbox" name="canitSelect" value="CanIt" <?php if (($show_table && isset($_POST['canitSelect'])) || !$show_table) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="routerSelect" value="Routers" <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="exchangeSelect" value="Exchange" <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "checked='checked'"; ?>>
         </div>
 
         <div class="column grid_6 date-and-time">
@@ -150,16 +150,15 @@ if ($show_table) {
     $date = $_POST['end_date'];
     $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     $max_results = 20;
-//    $max_results = 100;
-
-    $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
-    $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
     /*
      *              Prints the CanIt table if the checkbox was selected
      */
 
-    if ($_POST['canitSelect'] == true && !is_null($canitResults)) {
+    if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
+
+        $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+
         $canit_table_string = "<table class='results'>" .
             "<tbody>" .
             "<tr class='table-information'>" .
@@ -175,7 +174,6 @@ if ($show_table) {
             "</tr>";
 
         $is_even = true;
-
         foreach($canitResults as $canit_row){
             $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
                 "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
@@ -203,7 +201,10 @@ if ($show_table) {
      *              Prints the Router table if the checkbox was selected
      */
 
-    if ($_POST['routerSelect'] == true && !is_null($routerResults)) {
+    if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
+
+        $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
+
         $router_table_string = "<table class='results'>" .
             "<tbody>" .
             "<tr class='table-information'>" .
@@ -265,7 +266,6 @@ if ($show_table) {
 			 $exchange_table_string = $exchange_table_string . "<tr>" .
 				"<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
 				"<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
-				//"<td>" . $row['date_time'] . "</td>" .
 				"<td>" . $row['sender_address'] . "</td>" .
 				"<td>" . $row['recipient_address'] . "</td>" .
 				"<td>" . $row['message_subject'] . "</td>" .
@@ -284,118 +284,7 @@ if ($show_table) {
 	
 }
 ?>
-<!--<table class="results">
-    <tbody>
-    <tr class="table-information">
-        <td colspan="7">CanIt Results</td>
-    <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Sender</th>
-        <th>Recipients</th>
-        <th>Subject</th>
-        <th>Status</th>
-        <th>Score</th>
-    </tr>
-    <tr>
-        <td>01/12/2014</td>
-        <td>08:00</td>
-        <td>commserve@byu.edu</td>
-        <td>parker@taco.byu.edu  </td>
-        <td>Backup Job Summary Report - Daily Report</td>
-        <td>Accepted</td>
-        <td>1.35</td>
-    </tr>
 
-    <tr>
-        <td>01/14/2014</td>
-        <td>15:00</td>
-        <td>trevor_harmon@byu.edu</td>
-        <td>thetrevorharmon@gmail.com</td>
-        <td>Picture of assignment</td>
-        <td>Accepted</td>
-        <td>4.35</td>
-    </tr>
-
-    <tr>
-        <td>01/20/2014</td>
-        <td>08:00</td>
-        <td>marriotcenter@byu.edu</td>
-        <td>ticketingoffice@byu.edu</td>
-        <td>Report of ticket sales</td>
-        <td>Accepted</td>
-        <td>0.35</td>
-    </tr>
-    </tbody>
-</table>
-<br/>
-<table class="results">
-    <tbody>
-    <tr class="table-information">
-        <td colspan="7">Routers Results</td>
-    <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Sender</th>
-        <th>Recipients</th>
-        <th>Subject</th>
-        <th>Status</th>
-        <th>Score</th>
-    </tr>
-    <tr>
-        <td>01/12/2014</td>
-        <td>08:00</td>
-        <td>commserve@byu.edu</td>
-        <td>parker@taco.byu.edu  </td>
-        <td>Backup Job Summary Report - Daily Report</td>
-        <td>Accepted</td>
-        <td>1.35</td>
-    </tr>
-
-    <tr>
-        <td>01/14/2014</td>
-        <td>15:00</td>
-        <td>trevor_harmon@byu.edu</td>
-        <td>thetrevorharmon@gmail.com</td>
-        <td>Picture of assignment</td>
-        <td>Accepted</td>
-        <td>4.35</td>
-    </tr>
-
-    <tr class='Odd-Row'>
-        <td>01/20/2014</td>
-        <td>08:00</td>
-        <td>marriotcenter@byu.edu</td>
-        <td>ticketingoffice@byu.edu</td>
-        <td>Report of ticket sales</td>
-        <td>Accepted</td>
-        <td>0.35</td>
-    </tr>
-
-    <tr class='Even-Row'>
-        <td>01/20/2014</td>
-        <td>08:00</td>
-        <td>marriotcenter@byu.edu</td>
-        <td>ticketingoffice@byu.edu</td>
-        <td>Report of ticket sales</td>
-        <td>Accepted</td>
-        <td>0.35</td>
-    </tr>
-
-    <tr>
-        <td>01/20/2014</td>
-        <td>08:00</td>
-        <td>marriotcenter@byu.edu</td>
-        <td>ticketingoffice@byu.edu</td>
-        <td>Report of ticket sales</td>
-        <td>Accepted</td>
-        <td>0.35</td>
-    </tr>
-    </tbody>
-</table>-->
-
-
-<!-- End Results Table -->
 </div>
 
 </div>
