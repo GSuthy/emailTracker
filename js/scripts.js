@@ -33,7 +33,7 @@ var rowExpander = function(currentBox, currentTable)
 	var insertionText = '<tr class="log"><td colspan="7"><p>' + boxText + '</p></td></tr>';
 
 	$(insertionText).insertAfter($(currentTable).find("tr").eq($(currentBox).index()));
-}
+};
 
 $(document).ready(function() {
 

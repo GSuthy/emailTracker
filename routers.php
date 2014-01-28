@@ -10,6 +10,8 @@ ini_set('max_execution_time', 300);
 
 class RouterClient {
 
+    //TODO: When querying "SELECT * FROM syslog.systemevents WHERE Message LIKE " s0%" AND Message NOT LIKE "%to=%" AND Message NOT LIKE "%from=%" ORDER by ReceivedAt DESC;" we get results that don't follow the to-from standard
+
     private static function routerError($errorMessage) {
         unset($errorReturn);
         $errorReturn["error"] = $errorMessage;
@@ -34,7 +36,7 @@ class RouterClient {
 
     public static function getRouterResults($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
         if (!is_null($sender)) {
-            if ($sender === "") {
+            if (empty($sender)) {
                 $sender = null;
             } else if ($sender_contains) {
                 $sender = "%" . $sender . "%";
@@ -42,7 +44,7 @@ class RouterClient {
         }
 
         if (!is_null($recipient)) {
-            if ($recipient === "") {
+            if (empty($recipient)) {
                 $recipient = null;
             } else if ($recipient_contains) {
                 $recipient = "%" . $recipient . "%";
@@ -50,7 +52,7 @@ class RouterClient {
         }
 
         if (!$startDttm) {
-            return RouterClient::routerError("Mus specify a startDttm"); //TODO: better fail message
+            return RouterClient::routerError("Must specify a start date"); //TODO: better fail message
         }
 
         if (!$endDttm) {
@@ -64,9 +66,11 @@ class RouterClient {
             $query .= "(Message LIKE \"%from=<" . $sender . ">, size%\" OR Message LIKE \"%from=" . $sender . ", size%\") ";
         } else if (is_null($sender) && !is_null($recipient)) {
             $query .= "(Message LIKE \"%to=" . $recipient . ",%delay%\" OR Message LIKE \"%to=<" . $recipient . ">,%delay%\") ";
-        } else {
+        } else if (!is_null($sender) && !is_null($recipient)) {
             $query .= "(Message LIKE \"%to=" . $recipient . ",%delay%\" OR Message LIKE \"%to=<" . $recipient . ">,%delay%\") ";
             $to_and_from = true;
+        } else {
+            $query .= "(Message LIKE \"%to=%\" OR Message LIKE \"%from=%\") ";
         }
         $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC LIMIT " . $maxResults;
 
@@ -105,21 +109,36 @@ class RouterClient {
                 RouterClient::getFromID($con, $queue_id_array[$index++], $queue_id_array, $log_lines);
             }
 
-            $message_from = preg_split("/.*from=[<]?|[>]?, size.*/", $log_lines[0]['Message']);
-            $temp_sender = $message_from[1];
 
-            $message_to = preg_split("/.*to=[<]?|>,<|[>]?, delay.*/", $log_lines[count($log_lines) - 1]['Message']);
-            $temp_recipients = Array();
-            foreach ($message_to as $temp_recip) {
-                if ($temp_recip != "") {
-                    array_push($temp_recipients, $temp_recip);
+            $temp_sender = "";
+            foreach($log_lines as $line) {
+                if (preg_match("/(.*from=[<]?)|([>]?,\s.*)/", $line['Message'])) {
+                    $message_from = preg_split("/(.*from=[<]?)|([>]?,\s.*)/", $line['Message']);
+                    $temp_sender = $message_from[1];
+                    break;
+                } else {
+                    echo htmlspecialchars($line['Message']) . "<br/>";
                 }
             }
+
+            if (preg_match("/(.*to=[<]?)|(>,<)|([>]?,\s.*)/", $log_lines[count($log_lines) - 1]['Message'])) {
+                $message_to = preg_split("/(.*to=[<]?)|(>,<)|([>]?,\s.*)/", $log_lines[count($log_lines) - 1]['Message']);
+                $temp_recipients = Array();
+                foreach ($message_to as $temp_recip) {
+                    if ($temp_recip != "") {
+                        array_push($temp_recipients, $temp_recip);
+                    }
+                }
+            } else {
+                array_push($temp_recipients, "");
+            }
+
+//            echo htmlspecialchars($log_lines[count($log_lines) - 1]['Message']) . "<br/>";
 
             $message_dsn = preg_split("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Message']);
             $temp_dsn = $message_dsn[1];
 
-            $temp_status = $temp_dsn;
+            $temp_status = ($temp_dsn === "2.0.0" ? "Sent" : "Error: check logs");
 
             $temp_array['Date'] = $date;
             $temp_array['Time'] = $time;

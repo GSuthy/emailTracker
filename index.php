@@ -6,7 +6,7 @@
     require_once("exchange.php");
 
     $show_table = false;
-    if(isset($_POST['search'])) {
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
         $show_table = true;
     }
 ?>
@@ -64,8 +64,8 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 					<label>Recipient:</label>
 					<span class="moz-select-wrap">
 						<select name="recipientSearchType">
-                            <option name="recipientContains" <?php if (($show_table && $_POST['recipientSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-                            <option name="recipientIs" <?php if ($show_table && $_POST['recipientSearchType'] === "equals") echo "selected"; ?>>equals</option>
+                            <option <?php if (($show_table && $_POST['recipientSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
+                            <option <?php if ($show_table && $_POST['recipientSearchType'] === "equals") echo "selected"; ?>>equals</option>
                         </select>
 					</span>
 					<input type="text" <?php if ($show_table) echo "value='" . $_POST['recipient'] . "'"; ?> name="recipient">
@@ -75,8 +75,8 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 					<label>Sender:</label>
 					<span class="moz-select-wrap">
 					<select name="senderSearchType">
-                        <option name="senderContains" <?php if (($show_table && $_POST['senderSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-                        <option name="senderIs" <?php if ($show_table && $_POST['senderSearchType'] === "equals") echo "selected"; ?>>equals</option>
+                        <option <?php if (($show_table && $_POST['senderSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
+                        <option <?php if ($show_table && $_POST['senderSearchType'] === "equals") echo "selected"; ?>>equals</option>
                     </select>
 					</span>
 					<input type="text" <?php if ($show_table) echo "value='" . $_POST['sender'] . "'"; ?> name="sender">
@@ -119,8 +119,8 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
             <label>Subject:</label>
 				<span class="moz-select-wrap">
 					<select name="subjectSearchType">
-                        <option name="subjectContains" <?php if (($show_table && $_POST['subjectSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-                        <option name="subjectIs" <?php if ($show_table && $_POST['subjectSearchType'] === "equals") echo "selected"; ?>>equals</option>
+                        <option <?php if (($show_table && $_POST['subjectSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
+                        <option <?php if ($show_table && $_POST['subjectSearchType'] === "equals") echo "selected"; ?>>equals</option>
                     </select>
 				</span>
             <input type="text" <?php if ($show_table) echo "value='" . $_POST['subject'] . "'"; ?> name="subject">
@@ -139,153 +139,171 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 <br/>
 <?php
 if ($show_table) {
+    $start_date_error = "";
+    $startDttm = $endDttm = "";
+
     $recipient = strtolower($_POST['recipient']);
     $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
     $sender = strtolower($_POST['sender']);
     $senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
     $subject = strtolower($_POST['subject']);
     $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
-    $date = $_POST['start_date'];
-    $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
-    $date = $_POST['end_date'];
-    $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
+
+    if (empty($_POST['start_date'])) {
+        $start_date_error = "Start date required";
+    } else {
+        $date = $_POST['start_date'];
+        $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
+    }
+
+    echo "Start date: " . $startDttm . "<br/>";
+
+    if (empty($_POST['end_date'])) {
+        $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
+    } else {
+        $date = $_POST['end_date'];
+        $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
+    }
+
+    echo "End date: " . $endDttm . "<br/>";
+
     $max_results = 20;
+
+    $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 
     /*
      *              Prints the CanIt table if the checkbox was selected
      */
 
-    if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
+    if (!$hasErrors) {
+        if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
 
-        $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+            $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-        $canit_table_string = "<table class='results'>" .
-            "<tbody>" .
-            "<tr class='table-information'>" .
-            "<td colspan='6'>CanIt Results</td>" .
-            "<tr>" .
-            "<th>Date</th>" .
-            "<th>Time</th>" .
-            "<th>Sender</th>" .
-            "<th>Recipients</th>" .
-            "<th>Subject</th>" .
-            "<th>Status</th>" .
-            "<th>Score</th>" .
-            "</tr>";
+            $canit_table_string = "<table class='results'>" .
+                "<tbody>" .
+                "<tr class='table-information'>" .
+                "<td colspan='6'>CanIt Results</td>" .
+                "<tr>" .
+                "<th>Date</th>" .
+                "<th>Time</th>" .
+                "<th>Sender</th>" .
+                "<th>Recipients</th>" .
+                "<th>Subject</th>" .
+                "<th>Status</th>" .
+                "<th>Score</th>" .
+                "</tr>";
 
-        $is_even = true;
-        foreach($canitResults as $canit_row){
-            $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
-                "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
-                "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
-                "<td>" . $canit_row['sender'] . "</td>".
-                "<td>";
-            foreach ($canit_row['recipients'] as $recip) {
-                $canit_table_string .= $recip . "<br/>";
+            $is_even = true;
+            foreach($canitResults as $canit_row){
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>".
+                    "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
+                    "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
+                    "<td>" . $canit_row['sender'] . "</td>".
+                    "<td>";
+                foreach ($canit_row['recipients'] as $recip) {
+                    $canit_table_string .= $recip . "<br/>";
+                }
+                $canit_table_string .= "</td>" .
+                    "<td>" . $canit_row['subject'] . "</td>" .
+                    "<td>" . $canit_row['what'] . "</td>" .
+                    "<td>" . $canit_row['score'] ."</td>";
+                $is_even = !$is_even;
             }
-            $canit_table_string .= "</td>" .
-                "<td>" . $canit_row['subject'] . "</td>" .
-                "<td>" . $canit_row['what'] . "</td>" .
-                "<td>" . $canit_row['score'] ."</td>";
-            $is_even = !$is_even;
+
+            $canit_table_string = $canit_table_string ."</tbody>" .
+                "</table>" .
+                "<br/>";
+
+            echo $canit_table_string;
         }
 
-        $canit_table_string = $canit_table_string ."</tbody>" .
-            "</table>" .
-            "<br/>";
+        /*
+         *              Prints the Router table if the checkbox was selected
+         */
 
-        echo $canit_table_string;
-    }
+        if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
 
-    /*
-     *              Prints the Router table if the checkbox was selected
-     */
+            $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
-    if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
+            $router_table_string = "<table class='results'>" .
+                "<tbody>" .
+                "<tr class='table-information'>" .
+                "<td colspan='6'>Router Results</td>" .
+                "<tr>" .
+                "<th>Date</th>" .
+                "<th>Time</th>" .
+                "<th>Sender</th>" .
+                "<th>Recipients</th>" .
+                "<th>Status</th>" .
+                "</tr>";
 
-        $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
-
-        $router_table_string = "<table class='results'>" .
-            "<tbody>" .
-            "<tr class='table-information'>" .
-            "<td colspan='6'>Router Results</td>" .
-            "<tr>" .
-            "<th>Date</th>" .
-            "<th>Time</th>" .
-            "<th>Sender</th>" .
-            "<th>Recipients</th>" .
-            "<th>Status</th>" .
-            "</tr>";
-
-        $is_even = true;
-        foreach($routerResults as $row) {
-            $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
-                "<td>" . $row['Date'] . "</td>" .
-                "<td>" . $row['Time'] . "</td>" .
-                "<td>" . $row['Sender'] . "</td>" .
-                "<td>";
+            $is_even = true;
+            foreach($routerResults as $row) {
+                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
+                    "<td>" . $row['Date'] . "</td>" .
+                    "<td>" . $row['Time'] . "</td>" .
+                    "<td>" . $row['Sender'] . "</td>" .
+                    "<td>";
                 foreach ($row['Recipients'] as $recip) {
                     $router_table_string .= $recip . "<br/>";
                 }
-            $router_table_string .= "</td>" .
-                "<td>" . $row['Status'] . "</td>" .
-                "</tr>";
-            $is_even = !$is_even;
+                $router_table_string .= "</td>" .
+                    "<td>" . $row['Status'] . "</td>" .
+                    "</tr>";
+                $is_even = !$is_even;
+            }
+
+            $router_table_string = $router_table_string ."</tbody>" .
+                "</table>" .
+                "<br/>";
+
+            echo $router_table_string;
         }
 
-        $router_table_string = $router_table_string ."</tbody>" .
-        "</table>" .
-        "<br/>";
+        /*
+         *	Prints the Exchange table if the checkbox was selected
+         */
 
-        echo $router_table_string;
-	}
+        if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
 
-	/*
-     *	Prints the Exchange table if the checkbox was selected
-     */
-	
-	if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
-	
-		$exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
-		
-		$exchange_table_string = "<table class='results'>" .
-			"<tbody>" .
-			"<tr class='table-information'>" .
-			"<td colspan='6'>Exchange Results</td>" .
-			"<tr>" .
-			"<th>Date</th>" .
-			"<th>Time</th>" . 
-			"<th>Sender</th>" .
-			"<th>Recipient</th>" .
-			"<th>Subject</th>" .
-			"<th>Server Hostname</th>" .
-			"</tr>";
+            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-		$is_even = true;
-		foreach($exchangeResults as $row) {
-			 $exchange_table_string = $exchange_table_string . "<tr>" .
-				"<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
-				"<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
-				"<td>" . $row['sender_address'] . "</td>" .
-				"<td>" . $row['recipient_address'] . "</td>" .
-				"<td>" . $row['message_subject'] . "</td>" .
-				"<td>" . $row['server_hostname'] . "</td>" .
-				"</tr>";
-				$is_even = !$is_even;
-		}
+            $exchange_table_string = "<table class='results'>" .
+                "<tbody>" .
+                "<tr class='table-information'>" .
+                "<td colspan='6'>Exchange Results</td>" .
+                "<tr>" .
+                "<th>Date</th>" .
+                "<th>Time</th>" .
+                "<th>Sender</th>" .
+                "<th>Recipient</th>" .
+                "<th>Subject</th>" .
+                "<th>Server Hostname</th>" .
+                "</tr>";
 
-		$exchange_table_string = $exchange_table_string . "</tbody>" .
-			"</table>" .
-			"<br/>";
+            $is_even = true;
+            foreach($exchangeResults as $row) {
+                $exchange_table_string = $exchange_table_string . "<tr>" .
+                    "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
+                    "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
+                    "<td>" . $row['sender_address'] . "</td>" .
+                    "<td>" . $row['recipient_address'] . "</td>" .
+                    "<td>" . $row['message_subject'] . "</td>" .
+                    "<td>" . $row['server_hostname'] . "</td>" .
+                    "</tr>";
+                $is_even = !$is_even;
+            }
 
-		echo $exchange_table_string;
-	}
-	
-	
+            $exchange_table_string = $exchange_table_string . "</tbody>" .
+                "</table>" .
+                "<br/>";
+
+            echo $exchange_table_string;
+        }
+    }
 }
 ?>
-
-</div>
 
 </div>
 
