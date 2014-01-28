@@ -76,19 +76,19 @@ class CanItAPIClient {
      * @param string $url The base URL of the API server.  Eg: http://127.0.0.1/canit/api/2.0
      */
     function CanItAPIClient ($url) {
-	# Remove trailing slashes from $url
-	$url = rtrim($url, '/');
+        # Remove trailing slashes from $url
+        $url = rtrim($url, '/');
 
-	$url = $url . '/json/';
+        $url = $url . '/json/';
 
-	$this->url = $url;
-	$this->is_error = 0;
-	$this->last_error = '';
-	$this->curl_response = '';
-	$this->curl_content = '';
-	$this->curl_headers = '';
-	$this->curl_content_type = '';
-	$this->cookie = '';
+        $this->url = $url;
+        $this->is_error = 0;
+        $this->last_error = '';
+        $this->curl_response = '';
+        $this->curl_content = '';
+        $this->curl_headers = '';
+        $this->curl_content_type = '';
+        $this->cookie = '';
     }
 
     /**
@@ -96,7 +96,7 @@ class CanItAPIClient {
      * @return string
      */
     function get_last_error () {
-	return $this->last_error;
+        return $this->last_error;
     }
 
     /**
@@ -105,7 +105,7 @@ class CanItAPIClient {
      * DEPRECATED: You should use the succeeded() function instead
      */
     function is_error() {
-	return $this->is_error;
+        return $this->is_error;
     }
 
     /**
@@ -113,7 +113,7 @@ class CanItAPIClient {
      * false if it failed
      */
     function succeeded() {
-	return ! $this->is_error;
+        return ! $this->is_error;
     }
 
     /**
@@ -123,38 +123,38 @@ class CanItAPIClient {
      * @return boolean True on successful login; false otherwise
      */
     function login($username, $password) {
-	$this->do_post('login', array('user' => $username,
-				      'password' => $password));
-	if ($this->is_error) {
-	    return false;
-	}
+        $this->do_post('login', array('user' => $username,
+            'password' => $password));
+        if ($this->is_error) {
+            return false;
+        }
 
-	# Set our cookie
-	foreach ($this->curl_headers as $header) {
-	    if (strpos($header, ':') !== FALSE) {
-		list($name, $val) = explode(':', $header, 2);
-	    } else {
-		$name = $header;
-		$val = '';
-	    }
-	    $name = strtolower(trim($name));
-	    $val = trim($val);
-	    if ($name == 'set-cookie') {
-		if ($this->cookie != '') {
-		    $this->cookie .= '; ';
-		}
-		$this->cookie .= $val;
-	    }
-	}
-	return true;
+        # Set our cookie
+        foreach ($this->curl_headers as $header) {
+            if (strpos($header, ':') !== FALSE) {
+                list($name, $val) = explode(':', $header, 2);
+            } else {
+                $name = $header;
+                $val = '';
+            }
+            $name = strtolower(trim($name));
+            $val = trim($val);
+            if ($name == 'set-cookie') {
+                if ($this->cookie != '') {
+                    $this->cookie .= '; ';
+                }
+                $this->cookie .= $val;
+            }
+        }
+        return true;
     }
 
     /**
      * Log out of the API
      */
     function logout() {
-	$this->do_get("logout");
-	$this->cookie = '';
+        $this->do_get("logout");
+        $this->cookie = '';
     }
 
     /**
@@ -166,26 +166,26 @@ class CanItAPIClient {
      * @return NULL on failure, a PHP data structure on success.
      */
     function do_get ($rel_url, $params = null) {
-	# If $rel_url begins with a slash, remove it
-	$rel_url = ltrim($rel_url, '/');
+        # If $rel_url begins with a slash, remove it
+        $rel_url = ltrim($rel_url, '/');
 
-	$full_url = $this->url . $rel_url;
-	if (is_array($params)) {
-	    $first_time = 1;
-	    foreach ($params as $key => $val) {
-		if ($first_time) {
-		    $full_url .= '?';
-		    $first_time = 0;
-		} else {
-		    $full_url .= '&';
-		}
-		$full_url .= urlencode($key) . '=' . urlencode($val);
-	    }
-	}
-	$ch = curl_init();
-	$this->curl_call($full_url, $ch);
-	curl_close($ch);
-	return $this->deserialize_curl_data();
+        $full_url = $this->url . $rel_url;
+        if (is_array($params)) {
+            $first_time = 1;
+            foreach ($params as $key => $val) {
+                if ($first_time) {
+                    $full_url .= '?';
+                    $first_time = 0;
+                } else {
+                    $full_url .= '&';
+                }
+                $full_url .= urlencode($key) . '=' . urlencode($val);
+            }
+        }
+        $ch = curl_init();
+        $this->curl_call($full_url, $ch);
+        curl_close($ch);
+        return $this->deserialize_curl_data();
     }
 
     /**
@@ -197,18 +197,18 @@ class CanItAPIClient {
      * @return void Nothing useful; check $this->is_error() to test success
      */
     function do_put ($rel_url, $put_data) {
-	# If $rel_url begins with a slash, remove it
-	$rel_url = ltrim($rel_url, '/');
+        # If $rel_url begins with a slash, remove it
+        $rel_url = ltrim($rel_url, '/');
 
-	$full_url = $this->url . $rel_url;
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-	$encoded = json_encode($put_data);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: ' . strlen($encoded)));
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
-	$this->curl_call($full_url, $ch);
-	curl_close($ch);
-	return $this->deserialize_curl_data();
+        $full_url = $this->url . $rel_url;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        $encoded = json_encode($put_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: ' . strlen($encoded)));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
+        $this->curl_call($full_url, $ch);
+        curl_close($ch);
+        return $this->deserialize_curl_data();
     }
 
     /**
@@ -219,15 +219,15 @@ class CanItAPIClient {
      * @return void Nothing useful; check $this->is_error() to test success
      */
     function do_delete ($rel_url) {
-	# If $rel_url begins with a slash, remove it
-	$rel_url = ltrim($rel_url, '/');
+        # If $rel_url begins with a slash, remove it
+        $rel_url = ltrim($rel_url, '/');
 
-	$full_url = $this->url . $rel_url;
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-	$this->curl_call($full_url, $ch);
-	curl_close($ch);
-	return NULL;
+        $full_url = $this->url . $rel_url;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        $this->curl_call($full_url, $ch);
+        curl_close($ch);
+        return NULL;
     }
 
     /**
@@ -239,16 +239,16 @@ class CanItAPIClient {
      * @return void Nothing useful; check $this->is_error() to test success
      */
     function do_post ($rel_url, $post_data) {
-	# If $rel_url begins with a slash, remove it
-	$rel_url = ltrim($rel_url, '/');
+        # If $rel_url begins with a slash, remove it
+        $rel_url = ltrim($rel_url, '/');
 
-	$full_url = $this->url . $rel_url;
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-	$this->curl_call($full_url, $ch);
-	curl_close($ch);
-	return $this->deserialize_curl_data();
+        $full_url = $this->url . $rel_url;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $this->curl_call($full_url, $ch);
+        curl_close($ch);
+        return $this->deserialize_curl_data();
     }
 
     /** ==== END OF PUBLIC FUNCTIONS.  REMAINING FUNCTIONS ARE PRIVATE;
@@ -256,68 +256,66 @@ class CanItAPIClient {
      **/
 
     function curl_call($url, $ch) {
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-	curl_setopt($ch, CURLOPT_HEADER, true);
-	curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-	if ($this->cookie != '') {
-	    curl_setopt($ch, CURLOPT_COOKIE, $this->cookie);
-	}
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:', 'Accept: application/json'));
-	$result = curl_exec($ch);
-	if ($result === false) {
-	    $this->is_error = 1;
-	    $this->last_error = curl_error($ch);
-	} else {
-	    $arr = explode("\r\n\r\n", $result, 3);
-	    $this->curl_headers = explode("\r\n", $arr[0]);
-	    $this->curl_content = $arr[1];
-	    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	    if ($code >= 200 && $code <= 299) {
-		$this->curl_content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-		$this->is_error = 0;
-		$this->last_error = '';
-	    } elseif ($code >= 400 && $code <= 599) {
-		$this->is_error = 1;
-		$this->set_error_from_result($this->curl_content);
-	    } else {
-		$this->is_error = 1;
-		$this->last_error = "Unknown HTTP response $code";
-	    }
-	}
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+        if ($this->cookie != '') {
+            curl_setopt($ch, CURLOPT_COOKIE, $this->cookie);
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:', 'Accept: application/json'));
+        $result = curl_exec($ch);
+        if ($result === false) {
+            $this->is_error = 1;
+            $this->last_error = curl_error($ch);
+        } else {
+            $arr = explode("\r\n\r\n", $result, 3);
+            $this->curl_headers = explode("\r\n", $arr[0]);
+            $this->curl_content = $arr[1];
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($code >= 200 && $code <= 299) {
+                $this->curl_content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+                $this->is_error = 0;
+                $this->last_error = '';
+            } elseif ($code >= 400 && $code <= 599) {
+                $this->is_error = 1;
+                $this->set_error_from_result($this->curl_content);
+            } else {
+                $this->is_error = 1;
+                $this->last_error = "Unknown HTTP response $code";
+            }
+        }
     }
 
     function set_error_from_result ($result) {
-	# Special case: Login failures always come back in YAML
-	# in old/buggy versions of API... sigh.
-	if (substr($result, 0, 11) == "---\nerror: ") {
-	    $this->last_error = substr($result, 11);
-	    return;
-	}
-	$data = json_decode($result, true);
-	if (!is_array($data)) {
-	    $this->last_error = "Unknown error: $data";
-	} elseif (array_key_exists('error', $data)) {
-	    $this->last_error = $data['error'];
-	} else {
-	    $this->last_error = 'Unknown error';
-	}
+        # Special case: Login failures always come back in YAML
+        # in old/buggy versions of API... sigh.
+        if (substr($result, 0, 11) == "---\nerror: ") {
+            $this->last_error = substr($result, 11);
+            return;
+        }
+        $data = json_decode($result, true);
+        if (!is_array($data)) {
+            $this->last_error = "Unknown error: $data";
+        } elseif (array_key_exists('error', $data)) {
+            $this->last_error = $data['error'];
+        } else {
+            $this->last_error = 'Unknown error';
+        }
     }
 
     function deserialize_curl_data () {
-	if ($this->is_error) return NULL;
-	if ($this->curl_content_type == 'message/rfc822') {
-	    return array('message' => $this->curl_content);
-	}
+        if ($this->is_error) return NULL;
+        if ($this->curl_content_type == 'message/rfc822') {
+            return array('message' => $this->curl_content);
+        }
 
-	return json_decode($this->curl_content, true);
+        return json_decode($this->curl_content, true);
     }
 
 }
-
-?>

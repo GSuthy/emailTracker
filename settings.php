@@ -1,4 +1,4 @@
 <?php
 $credentials = array(
-	'username' => 'base:singlesignonbase',
+	'username' => 'base:greplog',
 	'password' => '%]u2vF;;)/oW');
