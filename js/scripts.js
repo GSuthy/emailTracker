@@ -67,8 +67,8 @@ $(document).ready(function() {
 	});
 
 	// Put today's date as the default dates for Start & End
-	$("#datepickerStart").val($.datepicker.formatDate('mm/dd/yy', new Date()));
-	$("#datepickerEnd").val($.datepicker.formatDate('mm/dd/yy', new Date()));
+//	$("#datepickerStart").val($.datepicker.formatDate('mm/dd/yy', new Date()));
+//	$("#datepickerEnd").val($.datepicker.formatDate('mm/dd/yy', new Date()));
 
 	// This is for the button clicks on the server boxes
 	$('div.box-selector').click(function(){

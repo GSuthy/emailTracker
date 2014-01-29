@@ -109,8 +109,8 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
         <div class="column grid_6 date-and-time">
             <h3>Date Range:</h3>
             <p class="datepair" data-language="javascript">
-                Start: <input type="text" id="datepickerStart" name="start_date">
-                End: <input type="text" id="datepickerEnd" name="end_date">
+                Start: <input type="text" id="datepickerStart" name="start_date" value="<?php if ($show_table) echo $_POST['start_date']; else echo date('m/d/Y') ?>">
+                End: <input type="text" id="datepickerEnd" name="end_date" value="<?php if ($show_table) echo $_POST['end_date']; else echo date('m/d/Y') ?>">
             </p>
         </div>
 
@@ -155,16 +155,12 @@ if ($show_table) {
         $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
     }
 
-    echo "Start date: " . $startDttm . "<br/>";
-
     if (empty($_POST['end_date'])) {
         $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
     } else {
         $date = $_POST['end_date'];
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
-
-    echo "End date: " . $endDttm . "<br/>";
 
     $max_results = 20;
     $warning_level_spam_score = 5;
