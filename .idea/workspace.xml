@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e01fc0e-52a0-494d-ac48-4d601aeae937" name="Default" comment="" />
+    <list default="true" id="3e01fc0e-52a0-494d-ac48-4d601aeae937" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/stevenc4.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/emailTracker.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+    </list>
     <ignored path="emailTracker.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -430,7 +440,11 @@
       <created>1391034253785</created>
       <updated>1391034253785</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="git ignore .idea folder&#10;">
+      <created>1391036248403</created>
+      <updated>1391036248403</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -498,7 +512,8 @@
     <MESSAGE value="Got time searching working in the CanIt call, working on fixing parsing errors with routers.php" />
     <MESSAGE value="added class &quot;routers&quot; to table results routers" />
     <MESSAGE value="Auto-populates the date fields with php&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Auto-populates the date fields with php&#10;" />
+    <MESSAGE value="git ignore .idea folder&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="git ignore .idea folder&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
