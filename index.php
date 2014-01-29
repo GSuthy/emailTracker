@@ -234,7 +234,7 @@ if ($show_table) {
 
             $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
-            $router_table_string = "<table class='results'>" .
+            $router_table_string = "<table class='results routers'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>Router Results</td>" .
