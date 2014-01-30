@@ -248,7 +248,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($routerResults as $row) {
-                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
+                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>" .
                     "<td>" . $row['Date'] . "</td>" .
                     "<td>" . $row['Time'] . "</td>" .
                     "<td>" . $row['Sender'] . "</td>" .
@@ -277,7 +277,7 @@ if ($show_table) {
 
             $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-            $exchange_table_string = "<table class='results'>" .
+            $exchange_table_string = "<table class='results exchange'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>Exchange Results</td>" .
@@ -285,20 +285,18 @@ if ($show_table) {
                 "<th>Date</th>" .
                 "<th>Time</th>" .
                 "<th>Sender</th>" .
-                "<th>Recipient</th>" .
                 "<th>Subject</th>" .
-                "<th>Server Hostname</th>" .
+				"<th>Message ID</th>" .
                 "</tr>";
 
             $is_even = true;
             foreach($exchangeResults as $row) {
-                $exchange_table_string = $exchange_table_string . "<tr>" .
+                $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>" .
                     "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . $row['sender_address'] . "</td>" .
-                    "<td>" . $row['recipient_address'] . "</td>" .
                     "<td>" . $row['message_subject'] . "</td>" .
-                    "<td>" . $row['server_hostname'] . "</td>" .
+					"<td>" . $row['internal_message_id'] . "</td>" .
                     "</tr>";
                 $is_even = !$is_even;
             }
