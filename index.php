@@ -155,7 +155,7 @@ if ($show_table) {
         $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
     }
 
-    echo "Start date: " . $startDttm . "<br/>";
+    // echo "Start date: " . $startDttm . "<br/>";
 
     if (empty($_POST['end_date'])) {
         $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
@@ -164,7 +164,7 @@ if ($show_table) {
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
 
-    echo "End date: " . $endDttm . "<br/>";
+    // echo "End date: " . $endDttm . "<br/>";
 
     $max_results = 20;
     $warning_level_spam_score = 5;
@@ -207,7 +207,8 @@ if ($show_table) {
                 }
                 $canit_spam_score_string = "";
                 $canit_spam_score = $canit_row['score'];
-                if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
+                if ($canit_spam_score_string == "0") { $canit_spam_score_string = "spam-score-good"; }
+                else if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
                 else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
                 else if ($canit_spam_score > $maximum_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
                 else { $canit_spam_score_string = "spam-score-warning"; }
@@ -315,10 +316,16 @@ if ($show_table) {
 
 </div>
 
-<div id="rowOverlay" style="">
+<div id="canitOverlay" class="rowOverlay">
     <span class="external-link-wrap">
-    <a href="#" id ="viewLogs">View Logs</a>
+    <a class="view-logs">View Logs</a>
     <a href="#">Open in CanIt</a>
+    </span>
+</div>
+
+<div id="nonCanitOverlay" class="rowOverlay">
+    <span class="external-link-wrap">
+    <a class="view-logs">View Logs</a>
     </span>
 </div>
 
