@@ -1,4 +1,4 @@
-function arrowChecker(currentBox) {
+	function arrowChecker(currentBox) {
 	var prevArrow = $(currentBox).prev('.server-arrow');
 	var nextArrow = $(currentBox).next('.server-arrow');
 
