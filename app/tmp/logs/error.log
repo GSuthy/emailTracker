@@ -1,0 +1,202 @@
+2014-01-30 00:23:57 Error: [MissingControllerException] Controller class IndexGreplogController could not be found.
+Exception Attributes: array (
+  'class' => 'IndexGreplogController',
+  'plugin' => NULL,
+)
+Request URL: /emailTracker/index_greplog
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-01-30 00:24:21 Error: [MissingControllerException] Controller class SearchController could not be found.
+Exception Attributes: array (
+  'class' => 'SearchController',
+  'plugin' => NULL,
+)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-01-30 00:24:45 Error: [MissingControllerException] Controller class SearchController could not be found.
+Exception Attributes: array (
+  'class' => 'SearchController',
+  'plugin' => NULL,
+)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2014-01-30 00:25:10 Error: [MissingActionException] Action SearchController::index() could not be found.
+Exception Attributes: array (
+  'controller' => 'SearchController',
+  'action' => 'index',
+)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#1 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(SearchController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2014-01-30 00:25:38 Error: [MissingViewException] View file "C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\apps\\xampp\\htdocs\\emailTracker\\app\\View\\Search\\index.ctp',
+)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\View\View.php(457): View->_getViewFileName(NULL)
+#1 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Controller\Controller.php(952): View->render(NULL, NULL)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(192): Controller->render()
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(SearchController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2014-01-30 00:26:00 Error: [MissingViewException] View file "C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\apps\\xampp\\htdocs\\emailTracker\\app\\View\\Search\\index.ctp',
+)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\View\View.php(457): View->_getViewFileName(NULL)
+#1 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Controller\Controller.php(952): View->render(NULL, NULL)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(192): Controller->render()
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Routing\Dispatcher.php(160): Dispatcher->_invoke(Object(SearchController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\apps\xampp\htdocs\emailTracker\app\webroot\index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2014-01-30 00:26:28 Error: Fatal Error (64): require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'routers.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR') in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 2]
+2014-01-30 00:26:28 Error: [FatalErrorException] require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'routers.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR')
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(64, 'require_once() ...', 'C:\apps\xampp\h...', 2)
+#1 [internal function]: ErrorHandler::handleError(64, 'require_once() ...', 'C:\apps\xampp\h...', 2, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 64, 'require_once() ...', 'C:\apps\xampp\h...', 2, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 00:29:33 Error: Fatal Error (64): require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'settings.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR') in [C:\apps\xampp\htdocs\emailTracker\app\webroot\canit.php, line 3]
+2014-01-30 00:29:33 Error: [FatalErrorException] require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'settings.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR')
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(64, 'require_once() ...', 'C:\apps\xampp\h...', 3)
+#1 [internal function]: ErrorHandler::handleError(64, 'require_once() ...', 'C:\apps\xampp\h...', 3, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 64, 'require_once() ...', 'C:\apps\xampp\h...', 3, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 00:55:02 Error: Fatal Error (64): require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'routers.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR') in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 2]
+2014-01-30 00:55:02 Error: [FatalErrorException] require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'routers.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR')
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(64, 'require_once() ...', 'C:\apps\xampp\h...', 2)
+#1 [internal function]: ErrorHandler::handleError(64, 'require_once() ...', 'C:\apps\xampp\h...', 2, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 64, 'require_once() ...', 'C:\apps\xampp\h...', 2, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 00:55:16 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 00:55:16 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 00:55:31 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 00:55:31 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:03:26 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 01:03:26 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:04:48 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 01:04:48 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:06:41 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 01:06:41 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:08:58 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 01:08:58 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:09:34 Error: Fatal Error (1): Class 'CanitClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 178]
+2014-01-30 01:09:34 Error: [FatalErrorException] Class 'CanitClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanitCli...', 'C:\apps\xampp\h...', 178, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:09:50 Error: Fatal Error (64): require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'exchange.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR') in [C:\apps\xampp\htdocs\emailTracker\app\Vendor\CanItAPI\CanitClient.php, line 4]
+2014-01-30 01:09:50 Error: [FatalErrorException] require_once() [<a href='http://php.net/function.require'>function.require</a>]: Failed opening required 'exchange.php' (include_path='C:\apps\xampp\htdocs\emailTracker\lib;.;C:\apps\xampp\php\PEAR')
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(64, 'require_once() ...', 'C:\apps\xampp\h...', 4)
+#1 [internal function]: ErrorHandler::handleError(64, 'require_once() ...', 'C:\apps\xampp\h...', 4, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 64, 'require_once() ...', 'C:\apps\xampp\h...', 4, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-29 17:10:08 Error: Fatal Error (1): Class 'CanItAPIClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\Vendor\CanItAPI\CanitClient.php, line 20]
+2014-01-29 17:10:08 Error: [FatalErrorException] Class 'CanItAPIClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'CanItAPI...', 'C:\apps\xampp\h...', 20)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'CanItAPI...', 'C:\apps\xampp\h...', 20, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'CanItAPI...', 'C:\apps\xampp\h...', 20, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-30 01:13:01 Error: Fatal Error (4): syntax error, unexpected ';' in [C:\apps\xampp\htdocs\emailTracker\app\Controller\SearchController.php, line 7]
+2014-01-30 01:13:01 Error: [FatalErrorException] syntax error, unexpected ';'
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'C:\apps\xampp\h...', 7)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'C:\apps\xampp\h...', 7, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'C:\apps\xampp\h...', 7, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2014-01-29 17:13:16 Error: Fatal Error (1): Class 'RouterClient' not found in [C:\apps\xampp\htdocs\emailTracker\app\View\Search\index.ctp, line 231]
+2014-01-29 17:13:16 Error: [FatalErrorException] Class 'RouterClient' not found
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Class 'RouterCl...', 'C:\apps\xampp\h...', 231)
+#1 [internal function]: ErrorHandler::handleError(1, 'Class 'RouterCl...', 'C:\apps\xampp\h...', 231, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 1, 'Class 'RouterCl...', 'C:\apps\xampp\h...', 231, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
