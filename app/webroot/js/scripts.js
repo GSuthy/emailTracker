@@ -23,20 +23,74 @@ function arrowChecker(currentBox) {
 
 function checkboxHandler(name, onOrOff) {
 	$(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
-
 };
 
-function rowExpander(rowClass)
+function rowExpander()
 {
-	var boxText = "Message id: 1 Filename: /opt/mail/quarantine/20140121/spam/qfs0LBT80R022330<br/> Transport layer information:<br/> -----------------------------------------------------------------------<br/> Sending host: mta.newsletter.rakuten.com [198.245.80.132]<br/> Envelope From: address: bounce-2883_HTML-12992025-106607-6196309-1814@bounce.newsletter.rakuten.com<br/> Final recipient address: brandonbrasmussen@gmail.com<br/> Envelope To: addresses: brasmussen@byu.edu<br/> Message header:<br/> ----------------------------------------------------------------------<br/> Received: from mta.newsletter.rakuten.com (mta.newsletter.rakuten.com [198.245.80.132])<br/> by gridley.byu.edu (8.14.3/8.13.8) with ESMTP id s0LBT80R022330<br/> Subject: 10% Back on TV & Home Theater! Samsung LED HDTV $497.99, Harman Kardon Receiver $369.99 + More!<br/> Date: Tue, 21 Jan 2014 05:29:07 -0600<br/> MIME-Version: 1.0<br/>";
-	var insertionText = '<tr class="log"><td colspan="7"><p>' + boxText + '</p></td></tr>';
+	$.ajax
+	({
+		type: "GET",
+	  	url: "../ajaxtest.php",
+	  	data: {ID: "5"}
+	})
+	.done(function(data)
+	{
+		var insertionText = '<tr class="log"><td colspan="7"><p>' + data + '</p></td></tr>';
+		$(insertionText).insertAfter('tr.tr-hover-state');
+	});
+};
 
-	var insertionText = '<tr class="log"><td colspan="7"><p>hello!</p></td></tr>';
-	// var insertOnce = true;
+function rowHover(currentHoveredRow, rowOverlayChoice)
+{
+        // define useful variables
+        var $rowOverlay = $(rowOverlayChoice);
+        var rowWidth = $(currentHoveredRow).width() + 2;
+        var rowHeight = $(currentHoveredRow).height() + 2;
+        var rowPos = $(currentHoveredRow).position();
+       	var rowTop = rowPos.top - 1;
+        var rowLeft = rowPos.left;
+        
+        // This defines the overlay position so it's over the <tr>
+        $rowOverlay.css({
+        	display: 'block',
+            position: 'absolute',
+            top: rowTop,
+            left: rowLeft,
+            width: rowWidth,
+            height: rowHeight
+        });
 
-		$(insertionText).insertAfter('tr.' + rowClass + '');
+        // Properly define the height of the .external-link-wrap in #divOverlay
+        $rowOverlay.children('.external-link-wrap').css({
+        	height: rowHeight - 2
+        });
 
-}
+        // This vertically aligns the <a>s in the #rowOverlay
+        $rowOverlay.find('a').css({
+        	'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
+        });
+
+        // This adds the class so you can change the color of the entire row	
+        $(currentHoveredRow).addClass('tr-hover-state');
+
+    	// unbinds the click function so it doesn't fire tons of log queries
+    	$(document).find("a.view-logs").off("click");
+
+		// Binds the click function to the "view logs"    	
+	    $rowOverlay.find("a.view-logs").on("click", function()
+	    {
+	    	// Closes the log if it's currently open
+	    	if($(currentHoveredRow).next().hasClass('log'))
+	    	{
+	    		$(currentHoveredRow).next().remove();
+	 		}
+	 		// Opens the log if it's not open
+	 		else
+	 		{
+	    		rowExpander();
+	    	}
+	    });
+};
 
 $(document).ready(function() {
 
@@ -66,10 +120,6 @@ $(document).ready(function() {
 		}
 	});
 
-	// Put today's date as the default dates for Start & End
-//	$("#datepickerStart").val($.datepicker.formatDate('mm/dd/yy', new Date()));
-//	$("#datepickerEnd").val($.datepicker.formatDate('mm/dd/yy', new Date()));
-
 	// This is for the button clicks on the server boxes
 	$('div.box-selector').click(function(){
 		if ($(this).hasClass('on')) {
@@ -84,61 +134,9 @@ $(document).ready(function() {
 		arrowChecker($(this));
 	});
 
+	
     $('table.results tr').not('.table-information').mouseover(function() {
-        var $rowOverlay = $('#rowOverlay');
-        var currentTable = $(this).parents('table');
-    	var rowIndex = $(this).index();
-    	var currentRow = $(this);
-
-        var rowWidth = $(this).width() + 2;
-        var rowHeight = $(this).height() + 2;
-        var rowPos = $(this).position();
-       	var rowTop = rowPos.top - 1;
-        var rowLeft = rowPos.left;
-        $rowOverlay.css({
-        	display: 'block',
-            position: 'absolute',
-            top: rowTop,
-            left: rowLeft,
-            width: rowWidth,
-            height: rowHeight
-        });
-        $rowOverlay.children('.external-link-wrap').css({
-        	height: rowHeight - 2
-        });
-
-        var externalLinkWrapHeight = $rowOverlay.children('.external-link-wrap').height();
-        var externalLinkWrapAnchorHeight = $rowOverlay.children('.external-link-wrap').children('a').innerHeight();
-        var anchorTagMarginTop = (externalLinkWrapHeight - externalLinkWrapAnchorHeight) / 2;
-
-        // alert(externalLinkWrapHeight + " " + externalLinkWrapAnchorHeight + " " + anchorTagMarginTop);
-        // alert(alertString);
-
-        $rowOverlay.children('.external-link-wrap').children('a').css({
-        	'margin-top': anchorTagMarginTop
-        });
-
-        // This adds the class so you can change the color of the entire row	
-        $(this).addClass('tr-hover-state');
-
-    	// unbinds the click function so it doesn't fire on multiple rows
-    	$("a#viewLogs").off("click");    	
-
-		// Binds the click function to the "view logs"    	
-	    $("a#viewLogs").on("click", function()
-	    {
-	    	// Closes the log if it's currently open
-	    	if($(currentRow).next().hasClass('log'))
-	    	{
-	    		$(currentRow).next().remove();
-	 		}
-	 		// Opens the log if it's not open
-	 		else
-	 		{
-	    		rowExpander('tr-hover-state');
-	    	}
-	    });
-
+    	rowHover($(this), '#canitOverlay');
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header
@@ -148,8 +146,13 @@ $(document).ready(function() {
 	});
 
 	// This takes off the hover effect when you move off of the row
-    $('#rowOverlay').mouseleave(function() {
-        $('#rowOverlay').hide();
+    $('#canitOverlay').mouseleave(function() {
+        $(this).hide();
+        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
+    });
+
+    $('#nonCanitOverlay').mouseleave(function() {
+        $(this).hide();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 

@@ -342,7 +342,7 @@ table tr.odd-row
 	background: white;
 }
 
-table.results tr.tr-hover-state, #rowOverlay .external-link-wrap {
+table.results tr.tr-hover-state, div.rowOverlay .external-link-wrap {
 	background: #6da7d3;
 }
 
@@ -409,7 +409,7 @@ table.results td span.spam-score-quarantined {
 }
 
 
-#rowOverlay {
+div.rowOverlay {
 	/*background: rgba(156, 186, 209, 0.75);*/
 	/*background-color: rgba(0,0,0,.75);*/
 	font-size: inherit;
@@ -417,7 +417,7 @@ table.results td span.spam-score-quarantined {
 	overflow: hidden;
 }
 
-#rowOverlay .external-link-wrap
+div.rowOverlay .external-link-wrap
 {
 	display: block;
 	overflow: hidden;
@@ -426,7 +426,7 @@ table.results td span.spam-score-quarantined {
 	margin: 1px 0 0;
 }
 
-#rowOverlay .external-link-wrap a {
+div.rowOverlay .external-link-wrap a {
 	display: block;
 	float: left;
 	text-decoration: none;
@@ -439,6 +439,6 @@ table.results td span.spam-score-quarantined {
 	background: #196499;
 }
 
-#rowOverlay .external-link-wrap a:hover {
+div.rowOverlay .external-link-wrap a:hover {
 	background: #003b65;
 }
