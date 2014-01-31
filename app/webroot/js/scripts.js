@@ -25,7 +25,7 @@ function checkboxHandler(name, onOrOff) {
 	$(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
-function rowExpander()
+function rowExpander(currentRowClass)
 {
 	$.ajax
 	({
@@ -35,12 +35,12 @@ function rowExpander()
 	})
 	.done(function(data)
 	{
-		var insertionText = '<tr class="log"><td colspan="7"><p>' + data + '</p></td></tr>';
+		var insertionText = '<tr class="log ' + currentRowClass + '"><td colspan="7"><p>' + data + '</p></td></tr>';
 		$(insertionText).insertAfter('tr.tr-hover-state');
 	});
 };
 
-function rowHover(currentHoveredRow, rowOverlayChoice)
+function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 {
         // define useful variables
         var $rowOverlay = $(rowOverlayChoice);
@@ -49,7 +49,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice)
         var rowPos = $(currentHoveredRow).position();
        	var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
-        
+
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
         	display: 'block',
@@ -83,11 +83,13 @@ function rowHover(currentHoveredRow, rowOverlayChoice)
 	    	if($(currentHoveredRow).next().hasClass('log'))
 	    	{
 	    		$(currentHoveredRow).next().remove();
+	    		$(this).text("View Log");
 	 		}
 	 		// Opens the log if it's not open
 	 		else
 	 		{
-	    		rowExpander();
+	    		rowExpander(currentRowClass);
+	    		$(this).text("Close Log");
 	    	}
 	    });
 };
@@ -136,7 +138,17 @@ $(document).ready(function() {
 
 	
     $('table.results tr').not('.table-information').mouseover(function() {
-    	rowHover($(this), '#canitOverlay');
+    	// alert($(this).next().attr("class"));
+    	if($(this).next().hasClass('log'))
+    	{
+    		$("#canitOverlay a.view-logs").text("Close Log");
+    	}
+    	else
+    	{
+    		$("#canitOverlay a.view-logs").text("View Log");
+    	}
+    	rowHover($(this), '#canitOverlay', $(this).attr('class'));
+
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header
