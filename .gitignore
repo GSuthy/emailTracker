@@ -1,2 +1,4 @@
 .idea/
 .editorconfig
+app/tmp/
+app/Config/core.php
