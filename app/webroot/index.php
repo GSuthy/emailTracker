@@ -89,10 +89,12 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	}
 	if (!include 'Cake' . DS . 'bootstrap.php') {
 		$failed = true;
+        echo "short path";
 	}
 } else {
 	if (!include CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'bootstrap.php') {
 		$failed = true;
+        echo "long path";
 	}
 }
 if (!empty($failed)) {
