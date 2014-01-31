@@ -1,10 +1,4 @@
 <?php
-    /*require_once("RouterClient.php");
-    require_once("canit-api-client.php");
-    require_once("CanItClient.php");*/
-//    require_once("settings.php");
-    /*require_once("ExchangeClient.php");*/
-
     $show_table = false;
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         $show_table = true;
@@ -309,7 +303,7 @@ if ($show_table) {
 
 </div>
 
-<div id="rowOverlay" style="">
+<div id="rowOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a href="#" id ="viewLogs">View Logs</a>
     <a href="#">Open in CanIt</a>
