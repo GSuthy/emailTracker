@@ -281,9 +281,8 @@ if ($show_table) {
                 "<th>Date</th>" .
                 "<th>Time</th>" .
                 "<th>Sender</th>" .
-                "<th>Recipient</th>" .
                 "<th>Subject</th>" .
-                "<th>Server Hostname</th>" .
+				"<th>Message ID</th>" .
                 "</tr>";
 
             $is_even = true;
@@ -292,9 +291,8 @@ if ($show_table) {
                     "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . $row['sender_address'] . "</td>" .
-                    "<td>" . $row['recipient_address'] . "</td>" .
                     "<td>" . $row['message_subject'] . "</td>" .
-                    "<td>" . $row['server_hostname'] . "</td>" .
+					"<td>" . $row['internal_message_id'] . "</td>" .
                     "</tr>";
                 $is_even = !$is_even;
             }
