@@ -377,16 +377,22 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
-table.results tr.log, table.results tr.log:hover {
-	background-color: #f3f3f3;
-	/*display: none;*/
+table tr.log.even-row:hover
+{
+	background: #EFF6FC;
+}
+
+table tr.log.odd-row:hover
+{
+	background: white;
 }
 
 
 table.results tr.log p {
-	padding: 10px;
+	font-size: .875em;
+	padding: 10px 20px;
 	text-align: left;
-	font-family: courier new;
+	font-family: "Source Code Pro";
 }
 
 table.results td span.spam-score-good,
@@ -410,8 +416,6 @@ table.results td span.spam-score-quarantined {
 
 
 div.rowOverlay {
-	/*background: rgba(156, 186, 209, 0.75);*/
-	/*background-color: rgba(0,0,0,.75);*/
 	font-size: inherit;
 	display: none;
 	overflow: hidden;
@@ -441,4 +445,5 @@ div.rowOverlay .external-link-wrap a {
 
 div.rowOverlay .external-link-wrap a:hover {
 	background: #003b65;
+	cursor: pointer;
 }

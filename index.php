@@ -29,7 +29,7 @@
     <link href='http://fonts.googleapis.com/
 css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
-
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -318,14 +318,14 @@ if ($show_table) {
 
 <div id="canitOverlay" class="rowOverlay">
     <span class="external-link-wrap">
-    <a class="view-logs">View Logs</a>
+    <a class="view-logs">View Log</a>
     <a href="#">Open in CanIt</a>
     </span>
 </div>
 
 <div id="nonCanitOverlay" class="rowOverlay">
     <span class="external-link-wrap">
-    <a class="view-logs">View Logs</a>
+    <a class="view-logs">View Log</a>
     </span>
 </div>
 
