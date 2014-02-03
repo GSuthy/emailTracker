@@ -30,7 +30,7 @@ function rowExpander(currentRowClass)
 	$.ajax
 	({
 		type: "GET",
-	  	url: "../../../ajaxtest.php",
+	  	url: "../ajaxtest.php",
 	  	data: {ID: "5"}
 	})
 	.done(function(data)
@@ -78,9 +78,8 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
             //alert ("FIRE11!!!");
 		// Binds the click function to the "view logs"    	
-	    $rowOverlay.find(rowOverlayChoice).find("a.view-logs").on("click", function()
+	    $rowOverlay.find("a.view-logs").on("click", function()
 	    {
-                //alert ("FIRE22!!!");
 	    	// Closes the log if it's currently open
 	    	if($(currentHoveredRow).next().hasClass('log'))
 	    	{
@@ -139,7 +138,7 @@ $(document).ready(function() {
 	});
 
 	
-    $('table.results.canit tr').not('.table-information').mouseover(function() {
+    $('table.results tr').not('.table-information').mouseover(function() {
     	// alert($(this).next().attr("class"));
     	if($(this).next().hasClass('log'))
     	{
@@ -149,34 +148,15 @@ $(document).ready(function() {
     	{
     		$("#canitOverlay a.view-logs").text("View Log");
     	}
-    	rowHover($(this), '#canitOverlay', $(this).attr('class'));
+    	var overlayIDtoPass = "#nonCanitOverlay";
 
-    });
+    	if ($(this).parents('table').hasClass('canit'))
+    	{
+    		overlayIDtoPass = "#canitOverlay";
+    	}
 
-    $('table.results.routers tr').not('.table-information').mouseover(function() {
-    	// alert($(this).next().attr("class"));
-    	if($(this).next().hasClass('log'))
-    	{
-    		$("#canitOverlay a.view-logs").text("Close Log");
-    	}
-    	else
-    	{
-    		$("#canitOverlay a.view-logs").text("View Log");
-    	}
-    	rowHover($(this), '#nonCanitOverlay', $(this).attr('class'));
-    });
+    	rowHover($(this), overlayIDtoPass, $(this).attr('class'));
 
-    $('table.results.exchange tr').not('.table-information').mouseover(function() {
-    	// alert($(this).next().attr("class"));
-    	if($(this).next().hasClass('log'))
-    	{
-    		$("#canitOverlay a.view-logs").text("Close Log");
-    	}
-    	else
-    	{
-    		$("#canitOverlay a.view-logs").text("View Log");
-    	}
-    	rowHover($(this), '#nonCanitOverlay', $(this).attr('class'));
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header
@@ -186,15 +166,22 @@ $(document).ready(function() {
 	});
 
 	// This takes off the hover effect when you move off of the row
-    $('#canitOverlay').mouseleave(function() {
-        $(this).hide();
-        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
-    });
-
-    $('#nonCanitOverlay').mouseleave(function() {
+    $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 
 
 });
+
+
+///helllloooo
+
+
+
+
+//hello world!
+
+
+
+//hahahaha
