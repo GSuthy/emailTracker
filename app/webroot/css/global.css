@@ -378,7 +378,10 @@ table.results tr.table-information td {
 }
 
 span.canit-sender, span.canit-recipients {
+	display: block;
+	white-space: nowrap;
 	text-overflow: ellipsis;
+	overflow: hidden;
 	max-width: 200px;
 }
 
