@@ -72,6 +72,18 @@ class DATABASE_CONFIG {
 		//'encoding' => 'utf8',
 	);
 
+	public $mysql_test = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'sienna.byu.edu',
+		'login' => 'oit#greplog',
+		'password' => 'HiddyH0Neighbor',
+		'database' => 'syslog',
+		'prefix' => '',
+		'port' => '3306',
+		//'encoding' => 'utf8',
+	);
+	
 	public $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
