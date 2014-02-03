@@ -52,7 +52,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
-        	display: 'block',
+            display: 'block',
             position: 'absolute',
             top: rowTop,
             left: rowLeft,
@@ -76,6 +76,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
     	// unbinds the click function so it doesn't fire tons of log queries
     	$(document).find("a.view-logs").off("click");
 
+            //alert ("FIRE11!!!");
 		// Binds the click function to the "view logs"    	
 	    $rowOverlay.find("a.view-logs").on("click", function()
 	    {
@@ -147,7 +148,14 @@ $(document).ready(function() {
     	{
     		$("#canitOverlay a.view-logs").text("View Log");
     	}
-    	rowHover($(this), '#canitOverlay', $(this).attr('class'));
+    	var overlayIDtoPass = "#nonCanitOverlay";
+
+    	if ($(this).parents('table').hasClass('canit'))
+    	{
+    		overlayIDtoPass = "#canitOverlay";
+    	}
+
+    	rowHover($(this), overlayIDtoPass, $(this).attr('class'));
 
     });
 
@@ -158,15 +166,22 @@ $(document).ready(function() {
 	});
 
 	// This takes off the hover effect when you move off of the row
-    $('#canitOverlay').mouseleave(function() {
-        $(this).hide();
-        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
-    });
-
-    $('#nonCanitOverlay').mouseleave(function() {
+    $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 
 
 });
+
+
+///helllloooo
+
+
+
+
+//hello world!
+
+
+
+//hahahaha

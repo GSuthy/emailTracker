@@ -20,10 +20,12 @@
     <link type="text/css" rel="stylesheet" href="css/mobile.css" />
     <link type="text/css" rel="stylesheet" href="css/datepicker.css" />
 
+
+    <!-- these are for fonts -->
     <link href='http://fonts.googleapis.com/
 css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
-
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
@@ -35,7 +37,7 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 <div id="banner">
 
     <div class="row">
-        <img src="img/byu-logo.gif" />
+        <img src="/img/byu-logo.gif" />
 
     </div>
 
@@ -171,7 +173,7 @@ if ($show_table) {
 
             $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-            $canit_table_string = "<table class='results'>" .
+            $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>CanIt Results</td>" .
@@ -190,8 +192,8 @@ if ($show_table) {
                 $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
-                    "<td>" . $canit_row['sender'] . "</td>".
-                    "<td>";
+                    "<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
+                    "<td><span class='canit-recipients'>";
                 foreach ($canit_row['recipients'] as $recip) {
                     $canit_table_string .= $recip . "<br/>";
                 }
@@ -202,7 +204,7 @@ if ($show_table) {
                 else if ($canit_spam_score > $maximum_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
                 else { $canit_spam_score_string = "spam-score-warning"; }
 
-                $canit_table_string .= "</td>" .
+                $canit_table_string .= "</span></td>" .
                     "<td>" . $canit_row['subject'] . "</td>" .
                     "<td>" . $canit_row['what'] . "</td>" .
                     "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
@@ -238,7 +240,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($routerResults as $row) {
-                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
+                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>" .
                     "<td>" . $row['Date'] . "</td>" .
                     "<td>" . $row['Time'] . "</td>" .
                     "<td>" . $row['Sender'] . "</td>" .
@@ -267,7 +269,7 @@ if ($show_table) {
 
             $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-            $exchange_table_string = "<table class='results'>" .
+            $exchange_table_string = "<table class='results exchange'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>Exchange Results</td>" .
@@ -281,7 +283,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($exchangeResults as $row) {
-                $exchange_table_string = $exchange_table_string . "<tr>" .
+                $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " log'>" .
                     "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . $row['sender_address'] . "</td>" .
@@ -303,10 +305,16 @@ if ($show_table) {
 
 </div>
 
-<div id="rowOverlay" style="" class="rowOverlay">
+<div id="canitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
-    <a href="#" id ="viewLogs">View Logs</a>
+    <a class="view-logs">View Logs</a>
     <a href="#">Open in CanIt</a>
+    </span>
+</div>
+    
+<div id="nonCanitOverlay" style="" class="rowOverlay">
+    <span class="external-link-wrap">
+    <a class="view-logs">View Logs</a>
     </span>
 </div>
 
