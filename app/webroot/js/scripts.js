@@ -30,7 +30,7 @@ function rowExpander(currentRowClass)
 	$.ajax
 	({
 		type: "GET",
-	  	url: "../ajaxtest.php",
+	  	url: "../../../ajaxtest.php",
 	  	data: {ID: "5"}
 	})
 	.done(function(data)
@@ -52,7 +52,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
-        	display: 'block',
+            display: 'block',
             position: 'absolute',
             top: rowTop,
             left: rowLeft,
@@ -76,9 +76,11 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
     	// unbinds the click function so it doesn't fire tons of log queries
     	$(document).find("a.view-logs").off("click");
 
+            //alert ("FIRE11!!!");
 		// Binds the click function to the "view logs"    	
-	    $rowOverlay.find("a.view-logs").on("click", function()
+	    $rowOverlay.find(rowOverlayChoice).find("a.view-logs").on("click", function()
 	    {
+                //alert ("FIRE22!!!");
 	    	// Closes the log if it's currently open
 	    	if($(currentHoveredRow).next().hasClass('log'))
 	    	{
@@ -137,7 +139,7 @@ $(document).ready(function() {
 	});
 
 	
-    $('table.results tr').not('.table-information').mouseover(function() {
+    $('table.results.canit tr').not('.table-information').mouseover(function() {
     	// alert($(this).next().attr("class"));
     	if($(this).next().hasClass('log'))
     	{
@@ -149,6 +151,32 @@ $(document).ready(function() {
     	}
     	rowHover($(this), '#canitOverlay', $(this).attr('class'));
 
+    });
+
+    $('table.results.routers tr').not('.table-information').mouseover(function() {
+    	// alert($(this).next().attr("class"));
+    	if($(this).next().hasClass('log'))
+    	{
+    		$("#canitOverlay a.view-logs").text("Close Log");
+    	}
+    	else
+    	{
+    		$("#canitOverlay a.view-logs").text("View Log");
+    	}
+    	rowHover($(this), '#nonCanitOverlay', $(this).attr('class'));
+    });
+
+    $('table.results.exchange tr').not('.table-information').mouseover(function() {
+    	// alert($(this).next().attr("class"));
+    	if($(this).next().hasClass('log'))
+    	{
+    		$("#canitOverlay a.view-logs").text("Close Log");
+    	}
+    	else
+    	{
+    		$("#canitOverlay a.view-logs").text("View Log");
+    	}
+    	rowHover($(this), '#nonCanitOverlay', $(this).attr('class'));
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header

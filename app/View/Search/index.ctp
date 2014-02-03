@@ -171,7 +171,7 @@ if ($show_table) {
 
             $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-            $canit_table_string = "<table class='results'>" .
+            $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>CanIt Results</td>" .
@@ -238,7 +238,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($routerResults as $row) {
-                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "Even-Row" : "Odd-Row") . "'>" .
+                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>" .
                     "<td>" . $row['Date'] . "</td>" .
                     "<td>" . $row['Time'] . "</td>" .
                     "<td>" . $row['Sender'] . "</td>" .
@@ -267,7 +267,7 @@ if ($show_table) {
 
             $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
-            $exchange_table_string = "<table class='results'>" .
+            $exchange_table_string = "<table class='results exchange'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
                 "<td colspan='6'>Exchange Results</td>" .
@@ -281,7 +281,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($exchangeResults as $row) {
-                $exchange_table_string = $exchange_table_string . "<tr>" .
+                $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " log'>" .
                     "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . $row['sender_address'] . "</td>" .
@@ -303,10 +303,16 @@ if ($show_table) {
 
 </div>
 
-<div id="rowOverlay" style="" class="rowOverlay">
+<div id="canitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
-    <a href="#" id ="viewLogs">View Logs</a>
+    <a class="viewLogs">View Logs</a>
     <a href="#">Open in CanIt</a>
+    </span>
+</div>
+    
+<div id="nonCanitOverlay" style="" class="rowOverlay">
+    <span class="external-link-wrap">
+    <a class="viewLogs">View Logs</a>
     </span>
 </div>
 
