@@ -33,7 +33,7 @@ body, html {
 	background: white;
 	font-size:16px;
 
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
 	width: 100%;
 }
 
@@ -63,7 +63,7 @@ form.search {
 
 form.search h1 {
 	margin: 1em 0 .5em .625em;
-	font-family: 'PT Serif';
+	font-family: 'PT Serif', Georgia, Palatino, Serif;
 	color: #003b65;
 }
 
@@ -122,7 +122,7 @@ form.search input:active, form.search input:focus {
 form.search select {
 	font-family: inherit;
 	font-size: inherit;
-	background:url('../img/down_chevron.png') left center no-repeat #196499;
+	background:url('/img/down_chevron.png') left center no-repeat #196499;
 	padding: 5px 5px 5px 20px;
 	border: 1px solid #003b65;
 	color: white;
@@ -140,7 +140,7 @@ form.search select::-ms-expand {
 /* Browser hack to get rid of dropdown - FF for Mac (Fix doesn't work on Windows) */
 @-moz-document url-prefix() {
 form.search span.moz-select-wrap {
-	background:url('../img/down_chevron.png') left center no-repeat #196499;
+	background:url('/img/down_chevron.png') left center no-repeat #196499;
 	padding: 5px 5px 5px 0px;
 	border: 1px solid #003b65;
 	color: white;
@@ -252,7 +252,7 @@ div.server-select div.server-arrow {
 	display: block;
 	float:left;
 	border:1px solid white;
-	background:url('../img/server_arrow.png') center center no-repeat #ccc;
+	background:url('/img/server_arrow.png') center center no-repeat #ccc;
 }
 
 div.server-select div.server-arrow.on {
@@ -266,11 +266,11 @@ div.server-select div.box-selector div.status-indicator
 	right: -12px;
 	height: 25px;
 	width: 25px;
-	background: url('../img/server_no.png') center center no-repeat transparent;
+	background: url('/img/server_no.png') center center no-repeat transparent;
 }
 
 div.server-select div.box-selector.on div.status-indicator {
-	background-image:url('../img/server_yes.png');
+	background-image:url('/img/server_yes.png');
 }
 
 div.server-select input[type="checkbox"]
@@ -377,6 +377,11 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
+span.canit-sender, span.canit-recipients {
+	text-overflow: ellipsis;
+	max-width: 200px;
+}
+
 table tr.log.even-row:hover
 {
 	background: #EFF6FC;
@@ -392,7 +397,7 @@ table.results tr.log p {
 	font-size: .875em;
 	padding: 10px 20px;
 	text-align: left;
-	font-family: "Source Code Pro";
+	font-family: "Source Code Pro", courier new, courier, sans-serif;
 }
 
 table.results td span.spam-score-good,
@@ -445,5 +450,9 @@ div.rowOverlay .external-link-wrap a {
 
 div.rowOverlay .external-link-wrap a:hover {
 	background: #003b65;
+	cursor: pointer;
+}
+
+a.view-logs:hover {
 	cursor: pointer;
 }
