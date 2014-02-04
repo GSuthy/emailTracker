@@ -64,11 +64,12 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
+		'host' => 'sienna.byu.edu',
+		'login' => 'oit#greplog',
+		'password' => 'HiddyH0Neighbor',
+		'database' => 'syslog',
 		'prefix' => '',
+		'port' => '3306',
 		//'encoding' => 'utf8',
 	);
 
