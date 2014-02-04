@@ -200,3 +200,13 @@ Stack Trace:
 #3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
 #4 [internal function]: App::shutdown()
 #5 {main}
+2014-02-04 09:13:05 Error: Fatal Error (4): syntax error, unexpected 'mysqli_close' (T_STRING), expecting function (T_FUNCTION) in [C:\apps\xampp\htdocs\emailTracker\app\Vendor\RouterAPI\RouterClient.php, line 174]
+2014-02-04 09:13:05 Error: [FatalErrorException] syntax error, unexpected 'mysqli_close' (T_STRING), expecting function (T_FUNCTION)
+Request URL: /emailTracker/search
+Stack Trace:
+#0 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Error\ErrorHandler.php(203): ErrorHandler::handleFatalError(4, 'syntax error, u...', 'C:\apps\xampp\h...', 174)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', 'C:\apps\xampp\h...', 174, Array)
+#2 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(929): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', 'C:\apps\xampp\h...', 174, Array)
+#3 C:\apps\xampp\htdocs\emailTracker\lib\Cake\Core\App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
