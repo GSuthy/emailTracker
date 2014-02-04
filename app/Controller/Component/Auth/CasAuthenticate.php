@@ -1,9 +1,11 @@
 <?php
 
 App::import('Vendor', 'CAS/CAS');
+App::uses('BaseAuthenticate', 'Controller/Component/Auth');
 
-class CasAuthenticate {
-    private $_Collection = NULL;
+class CasAuthenticate extends BaseAuthenticate {
+    //This has to be protected to work
+    protected $_Collection = NULL;
 
     function __construct($collection, $settings) {
         $this->_Collection = $collection;
@@ -30,7 +32,11 @@ class CasAuthenticate {
         return array_merge(array('username' => phpCAS::getUser()), phpCAS::getAttributes());
     }
 
-    public function getUser($request) {
+    public function unauthenticated(CakeRequest $request, CakeResponse $response) {
+        $this->authenticate($request, $response);
+    }
+
+    public function getUser(CakeRequest $request) {
         return FALSE;
     }
 
