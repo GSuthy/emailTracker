@@ -74,7 +74,8 @@ class RouterClient {
         }
         $query .= "AND ReceivedAt >= '" . $startDttm . "' AND ReceivedAt <= '" . $endDttm . "' ORDER by ReceivedAt DESC LIMIT " . $maxResults;
 
-        $con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
+//        $con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "syslog");
+        $con = mysqli_connect("sienna.byu.edu", "oit#greplog", "HiddyH0Neighbor", "syslog", "3306");
         if (mysqli_connect_errno())
         {
             return RouterClient::routerError("Failed to connect to database: " . mysqli_connect_error()); //TODO: better fail message
@@ -121,9 +122,9 @@ class RouterClient {
                 }
             }
 
+            $temp_recipients = Array();
             if (preg_match("/(.*to=[<]?)|(>,<)|([>]?,\s.*)/", $log_lines[count($log_lines) - 1]['Message'])) {
                 $message_to = preg_split("/(.*to=[<]?)|(>,<)|([>]?,\s.*)/", $log_lines[count($log_lines) - 1]['Message']);
-                $temp_recipients = Array();
                 foreach ($message_to as $temp_recip) {
                     if ($temp_recip != "") {
                         array_push($temp_recipients, $temp_recip);
