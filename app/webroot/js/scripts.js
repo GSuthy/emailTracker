@@ -25,8 +25,15 @@ function checkboxHandler(name, onOrOff) {
 	$(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
-function rowExpander(currentRowClass)
+function rowExpander(currentHoveredRow)
 {
+    if(currentHoveredRow.hasClass("exchange")) {
+        var internalMessageId = currentHoveredRow[0]['cells'][4].innerHTML;
+        var maxResults = 1000;
+        
+        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + "HELLO" + '</p></td></tr>';
+        $(insertionText).insertAfter('tr.tr-hover-state');
+    } else {
 	$.ajax
 	({
 		type: "GET",
@@ -35,9 +42,10 @@ function rowExpander(currentRowClass)
 	})
 	.done(function(data)
 	{
-		var insertionText = '<tr class="log ' + currentRowClass + '"><td colspan="7"><p>' + data + '</p></td></tr>';
+		var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
 		$(insertionText).insertAfter('tr.tr-hover-state');
 	});
+    }
 };
 
 function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
@@ -62,12 +70,12 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
         // Properly define the height of the .external-link-wrap in #divOverlay
         $rowOverlay.children('.external-link-wrap').css({
-        	height: rowHeight - 2
+            height: rowHeight - 2
         });
 
         // This vertically aligns the <a>s in the #rowOverlay
         $rowOverlay.find('a').css({
-        	'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
+            'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
         });
 
         // This adds the class so you can change the color of the entire row	
@@ -76,21 +84,20 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
     	// unbinds the click function so it doesn't fire tons of log queries
     	$(document).find("a.view-logs").off("click");
 
-            //alert ("FIRE11!!!");
-		// Binds the click function to the "view logs"    	
+            // Binds the click function to the "view logs"    	
 	    $rowOverlay.find("a.view-logs").on("click", function()
 	    {
 	    	// Closes the log if it's currently open
 	    	if($(currentHoveredRow).next().hasClass('log'))
 	    	{
-	    		$(currentHoveredRow).next().remove();
-	    		$(this).text("View Log");
-	 		}
-	 		// Opens the log if it's not open
-	 		else
-	 		{
-	    		rowExpander(currentRowClass);
-	    		$(this).text("Close Log");
+                    $(currentHoveredRow).next().remove();
+                    $(this).text("View Log");
+                }
+                // Opens the log if it's not open
+                else
+                {
+                    rowExpander(currentHoveredRow);
+                    $(this).text("Close Log");
 	    	}
 	    });
 };
@@ -106,10 +113,10 @@ $(document).ready(function() {
 	    defaultDate: 0,
 
 	    // 'setDate', new Date(),
-		onClose: function( selectedDate ) 
-		{
-			$( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
-		}
+            onClose: function( selectedDate ) 
+            {
+                $( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
+            }
 	});
 	$( "#datepickerEnd" ).datepicker({
 	    inline: true,  
