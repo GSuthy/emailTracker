@@ -37,8 +37,7 @@ css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='st
 <div id="banner">
 
     <div class="row">
-        <img src="/img/byu-logo.gif" />
-
+        <?php echo $this->Html->image('byu-logo.gif', array()); ?>
     </div>
 
 </div>
