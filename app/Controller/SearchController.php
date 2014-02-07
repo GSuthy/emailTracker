@@ -9,5 +9,4 @@ class SearchController extends AppController {
 		App::import('Vendor', 'ExchangeAPI/ExchangeClient');
 		App::import('Vendor', 'settings');
 	}
-	
 }
