@@ -35,6 +35,6 @@ class AppController extends Controller {
 
 	public function beforeFilter() {
 		//Force authentication to get to the page
-		$this->Auth->authenticate = array('CAS');
+		$this->Auth->authenticate = array('Cas');
 	}
 }
