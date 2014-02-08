@@ -33,6 +33,29 @@ function rowExpander(currentHoveredRow)
         
         var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + "HELLO" + '</p></td></tr>';
         $(insertionText).insertAfter('tr.tr-hover-state');
+    } else if (currentHoveredRow.hasClass("canit")) {
+        var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
+        var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
+
+        var logs = "";
+        $.ajax
+        ({
+            type: "POST",
+            url: "Search/canitlogs",
+            data: {queue_id: queueId, reporting_host: reportingHost},
+            dataType: "json",
+            success: function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    logs += data[i] + "<br/><br/>";
+                }
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            }
+        });
+//        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+//        $(insertionText).insertAfter('tr.tr-clicked-state');
+
     } else {
 	$.ajax
 	({
@@ -96,6 +119,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
                 // Opens the log if it's not open
                 else
                 {
+                    $(currentHoveredRow).addClass('tr-clicked-state');
                     rowExpander(currentHoveredRow);
                     $(this).text("Close Log");
 	    	}

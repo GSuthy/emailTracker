@@ -169,7 +169,7 @@ if ($show_table) {
     if (!$hasErrors) {
         if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
 
-            $canitResults = CanitClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
 
             $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
@@ -183,11 +183,13 @@ if ($show_table) {
                 "<th>Subject</th>" .
                 "<th>Status</th>" .
                 "<th>Score</th>" .
+                "<th hidden>Queue ID</th>" .
+                "<th hidden>Reporting Host</th>" .
                 "</tr>";
 
             $is_even = true;
             foreach($canitResults as $canit_row){
-                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>".
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
                     "<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
@@ -206,6 +208,8 @@ if ($show_table) {
                     "<td>" . $canit_row['subject'] . "</td>" .
                     "<td>" . $canit_row['what'] . "</td>" .
                     "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
                 $is_even = !$is_even;
             }
 
@@ -238,7 +242,7 @@ if ($show_table) {
 
             $is_even = true;
             foreach($routerResults as $row) {
-                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . "'>" .
+                $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " routers'>" .
                     "<td>" . $row['Date'] . "</td>" .
                     "<td>" . $row['Time'] . "</td>" .
                     "<td>" . $row['Sender'] . "</td>" .
