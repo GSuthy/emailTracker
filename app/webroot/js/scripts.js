@@ -53,8 +53,6 @@ function rowExpander(currentHoveredRow)
                 $(insertionText).insertAfter('tr.tr-clicked-state');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
-//        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
-//        $(insertionText).insertAfter('tr.tr-clicked-state');cd /o
 
     } else {
 	$.ajax
@@ -124,6 +122,16 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
                     $(this).text("Close Log");
 	    	}
 	    });
+
+        $(document).find("a.view-in-canit").off("click");
+
+        $rowOverlay.find("a.view-in-canit").on("click", function()
+        {
+            var rlm = currentHoveredRow[0]['cells'][9].innerHTML;
+            var id = currentHoveredRow[0]['cells'][10].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showmsg.php?rlm=" + rlm + "&id=" + id;
+            window.open(url, '_blank');
+        });
 };
 
 $(document).ready(function() {

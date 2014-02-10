@@ -185,6 +185,9 @@ if ($show_table) {
                 "<th>Score</th>" .
                 "<th hidden>Queue ID</th>" .
                 "<th hidden>Reporting Host</th>" .
+                "<th hidden>Reporting Host</th>" .
+                "<th hidden>Realm</th>" .
+                "<th hidden>Message ID</th>" .
                 "</tr>";
 
             $is_even = true;
@@ -210,6 +213,8 @@ if ($show_table) {
                     "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['incident_id'] . "</td>";
                 $is_even = !$is_even;
             }
 
@@ -310,7 +315,7 @@ if ($show_table) {
 <div id="canitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a class="view-logs">View Logs</a>
-    <a href="#" id="canitLink">Open in CanIt</a>
+    <a class="view-in-canit">Open in CanIt</a>
     </span>
 </div>
     
