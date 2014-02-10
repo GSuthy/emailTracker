@@ -287,7 +287,7 @@ if ($show_table) {
                     "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                     "<td>" . $row['sender_address'] . "</td>" .
                     "<td>" . $row['message_subject'] . "</td>" .
-					"<td>" . $row['internal_message_id'] . "</td>" .
+                    "<td>" . $row['internal_message_id'] . "</td>" .
                     "</tr>\n";
                 $is_even = !$is_even;
             }

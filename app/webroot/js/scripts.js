@@ -31,19 +31,52 @@ function rowExpander(currentHoveredRow)
         var internalMessageId = currentHoveredRow[0]['cells'][4].innerHTML;
         var maxResults = 1000;
         
-        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + "HELLO" + '</p></td></tr>';
-        $(insertionText).insertAfter('tr.tr-hover-state');
-    } else {
-	$.ajax
+        $.ajax
 	({
-		type: "GET",
-	  	url: "../ajaxtest.php",
-	  	data: {ID: "5"}
+            type: "GET",
+            url: "/exchange/getAdditionalLogs",
+            data: {
+                internal_message_id: internalMessageId,
+                max_results: maxResults                    
+            }
 	})
 	.done(function(data)
 	{
-		var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
-		$(insertionText).insertAfter('tr.tr-hover-state');
+            var insertionText = "";
+            
+            insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
+            insertionText += '<td><p>EVENT</p></td>';
+            insertionText += '<td><p>RECIPIENT ADDRESS</p></td>';
+            insertionText += '<td><p>CLIENT HOSTNAME</p></td>';
+            insertionText += '<td><p>SERVER HOSTNAME</p></td>';
+            insertionText += '</tr>';
+            for(var rowIndex in data) {
+                var row = data[rowIndex];
+                insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
+                insertionText += '<td><p>' + row["event_id"] + '</p></td>';
+                insertionText += '<td><p>' + row["recipient_address"] + '</p></td>';
+                insertionText += '<td><p>' + row["client_hostname"] + '</p></td>';
+                insertionText += '<td><p>' + row["server_hostname"] + '</p></td>';
+                insertionText += '</tr>';
+            }            
+            
+            $(insertionText).insertAfter('tr.tr-hover-state');
+	})
+        .fail(function(data) {
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>An error occurred</p></td></tr>';
+            $(insertionText).insertAfter('tr.tr-hover-state');
+        });
+    } else {
+	$.ajax
+	({
+            type: "GET",
+            url: "../ajaxtest.php",
+            data: {ID: "5"}
+	})
+	.done(function(data)
+	{
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
+            $(insertionText).insertAfter('tr.tr-hover-state');
 	});
     }
 };
