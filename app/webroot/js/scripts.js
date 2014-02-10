@@ -54,7 +54,7 @@ function rowExpander(currentHoveredRow)
             }
         });
 //        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
-//        $(insertionText).insertAfter('tr.tr-clicked-state');
+//        $(insertionText).insertAfter('tr.tr-clicked-state');cd /o
 
     } else {
 	$.ajax
