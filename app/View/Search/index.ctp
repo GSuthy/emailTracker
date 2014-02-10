@@ -310,7 +310,7 @@ if ($show_table) {
 <div id="canitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a class="view-logs">View Logs</a>
-    <a href="#">Open in CanIt</a>
+    <a href="#" id="canitLink">Open in CanIt</a>
     </span>
 </div>
     

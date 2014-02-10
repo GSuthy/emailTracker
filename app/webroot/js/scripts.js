@@ -43,16 +43,16 @@ function rowExpander(currentHoveredRow)
             type: "POST",
             url: "Search/canitlogs",
             data: {queue_id: queueId, reporting_host: reportingHost},
-            dataType: "json",
-            success: function(data) {
+            dataType: "json"
+        })
+            .done(function(data) {
                 for (var i = 0; i < data.length; i++) {
                     logs += data[i] + "<br/><br/>";
                 }
                 var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
                 $(insertionText).insertAfter('tr.tr-clicked-state');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
-            }
-        });
+            });
 //        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
 //        $(insertionText).insertAfter('tr.tr-clicked-state');cd /o
 
