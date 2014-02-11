@@ -14,8 +14,33 @@ class Routers extends AppModel {
     }
 
     public function getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
-        if ($recipient_contains) {
+        if (!is_null($sender)) {
+            if (empty($sender)) {
+                $sender = null;
+            } else if ($sender_contains) {
+                $sender = "%" . $sender . "%";
+            }
+        }
+
+        if (!is_null($recipient)) {
+            if (empty($recipient)) {
+                $recipient = null;
+            } else if ($recipient_contains) {
+                $recipient = "%" . $recipient . "%";
+            }
+        }
+
+        $to_and_from = false;
+        if (!is_null($sender) && is_null($recipient)) {
+
+        } else if (is_null($sender) && !is_null($recipient)) {
+
+        } else if (!is_null($sender) && !is_null($recipient)) {
+            $to_and_from = true;
+        } else {
 
         }
+
+
     }
 }
