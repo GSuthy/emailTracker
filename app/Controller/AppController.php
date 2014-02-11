@@ -31,10 +31,12 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	public $components = array('Auth');
+    public $helpers = array('Js' => array('JQuery'));
+	public $components = array('Auth', 'DebugKit.Toolbar');
 
 	public function beforeFilter() {
 		//Force authentication to get to the page
 		$this->Auth->authenticate = array('Cas');
+        $this->set('authUser', $this->Auth->user());
 	}
 }

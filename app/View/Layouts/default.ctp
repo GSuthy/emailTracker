@@ -57,5 +57,6 @@ $cakeDescription = __d('cake_dev', 'Email Tracking and Filtering');
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>
+    <?php $this->Js->writeBuffer(); ?>
 </body>
 </html>

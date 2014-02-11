@@ -66,6 +66,27 @@ function rowExpander(currentHoveredRow)
             var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>An error occurred</p></td></tr>';
             $(insertionText).insertAfter('tr.tr-hover-state');
         });
+    } else if (currentHoveredRow.hasClass("canit")) {
+        var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
+        var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
+
+        var logs = "";
+        $.ajax
+        ({
+            type: "POST",
+            url: "Search/canitlogs",
+            data: {queue_id: queueId, reporting_host: reportingHost},
+            dataType: "json"
+        })
+            .done(function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    logs += data[i] + "<br/><br/>";
+                }
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            });
+
     } else {
 	$.ajax
 	({
@@ -129,10 +150,21 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
                 // Opens the log if it's not open
                 else
                 {
+                    $(currentHoveredRow).addClass('tr-clicked-state');
                     rowExpander(currentHoveredRow);
                     $(this).text("Close Log");
 	    	}
 	    });
+
+        $(document).find("a.view-in-canit").off("click");
+
+        $rowOverlay.find("a.view-in-canit").on("click", function()
+        {
+            var rlm = currentHoveredRow[0]['cells'][9].innerHTML;
+            var id = currentHoveredRow[0]['cells'][10].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?rlm=" + rlm + "&id=" + id;
+            window.open(url, '_blank');
+        });
 };
 
 $(document).ready(function() {

@@ -5,7 +5,7 @@
 
 	date_default_timezone_set('America/Denver');
 
-class CanitClient {
+class CanItClient {
 
 
     private static function canitError($errorMessage){
@@ -26,7 +26,7 @@ class CanitClient {
         $search_string = 'log/search/0/'.$maxResults.'?sender='.$sender.'&recipients='.$recipient.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
 
         if (!$startDttm) {
-            return CanitClient::canitError("Must specify a start date"); //TODO: better fail message
+            return CanItClient::canitError("Must specify a start date"); //TODO: better fail message
         }
 
         if ($sender_contains)
@@ -51,6 +51,22 @@ class CanitClient {
 	    } else {
             return $results;
         }
+    }
 
+    public static function getLogs($queue_id, $reporting_host) {
+        $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
+        $api = new CanItAPIClient($canit_url);
+        $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
+        $users = $api->do_get('realm/@@/users');
+        $search_string = 'log/' . $queue_id . '/' . $reporting_host;
+
+        $results = $api->do_get($search_string);
+
+        if (!$api->succeeded()) {
+            print "GET request failed: " . $api->get_last_error() . "\n";
+            return null;
+        } else {
+            return $results[0]['loglines'];
+        }
     }
 }
