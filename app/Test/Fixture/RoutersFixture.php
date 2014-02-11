@@ -3,7 +3,7 @@
  * SystemeventFixture
  *
  */
-class SystemeventFixture extends CakeTestFixture {
+class RoutersFixture extends CakeTestFixture {
 
 /**
  * Fields

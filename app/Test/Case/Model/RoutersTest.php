@@ -1,11 +1,11 @@
 <?php
-App::uses('Systemevent', 'Model');
+App::uses('Routers', 'Model');
 
 /**
  * Systemevent Test Case
  *
  */
-class SystemeventTest extends CakeTestCase {
+class RoutersTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,7 +13,7 @@ class SystemeventTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.systemevent'
+		'app.routers'
 	);
 
 /**
@@ -23,7 +23,7 @@ class SystemeventTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Systemevent = ClassRegistry::init('Systemevent');
+		$this->Routers = ClassRegistry::init('Routers');
 	}
 
 /**
@@ -32,7 +32,7 @@ class SystemeventTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Systemevent);
+		unset($this->Routers);
 
 		parent::tearDown();
 	}

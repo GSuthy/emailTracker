@@ -231,6 +231,7 @@ if ($show_table) {
 
         if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
 
+
             $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
             $router_table_string = "<table class='results routers'>" .

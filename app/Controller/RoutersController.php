@@ -6,6 +6,10 @@ class RoutersController extends AppController {
     public $uses = array('Routers');
 
     public function index() {
-        $this->Routers->getTable();
+        $this->Routers->test();
+    }
+
+    public function getTable() {
+
     }
 }
