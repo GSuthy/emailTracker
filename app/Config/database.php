@@ -61,30 +61,41 @@
  */
 class DATABASE_CONFIG {
 
-	public $default = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'sienna.byu.edu',
-		'login' => 'oit#greplog',
-		'password' => 'HiddyH0Neighbor',
-		'database' => 'syslog',
-		'prefix' => '',
-		'port' => '3306',
-		//'encoding' => 'utf8',
-	);
+    public $default = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'user',
+        'password' => 'password',
+        'database' => 'test_database_name',
+        'prefix' => '',
+        //'encoding' => 'utf8',
+    );
 
-	public $mysql_test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'sienna.byu.edu',
-		'login' => 'oit#greplog',
-		'password' => 'HiddyH0Neighbor',
-		'database' => 'syslog',
-		'prefix' => '',
-		'port' => '3306',
-		//'encoding' => 'utf8',
-	);
-	
+    public $routers = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'sienna.byu.edu',
+        'login' => 'oit#greplog',
+        'password' => 'HiddyH0Neighbor',
+        'database' => 'syslog',
+        'prefix' => '',
+        'port' => '3306',
+        //'encoding' => 'utf8',
+    );
+
+    public $exchange = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'sienna.byu.edu',
+        'login' => 'oit#greplog',
+        'password' => 'HiddyH0Neighbor',
+        'database' => 'exchange',
+        'prefix' => '',
+        'port' => '3306',
+        //'encoding' => 'utf8',
+    );
+
 	public $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,

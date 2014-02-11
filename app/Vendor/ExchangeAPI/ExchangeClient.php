@@ -65,7 +65,7 @@ class ExchangeClient {
 		
 		//echo $query . "<br>";
 					
-		$con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "exchange");
+		$con = mysqli_connect("sienna.byu.edu", "oit#greplog", "HiddyH0Neighbor", "exchange", "3306");
 		if (mysqli_connect_errno())
 		{
 			return ExchangeClient::exchangeError("Failed to connect to database: " . mysqli_connect_error()); //TODO: better failure message
