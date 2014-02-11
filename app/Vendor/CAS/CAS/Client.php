@@ -3084,11 +3084,13 @@ class CAS_Client
     private function _getServerUrl()
     {
         $server_url = '';
-        if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+		//REVERSE PROXY on home-dev.byu.edu adds unnecessary ":443" to the X_FOWARDED_HOST, so ignore it
+        /*if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
             // explode the host list separated by comma and use the first host
             $hosts = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
             $server_url = $hosts[0];
-        } else if (!empty($_SERVER['HTTP_X_FORWARDED_SERVER'])) {
+        } else */
+		if (!empty($_SERVER['HTTP_X_FORWARDED_SERVER'])) {
             $server_url = $_SERVER['HTTP_X_FORWARDED_SERVER'];
         } else {
             if (empty($_SERVER['SERVER_NAME'])) {
