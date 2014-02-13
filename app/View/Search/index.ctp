@@ -30,6 +30,14 @@
     <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
 
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(O),
+            m=s.getElementsByTagName(O)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47977201-1', 'byu.edu');
+        ga('send', 'pageview');
+    </script>
 </head>
 <body>
 
@@ -42,11 +50,31 @@
             </a>
         </div>
         <div id="button-container">
-            <a href="//cas.byu.edu/cas/logout?url=http://www.byu.edu" class="button">Logout</a>
+            <?php echo $this->Html->link('Logout', array(
+                'controller' => 'Users',
+                'action' => 'logout'), array('class' => 'button')
+            ); ?>
         </div>
     </div>
 </header>
 </div>
+
+<?php
+
+if (!$authorized) {
+    echo "<div class='container-error''>";
+    echo "<form class='error'>";
+    echo "<div class='rowError'>";
+    echo "<h1>Email Tracking &amp; Filtering</h1>";
+    echo "<h2>You are not authorized to view this page.";
+    echo "<h2>If you believe you have received this message in error, please contact...";
+    echo "</div>";
+    echo "</form>";
+    echo "</div>";
+    die();
+}
+
+?>
 
 <div class="container">
 
@@ -91,20 +119,20 @@
                 <h4>CanIt</h4><p>(Spam Filtering)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if (($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
+            <div <?php if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if (($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
             <!-- Checkboxes for Server Selection -->
             <input type="checkbox" name="canitSelect" value="CanIt" <?php if (($show_table && isset($_POST['canitSelect'])) || !$show_table) echo "checked='checked'"; ?>>
-            <input type="checkbox" name="routerSelect" value="Routers" <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "checked='checked'"; ?>>
-            <input type="checkbox" name="exchangeSelect" value="Exchange" <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="routerSelect" value="Routers" <?php if ($show_table && isset($_POST['routerSelect'])) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="exchangeSelect" value="Exchange" <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "checked='checked'"; ?>>
         </div>
 
         <div class="column grid_6 date-and-time">
@@ -165,7 +193,7 @@ if ($show_table) {
 
     $max_results = 20;
     $warning_level_spam_score = 5;
-    $maximum_spam_score = 30;
+    $auto_reject_spam_score = 18;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 
@@ -211,8 +239,8 @@ if ($show_table) {
                 $canit_spam_score = $canit_row['score'];
                 if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
                 else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
-                else if ($canit_spam_score > $maximum_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
-                else { $canit_spam_score_string = "spam-score-warning"; }
+                else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
+                else { $canit_spam_score_string = "spam-score-rejected"; }
 
                 $canit_table_string .= "</span></td>" .
                     "<td>" . $canit_row['subject'] . "</td>" .
@@ -237,8 +265,6 @@ if ($show_table) {
          */
 
         if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
-
-            $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
             $router_table_string = "<table class='results routers'>" .
                 "<tbody>" .

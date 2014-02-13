@@ -38,6 +38,8 @@ class AppController extends Controller {
 		//Force authentication to get to the page
 		$this->Auth->authenticate = array('Cas');
         $this->set('authUser', $this->Auth->user());
-        $this->set('userRoles', explode(',', $this->Auth->user()['memberOf']));
+        $userInfo = $this->Auth->user();
+        $userRoles = explode(',', $userInfo['memberOf']);
+        $this->set('authorized', in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
 	}
 }
