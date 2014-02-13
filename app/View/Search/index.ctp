@@ -56,6 +56,23 @@
 </header>
 </div>
 
+<?php
+
+if (!$authorized) {
+    echo "<div class='container-error''>";
+    echo "<form class='error'>";
+    echo "<div class='rowError'>";
+    echo "<h1>Email Tracking &amp; Filtering</h1>";
+    echo "<h2>You are not authorized to view this page.";
+    echo "<h2>If you believe you have received this message in error, please contact...";
+    echo "</div>";
+    echo "</form>";
+    echo "</div>";
+    die();
+}
+
+?>
+
 <div class="container">
 
 <!-- Start Search box -->
@@ -99,20 +116,20 @@
                 <h4>CanIt</h4><p>(Spam Filtering)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if (($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
+            <div <?php if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if (($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
+            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
             <!-- Checkboxes for Server Selection -->
             <input type="checkbox" name="canitSelect" value="CanIt" <?php if (($show_table && isset($_POST['canitSelect'])) || !$show_table) echo "checked='checked'"; ?>>
-            <input type="checkbox" name="routerSelect" value="Routers" <?php if (($show_table && isset($_POST['routerSelect'])) || !$show_table) echo "checked='checked'"; ?>>
-            <input type="checkbox" name="exchangeSelect" value="Exchange" <?php if (($show_table && isset($_POST['exchangeSelect'])) || !$show_table) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="routerSelect" value="Routers" <?php if ($show_table && isset($_POST['routerSelect'])) echo "checked='checked'"; ?>>
+            <input type="checkbox" name="exchangeSelect" value="Exchange" <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "checked='checked'"; ?>>
         </div>
 
         <div class="column grid_6 date-and-time">
@@ -173,7 +190,7 @@ if ($show_table) {
 
     $max_results = 20;
     $warning_level_spam_score = 5;
-    $maximum_spam_score = 30;
+    $auto_reject_spam_score = 18;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 
@@ -219,8 +236,8 @@ if ($show_table) {
                 $canit_spam_score = $canit_row['score'];
                 if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
                 else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
-                else if ($canit_spam_score > $maximum_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
-                else { $canit_spam_score_string = "spam-score-warning"; }
+                else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
+                else { $canit_spam_score_string = "spam-score-rejected"; }
 
                 $canit_table_string .= "</span></td>" .
                     "<td>" . $canit_row['subject'] . "</td>" .

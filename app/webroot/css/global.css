@@ -118,10 +118,35 @@ form.search h1 {
 	color: #003b65;
 }
 
-span.recipient {
-	float: left;
-	width: 49.5%;
+div.container-error {
+    width:62em;
+    margin:0 auto;
+    text-align: center;
 }
+
+form.error {
+    border: 1px solid #ccc;
+    border-top-width: 0;
+}
+
+form.error h1 {
+    margin: 1em 0 .5em .625em;
+    font-family: 'PT Serif', Georgia, Palatino, Serif;
+    color: #003b65;
+}
+
+form.error h2 {
+    margin: 1em 0 .5em .625em;
+    font-family: 'PT Serif', Georgia, Palatino, Serif;
+    color: #003b65;
+}
+
+.rowError {width: 60em; /* 960px / 16px  */
+    margin: 0 auto;
+    overflow: hidden;}
+.rowError .rowError {margin: 0 -1.04167% 0 -1.04167%; /* 10px / 960px */
+    width: auto;
+    display: inline-block;}
 
 span.sender {
 	float: right;
@@ -456,21 +481,21 @@ table.results tr.log p {
 
 table.results td span.spam-score-good,
 table.results td span.spam-score-quarantined,
-table.results td span.spam-score-warning 
+table.results td span.spam-score-rejected
 {
 	background: #cbe7d3;
 	padding: 2px;
 	border-radius: 4px;
 }
 
-table.results td span.spam-score-warning {
-	background: #EE8800;
-	color: white;
+table.results td span.spam-score-quarantined {
+    background: #EE8800;
+    color: white;
 }
 
-table.results td span.spam-score-quarantined {
-	background: #990011;
-	color: white;
+table.results td span.spam-score-rejected {
+    background: #990011;
+    color: white;
 }
 
 
