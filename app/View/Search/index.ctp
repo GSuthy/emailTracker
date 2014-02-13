@@ -50,7 +50,10 @@
             </a>
         </div>
         <div id="button-container">
-            <a href="//cas.byu.edu/cas/logout?url=http://www.byu.edu" class="button">Logout</a>
+            <?php echo $this->Html->link('Logout', array(
+                'controller' => 'Users',
+                'action' => 'logout'), array('class' => 'button')
+            ); ?>
         </div>
     </div>
 </header>
@@ -262,9 +265,6 @@ if ($show_table) {
          */
 
         if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
-
-
-//            $routerResults = RouterClient::getRouterResults($recipient, $recipientContains, $sender, $senderContains, $startDttm, $endDttm, $max_results);
 
             $router_table_string = "<table class='results routers'>" .
                 "<tbody>" .
