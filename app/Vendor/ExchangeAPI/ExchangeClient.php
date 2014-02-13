@@ -84,7 +84,7 @@ class ExchangeClient {
 		return $returnValue;
 	}
 	
-	public static function getAdditionalLogs($internal_message_id, $maxResults) {	
+	public static function getAdditionalLogs($internal_message_id, $utcMilliseconds, $maxResults) {	
 		if(is_null($internal_message_id)) {
 			return ExchangeClient::exchangeError("Must specify internal_message_id"); //TODO: better failure message;
 		}
@@ -92,13 +92,27 @@ class ExchangeClient {
 		if(is_null($maxResults) || !is_numeric($maxResults)) {
 			$maxResults = 20;
 		}
+                
+                if(is_null($utcMilliseconds) || !is_numeric($utcMilliseconds)) {
+                    return ExchangeClient::exchangeError("Invalid utcMilliseconds"); //TODO: better failure message
+                }
+                
+                $time = date_create("@" . (($utcMilliseconds / 1000) - (7 * 60 * 60)));
+                
+                if(empty($time)) {
+                    return ExchangeClient::exchangeError("Invalid timestamp"); //TODO: better failure message;
+                }
+                
+                $startDttm = clone $time;                
+                $startDttm->sub(new DateInterval("PT10M"));
+                $endDttm = clone $time;
+                $endDttm->add(new DateInterval("PT10M"));               
 		
 		$query = "SELECT logmain.date_time, logmain.client_hostname, logmain.server_hostname, logmain.event_id, logmain.sender_address, logmain.message_subject, logmain.internal_message_id, messagerecipients.recipient_address ";
 		$query .= "FROM logmain INNER JOIN messagerecipients ON logmain.id = messagerecipients.log_id ";
-		$query .= "WHERE " . $internal_message_id . " = logmain.internal_message_id ";
-		$query .= "LIMIT " . $maxResults;
-		
-		//echo $query . "<br>";
+                $query .= "WHERE (logmain.date_time BETWEEN \"" . date_format($startDttm, "Y-m-d H:i:s") . "\" AND \"" . date_format($endDttm, "Y-m-d H:i:s") . "\") ";
+		$query .= "AND " . $internal_message_id . " = logmain.internal_message_id ";
+                $query .= "LIMIT " . $maxResults;
 					
 		$con = mysqli_connect("sienna.byu.edu:3306", "oit#greplog", "HiddyH0Neighbor", "exchange");
 		if (mysqli_connect_errno())

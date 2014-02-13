@@ -28,6 +28,11 @@ function checkboxHandler(name, onOrOff) {
 function rowExpander(currentHoveredRow)
 {
     if(currentHoveredRow.hasClass("exchange")) {
+        var date = currentHoveredRow[0]['cells'][0].innerHTML;
+        var time = currentHoveredRow[0]['cells'][1].innerHTML;
+        
+        var timestamp = new Date(date + " " + time);
+        
         var internalMessageId = currentHoveredRow[0]['cells'][4].innerHTML;
         var maxResults = 1000;
         
@@ -37,19 +42,30 @@ function rowExpander(currentHoveredRow)
             url: "/exchange/getAdditionalLogs",
             data: {
                 internal_message_id: internalMessageId,
-                max_results: maxResults                    
-            }
+                max_results: maxResults,
+                utc_milliseconds: timestamp.getTime()
+            },
+            dataType: "json"
 	})
 	.done(function(data)
 	{
             var insertionText = "";
-            
             insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
             insertionText += '<td><p>EVENT</p></td>';
             insertionText += '<td><p>RECIPIENT ADDRESS</p></td>';
             insertionText += '<td><p>CLIENT HOSTNAME</p></td>';
             insertionText += '<td><p>SERVER HOSTNAME</p></td>';
             insertionText += '</tr>';
+            
+            if(data.hasOwnProperty('error')) {
+                insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
+                insertionText += '<td colspan="7"><p>error: ' + data['error'] + '</p></td>';
+                insertionText += '</tr>';
+                
+                $(insertionText).insertAfter('tr.tr-hover-state');
+                return;
+            }
+            
             for(var rowIndex in data) {
                 var row = data[rowIndex];
                 insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
