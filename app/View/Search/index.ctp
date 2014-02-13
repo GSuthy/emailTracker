@@ -42,11 +42,18 @@
 <body>
 
 <div id="banner">
-
-    <div class="row">
-        <?php echo $this->Html->image('byu-logo.gif', array()); ?>
+<header id="main-header">
+    <div id="header-top" class="wrapper">
+        <div id="logo">
+            <a href="http://www.byu.edu/" class="byu">
+                <?php echo $this->Html->image('byu-logo.gif', array()); ?>
+            </a>
+        </div>
+        <div id="button-container">
+            <a href="//cas.byu.edu/cas/logout?url=http://www.byu.edu" class="button">Logout</a>
+        </div>
     </div>
-
+</header>
 </div>
 
 <div class="container">

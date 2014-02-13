@@ -42,6 +42,57 @@ body, html {
      margin-bottom: 0.9375em;
 }
 
+#main-header { background: url("../img/header-bg.png") no-repeat scroll center top #025;
+    position:relative;
+    z-index: 500;
+    min-width: 1004px;
+}
+#header-top{
+    height: 38px;
+}
+
+#button-container {
+    position: absolute;
+    top: 6px;
+    padding-left: 835px;
+}
+
+.wrapper{
+    width: 940px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+a.button {
+    color: #fff;
+    display: block;
+    background: #628cb6;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #628cb6), color-stop(100%, #336699));
+    background-image: -webkit-linear-gradient(top, #628cb6 0%, #336699 100%);
+    background-image: -moz-linear-gradient(top, #628cb6 0%, #336699 100%);
+    background-image: -o-linear-gradient(top, #628cb6 0%, #336699 100%);
+    background-image: -ms-linear-gradient(top, #628cb6 0%, #336699 100%);
+    background-image: linear-gradient(top, #628cb6 0%, #336699 100%);
+    border-radius:14px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.25) inset,
+        0 1px 8px rgba(0, 0, 0, 0.2);
+    padding: 4px 28px;
+    float: left;
+    margin-right: 12px;
+    text-decoration: none;
+    font-weight: bold;
+}
+a.button:hover {
+    background: #369;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#369),color-stop(100%,#147));
+    background-image: -webkit-linear-gradient(top,#369 0,#147 100%);
+    background-image: -moz-linear-gradient(top,#369 0,#147 100%);
+    background-image: -o-linear-gradient(top,#369 0,#147 100%);
+    background-image: -ms-linear-gradient(top,#369 0,#147 100%);
+    background-image: linear-gradient(top,#369 0,#147 100%);
+}
+
 div#banner {
 	background: #003b65;
 	height: 40px;
