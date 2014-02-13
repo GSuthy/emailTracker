@@ -33,13 +33,13 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $helpers = array('Js' => array('JQuery'));
 	public $components = array('Auth', 'DebugKit.Toolbar');
-    public $authorized;
 
 	public function beforeFilter() {
 		//Force authentication to get to the page
 		$this->Auth->authenticate = array('Cas');
         $this->set('authUser', $this->Auth->user());
-        $userRoles = explode(',', $this->Auth->user()['memberOf']);
+        $userInfo = $this->Auth->user();
+        $userRoles = explode(',', $userInfo['memberOf']);
         $this->set('authorized', in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
 	}
 }
