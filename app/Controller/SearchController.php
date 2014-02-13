@@ -16,7 +16,6 @@ class SearchController extends AppController {
 		App::import('Vendor', 'settings');
 
         if ($this->request->is('post')) {
-//            $data = $this->request['data']['routerSelect'];
             if (isset($this->request['data']['routerSelect'])) {
                 $recipient = $this->request['data']['recipient'];
                 $recipient_contains = isset($this->request['data']['recipient_contains']) ? true : false;

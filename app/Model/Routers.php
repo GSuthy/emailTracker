@@ -31,16 +31,26 @@ class Routers extends AppModel {
         }
 
         $to_and_from = false;
+        $conditions = array();
         if (!is_null($sender) && is_null($recipient)) {
-
-        } else if (is_null($sender) && !is_null($recipient)) {
-
-        } else if (!is_null($sender) && !is_null($recipient)) {
-            $to_and_from = true;
+            $conditions['OR'] = array(
+                                        "Message LIKE" => "%from=<" . $sender . ">, size%",
+                                        "Message LIKE" => "%from=" . $sender . ", size%"
+                                     );
+        } else if (!is_null($recipient)) {
+            $conditions['OR'] = array(
+                                        "Message LIKE" => "%to=" . $recipient . ",%delay%",
+                                        "Message LIKE" => "%to=<" . $recipient . ">,%delay%"
+                                     );
         } else {
-
+            $condition['OR'] = array(
+                                        "Message LIKE" => "%to=%",
+                                        "Message LIKE" => "%from=%"
+                                    );
         }
+//        $conditions['ReceivedAt BETWEEN ? AND ?'] = array($startDttm, $endDttm);
 
-
+        $results = $this->find('all', array('conditions' => $conditions, 'order' => 'ReceivedAt DESC', 'limit' => 20, 'fields' => array('Message', 'ReceivedAt')));
+        return $results;
     }
 }
