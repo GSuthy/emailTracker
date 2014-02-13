@@ -148,6 +148,11 @@ form.error h2 {
     width: auto;
     display: inline-block;}
 
+span.recipient {
+    float: left;
+    width: 49%;
+}
+
 span.sender {
 	float: right;
 	width: 49%;
