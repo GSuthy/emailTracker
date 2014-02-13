@@ -42,6 +42,11 @@ body, html {
      margin-bottom: 0.9375em;
 }
 
+#main-header { background: url("../img/header-bg.png") no-repeat scroll center top #025;
+    position:relative;
+    z-index: 500;
+    min-width: 1004px;
+}
 #header-top{
     height: 38px;
 }
@@ -49,10 +54,10 @@ body, html {
 #button-container {
     position: absolute;
     top: 6px;
-    right: 475px;
+    padding-left: 835px;
 }
 
-.wrapper, #primary-nav ul {
+.wrapper{
     width: 940px;
     margin: 0 auto;
     padding: 0 32px;

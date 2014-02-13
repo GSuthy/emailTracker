@@ -34,7 +34,7 @@
 <body>
 
 <div id="banner">
-
+<header id="main-header">
     <div id="header-top" class="wrapper">
         <div id="logo">
             <a href="http://www.byu.edu/" class="byu">
@@ -45,7 +45,7 @@
             <a href="//cas.byu.edu/cas/logout?url=http://www.byu.edu" class="button">Logout</a>
         </div>
     </div>
-
+</header>
 </div>
 
 <div class="container">
