@@ -129,7 +129,8 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
         {
             var rlm = currentHoveredRow[0]['cells'][9].innerHTML;
             var id = currentHoveredRow[0]['cells'][10].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?rlm=" + rlm + "&id=" + id;
+            var stream = currentHoveredRow[0]['cells'][11].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + rlm + "&s=" + stream;
             window.open(url, '_blank');
         });
 };

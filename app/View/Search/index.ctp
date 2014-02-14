@@ -223,6 +223,7 @@ if ($show_table) {
                 "<th hidden>Reporting Host</th>" .
                 "<th hidden>Realm</th>" .
                 "<th hidden>Message ID</th>" .
+                "<th hidden>Stream</th>" .
                 "</tr>";
 
             $is_even = true;
@@ -250,6 +251,7 @@ if ($show_table) {
                 $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['incident_id'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['stream'] . "</td>";
                 $is_even = !$is_even;
             }
 
