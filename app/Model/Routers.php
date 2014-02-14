@@ -7,12 +7,6 @@ class Routers extends AppModel {
     public $useTable = 'systemevents';
 	public $primaryKey = 'ID';
 
-    public function test() {
-        $datasource = $this->getDataSource();
-        var_dump($datasource);
-        die();
-    }
-
     public function getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
         if (!is_null($sender)) {
             if (empty($sender)) {
@@ -46,6 +40,9 @@ class Routers extends AppModel {
                                         array("Message LIKE" => "%to=" . $recipient . ",%delay%"),
                                         array("Message LIKE" => "%to=<" . $recipient . ">,%delay%")
                                      );
+            if (!is_null($sender)) {
+                $to_and_from = true;
+            }
         } else {
             $condition['OR'] = array(
                                         array("Message LIKE" => "%to=%"),
@@ -58,13 +55,13 @@ class Routers extends AppModel {
 
         $results = array();
         if (!empty($temp_results)) {
-            $results = $this->formatResults($temp_results, $to_and_from, $sender_contains);
+            $results = $this->formatResults($temp_results, $to_and_from, $sender_contains, $sender);
         }
 
         return $results;
     }
 
-    private function formatResults($temp_results, $to_and_from, $sender_contains) {
+    private function formatResults($temp_results, $to_and_from, $sender_contains, $sender_search) {
         $results = array();
         foreach ($temp_results as $temp_result) {
             $datetime = date_create_from_format('Y-m-d H:i:s', $temp_result['Routers']['ReceivedAt']);
@@ -102,8 +99,12 @@ class Routers extends AppModel {
                 array_push($recipients, "");
             }
 
-            $message_dsn = preg_split("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Routers']['Message']);
-            $temp_dsn = $message_dsn[1];
+            if (preg_match("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Routers']['Message'])) {
+                $message_dsn = preg_split("/dsn=|, stat=/", $log_lines[count($log_lines) - 1]['Routers']['Message']);
+                $temp_dsn = $message_dsn[1];
+            } else {
+                $temp_dsn = "";
+            }
 
             $status = ($temp_dsn === "2.0.0" ? "Sent" : "Error: check logs");
 
@@ -119,12 +120,12 @@ class Routers extends AppModel {
             $push_results = false;
             if ($to_and_from) {
                 if ($sender_contains) {
-                    $sender_regex = str_replace("%", ".*", $sender);
+                    $sender_regex = str_replace("%", ".*", $sender_search);
                     if (preg_match("/" . $sender_regex . "/", strtolower($sender))) {
                         $push_results = true;
                     }
                 } else {
-                    if (strtolower($sender) === strtolower($sender))
+                    if (strtolower($sender_search) === strtolower($sender))
                     {
                         $push_results = true;
                     }
@@ -157,5 +158,9 @@ class Routers extends AppModel {
                 }
             }
         }
+    }
+
+    public function getLogs() {
+
     }
 }
