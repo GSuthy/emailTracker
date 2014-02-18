@@ -128,6 +128,15 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
        	var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
 
+        if (currentHoveredRow.find(".spam-score-quarantined"))
+        {
+            $("a.view-in-canit").css({display: 'block'});
+        }
+        else
+        {
+            $("a.view-in-canit").css({display: 'none'});
+        }
+
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
             display: 'block',
@@ -178,7 +187,8 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
         {
             var rlm = currentHoveredRow[0]['cells'][9].innerHTML;
             var id = currentHoveredRow[0]['cells'][10].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?rlm=" + rlm + "&id=" + id;
+            var stream = currentHoveredRow[0]['cells'][11].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + rlm + "&s=" + stream;
             window.open(url, '_blank');
         });
 };
@@ -256,6 +266,7 @@ $(document).ready(function() {
 	// This takes off the hover effect when you move off of the row
     $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
+        $("a.view-in-canit").css({display: 'block'});
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 

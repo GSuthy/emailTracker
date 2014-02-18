@@ -119,13 +119,13 @@ if (!$authorized) {
                 <h4>CanIt</h4><p>(Spam Filtering)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
+            <div  <?php /*if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
+            <div hidden <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
+            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
@@ -223,6 +223,7 @@ if ($show_table) {
                 "<th hidden>Reporting Host</th>" .
                 "<th hidden>Realm</th>" .
                 "<th hidden>Message ID</th>" .
+                "<th hidden>Stream</th>" .
                 "</tr>";
 
             $is_even = true;
@@ -250,6 +251,7 @@ if ($show_table) {
                 $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['incident_id'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['stream'] . "</td>";
                 $is_even = !$is_even;
             }
 
