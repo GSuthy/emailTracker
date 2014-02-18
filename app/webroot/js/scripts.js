@@ -79,6 +79,15 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
        	var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
 
+        if (currentHoveredRow.find(".spam-score-quarantined"))
+        {
+            $("a.view-in-canit").css({display: 'block'});
+        }
+        else
+        {
+            $("a.view-in-canit").css({display: 'none'});
+        }
+
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
             display: 'block',
@@ -208,6 +217,7 @@ $(document).ready(function() {
 	// This takes off the hover effect when you move off of the row
     $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
+        $("a.view-in-canit").css({display: 'block'});
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 
