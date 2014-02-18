@@ -40,6 +40,6 @@ class AppController extends Controller {
         $this->set('authUser', $this->Auth->user());
         $userInfo = $this->Auth->user();
         $userRoles = explode(',', $userInfo['memberOf']);
-        $this->set('authorized', in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
+        $this->set('authorized', in_array("infra_communication", $userRoles) || in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
 	}
 }

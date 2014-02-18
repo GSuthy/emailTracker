@@ -119,13 +119,13 @@ if (!$authorized) {
                 <h4>CanIt</h4><p>(Spam Filtering)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
+            <div  <?php /*if ($show_table && isset($_POST['canitSelect']) && isset($_POST['routerSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
+            <div hidden <?php if ($show_table && isset($_POST['routerSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="routers">
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'"?>></div>
-            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
+            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
