@@ -540,3 +540,19 @@ div.rowOverlay .external-link-wrap a:hover {
 a.view-logs:hover {
 	cursor: pointer;
 }
+
+div.indent {
+    margin-left:24px;
+    width:900px;
+}
+
+div.indentLine {
+    line-height:14px;
+    margin:0 28px;
+    text-indent: -40px;
+
+    font-size: .875em;
+    padding: 0px 20px;
+    text-align: left;
+    font-family: "Source Code Pro", courier new, courier, sans-serif;
+}

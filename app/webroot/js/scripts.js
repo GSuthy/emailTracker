@@ -95,10 +95,17 @@ function rowExpander(currentHoveredRow)
             dataType: "json"
         })
             .done(function(data) {
+
                 for (var i = 0; i < data.length; i++) {
+                    logs += "<div class='indentLine'>" + data[i] + "</div>";
+                }
+
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">' + logs + '</div></td></tr>';
+
+                    /*for (var i = 0; i < data.length; i++) {
                     logs += data[i] + "<br/><br/>";
                 }
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+                    var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';*/
                 $(insertionText).insertAfter('tr.tr-clicked-state');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
