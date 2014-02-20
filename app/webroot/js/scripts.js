@@ -144,6 +144,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
 $(document).ready(function() {
 
+
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
 	    inline: true,  
@@ -233,3 +234,4 @@ $(document).ready(function() {
 
 
 });
+///asdfasdf
