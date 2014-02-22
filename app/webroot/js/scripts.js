@@ -39,7 +39,7 @@ function rowExpander(currentHoveredRow)
         $.ajax
 	({
             type: "GET",
-            url: "/exchange/getAdditionalLogs",
+            url: "exchange/getAdditionalLogs",
             data: {
                 internal_message_id: internalMessageId,
                 max_results: maxResults,
@@ -49,38 +49,37 @@ function rowExpander(currentHoveredRow)
 	})
 	.done(function(data)
 	{
-            var insertionText = "";
-            insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
-            insertionText += '<td><p>EVENT</p></td>';
-            insertionText += '<td><p>RECIPIENT ADDRESS</p></td>';
-            insertionText += '<td><p>CLIENT HOSTNAME</p></td>';
-            insertionText += '<td><p>SERVER HOSTNAME</p></td>';
-            insertionText += '</tr>';
-            
             if(data.hasOwnProperty('error')) {
                 insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
                 insertionText += '<td colspan="7"><p>error: ' + data['error'] + '</p></td>';
                 insertionText += '</tr>';
                 
-                $(insertionText).insertAfter('tr.tr-hover-state');
+                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
                 return;
             }
             
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+
             for(var rowIndex in data) {
                 var row = data[rowIndex];
-                insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
-                insertionText += '<td><p>' + row["event_id"] + '</p></td>';
-                insertionText += '<td><p>' + row["recipient_address"] + '</p></td>';
-                insertionText += '<td><p>' + row["client_hostname"] + '</p></td>';
-                insertionText += '<td><p>' + row["server_hostname"] + '</p></td>';
-                insertionText += '</tr>';
-            }            
-            
-            $(insertionText).insertAfter('tr.tr-hover-state');
+                insertionText += '<div class="indentLine">';
+                insertionText += row["date_time"] + ', ';
+                insertionText += row["event_id"] + ', ';
+                insertionText += row["recipient_address"] + ', ';
+                insertionText += 'client: ' + row["client_hostname"] + ', ';
+                insertionText += 'server: ' + row["server_hostname"];
+                insertionText += '</div>';
+            }
+            insertionText += '</div></td></tr>';
+            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
 	})
         .fail(function(data) {
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>An error occurred</p></td></tr>';
-            $(insertionText).insertAfter('tr.tr-hover-state');
+            console.log(document.URL);
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
         });
     } else if (currentHoveredRow.hasClass("canit")) {
         var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
@@ -279,15 +278,3 @@ $(document).ready(function() {
 
 
 });
-
-
-///helllloooo
-
-
-
-
-//hello world!
-
-
-
-//hahahaha
