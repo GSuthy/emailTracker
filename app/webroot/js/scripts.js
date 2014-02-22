@@ -134,15 +134,6 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
        	var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
 
-        if (currentHoveredRow.find(".spam-score-quarantined"))
-        {
-            $("a.view-in-canit").css({display: 'block'});
-        }
-        else
-        {
-            $("a.view-in-canit").css({display: 'none'});
-        }
-
         // This defines the overlay position so it's over the <tr>
         $rowOverlay.css({
             display: 'block',
@@ -201,6 +192,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
 $(document).ready(function() {
 
+
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
 	    inline: true,  
@@ -254,10 +246,22 @@ $(document).ready(function() {
     	}
     	var overlayIDtoPass = "#nonCanitOverlay";
 
+        // this determines if it's the canit or non canit overlay to use
     	if ($(this).parents('table').hasClass('canit'))
     	{
     		overlayIDtoPass = "#canitOverlay";
     	}
+
+        // This hides the "open in canit" if it's either red, green, or empty
+        if ($(this).find("span").hasClass("spam-score-quarantined") == true)
+        {
+            $("#canitOverlay a.view-in-canit").show();
+
+        }
+        else
+        {
+            $("#canitOverlay a.view-in-canit").hide();
+        }
 
     	rowHover($(this), overlayIDtoPass, $(this).attr('class'));
 
@@ -272,7 +276,7 @@ $(document).ready(function() {
 	// This takes off the hover effect when you move off of the row
     $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
-        $("a.view-in-canit").css({display: 'block'});
+        $("#canitOverlay a.view-in-canit").show();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 
