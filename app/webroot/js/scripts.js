@@ -33,7 +33,7 @@ function rowExpander(currentHoveredRow)
         
         var timestamp = new Date(date + " " + time);
         
-        var internalMessageId = currentHoveredRow[0]['cells'][4].innerHTML;
+        var internalMessageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
         
         $.ajax
@@ -49,17 +49,18 @@ function rowExpander(currentHoveredRow)
 	})
 	.done(function(data)
 	{
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+            
             if(data.hasOwnProperty('error')) {
-                insertionText += '<tr class="log ' + currentHoveredRow.attr("class") + '">';
-                insertionText += '<td colspan="7"><p>error: ' + data['error'] + '</p></td>';
-                insertionText += '</tr>';
+                insertionText += '<p>error: ' + data['error'] + '</p>';
+                insertionText += '</td></tr>';
                 
                 $(insertionText).insertAfter('tr.tr-clicked-state');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
                 return;
             }
             
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+            
 
             for(var rowIndex in data) {
                 var row = data[rowIndex];
