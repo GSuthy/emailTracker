@@ -37,7 +37,6 @@ function rowExpander(currentHoveredRow)
         var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
         var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
 
-        var logs = "";
         $.ajax
         ({
             type: "POST",
@@ -46,17 +45,45 @@ function rowExpander(currentHoveredRow)
             dataType: "json"
         })
             .done(function(data) {
+                var logs = "";
 
-                for (var i = 0; i < data.length; i++) {
+                /*for (var i = 0; i < data.length; i++) {
                     logs += "<div class='indentLine'>" + data[i] + "</div>";
                 }
 
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">' + logs + '</div></td></tr>';
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">' + logs + '</div></td></tr>';*/
 
-                    /*for (var i = 0; i < data.length; i++) {
-                    logs += data[i] + "<br/><br/>";
+                var logLines = new Array();
+                for (var i = 0; i < data.length; i++) {
+                    var lines = new Array();
+                    var lineLength = 100;
+
+                    var logDelimited = data[i].split(/[\s;]+/g);
+                    var line = "";
+                    for (var j = 0; j < logDelimited.length; j++) {
+                        var tempLine = line + logDelimited[j];
+                        if (tempLine.length > lineLength) {
+                            lines.push(line);
+                            line = logDelimited[j];
+                        } else if (tempLine.length <= lineLength && j < logDelimited.length - 1) {
+                            line = tempLine;
+                        } else {
+                            lines.push(tempLine);
+                        }
+                    }
+                    logLines.push(lines);
                 }
-                    var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';*/
+
+                for (var i = 0; i < logLines.length; i++) {
+                    for (var j = 0; j < logLines[i].length; j++) {
+                        if (j > 0) {
+                            logs += "&nbsp&nbsp&nbsp&nbsp&nbsp";
+                        }
+                        logs += logLines[i][j].replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/,/g, ",&nbsp") + "<br/>";
+                    }
+                }
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+
                 $(insertionText).insertAfter('tr.tr-clicked-state');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
