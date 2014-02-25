@@ -320,20 +320,28 @@ if ($show_table) {
                 "<th>Date</th>" .
                 "<th>Time</th>" .
                 "<th>Sender</th>" .
+                "<th>Recipient</th>" .
                 "<th>Subject</th>" .
 		"<th>Message ID</th>" .
                 "</tr>\n";
-
-            $is_even = true;
-            foreach($exchangeResults as $row) {
-                $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
-                    "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
-                    "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
-                    "<td>" . $row['sender_address'] . "</td>" .
-                    "<td>" . $row['message_subject'] . "</td>" .
-					"<td>" . $row['internal_message_id'] . "</td>" .
+            
+            if(isset($exchangeResults['error'])) {
+                $exchange_table_string = $exchange_table_string . "<tr class='odd-row exchange'>" .
+                    "<td>" . $exchangeResults['error'] . "</td>" .
                     "</tr>\n";
-                $is_even = !$is_even;
+            } else {
+                $is_even = true;
+                foreach($exchangeResults as $row) {
+                    $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
+                        "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
+                        "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
+                        "<td>" . $row['sender_address'] . "</td>" .
+                        "<td>" . $row['recipient_address'] . "</td>" .
+                        "<td>" . $row['message_subject'] . "</td>" .
+                        "<td>" . $row['internal_message_id'] . "</td>" .
+                        "</tr>\n";
+                    $is_even = !$is_even;
+                }
             }
 
             $exchange_table_string = $exchange_table_string . "</tbody>\n" .

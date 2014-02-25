@@ -28,11 +28,60 @@ function checkboxHandler(name, onOrOff) {
 function rowExpander(currentHoveredRow)
 {
     if(currentHoveredRow.hasClass("exchange")) {
-        var internalMessageId = currentHoveredRow[0]['cells'][4].innerHTML;
+        var date = currentHoveredRow[0]['cells'][0].innerHTML;
+        var time = currentHoveredRow[0]['cells'][1].innerHTML;
+        
+        var timestamp = new Date(date + " " + time);
+        
+        var internalMessageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
         
-        var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + "HELLO" + '</p></td></tr>';
-        $(insertionText).insertAfter('tr.tr-hover-state');
+        $.ajax
+	({
+            type: "GET",
+            url: "exchange/getAdditionalLogs",
+            data: {
+                internal_message_id: internalMessageId,
+                max_results: maxResults,
+                utc_milliseconds: timestamp.getTime()
+            },
+            dataType: "json"
+	})
+	.done(function(data)
+	{
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+            
+            if(data.hasOwnProperty('error')) {
+                insertionText += '<p>error: ' + data['error'] + '</p>';
+                insertionText += '</td></tr>';
+                
+                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+                return;
+            }
+            
+            
+
+            for(var rowIndex in data) {
+                var row = data[rowIndex];
+                insertionText += '<div class="indentLine">';
+                insertionText += row["date_time"] + ', ';
+                insertionText += row["event_id"] + ', ';
+                insertionText += row["recipient_address"] + ', ';
+                insertionText += 'client: ' + row["client_hostname"] + ', ';
+                insertionText += 'server: ' + row["server_hostname"];
+                insertionText += '</div>';
+            }
+            insertionText += '</div></td></tr>';
+            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+	})
+        .fail(function(data) {
+            console.log(document.URL);
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+        });
     } else if (currentHoveredRow.hasClass("canit")) {
         var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
         var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
@@ -91,14 +140,14 @@ function rowExpander(currentHoveredRow)
     } else {
 	$.ajax
 	({
-		type: "GET",
-	  	url: "../ajaxtest.php",
-	  	data: {ID: "5"}
+            type: "GET",
+            url: "../ajaxtest.php",
+            data: {ID: "5"}
 	})
 	.done(function(data)
 	{
-		var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
-		$(insertionText).insertAfter('tr.tr-hover-state');
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
+            $(insertionText).insertAfter('tr.tr-hover-state');
 	});
     }
 };
@@ -261,4 +310,3 @@ $(document).ready(function() {
 
 
 });
-///asdfasdf
