@@ -221,8 +221,7 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
         });
 };
 
-$(document).ready(function() {
-
+$(document).ready(function(realm, stream) {
 
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({

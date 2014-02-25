@@ -191,9 +191,7 @@ if ($show_table) {
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
 
-    $max_results = 20;
-    $warning_level_spam_score = 5;
-    $auto_reject_spam_score = 18;
+    $max_results = 30;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 
@@ -229,6 +227,9 @@ if ($show_table) {
             $is_even = true;
             $line_number = 0;
             foreach($canitResults as $canit_row){
+                $warning_level_spam_score = $canit_row['hold_threshold'];
+                $auto_reject_spam_score = $canit_row['auto_reject'];
+
                 $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . ($line_number > 19 ? " full-results-row" : "") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .

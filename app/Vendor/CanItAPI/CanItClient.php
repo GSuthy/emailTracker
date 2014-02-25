@@ -45,6 +45,13 @@ class CanItClient {
 //        echo $search_string . '<br>';
         $results = $api->do_get($search_string);
 
+        $results_temp = array();
+        foreach ($results as &$result) {
+            //5, 18
+            $result['auto_reject'] = $api->do_get('realm/' . $result['realm'] . '/stream/' . $result['stream'] .  '/setting/AutoReject')['value'];
+            $result['hold_threshold'] = $api->do_get('realm/' . $result['realm'] . '/stream/' . $result['stream'] . '/setting/HoldThreshold')['value'];
+        }
+
 	    if (!$api->succeeded()) {
 		    print "GET request failed: " . $api->get_last_error() . "\n";
             return null;
