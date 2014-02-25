@@ -130,6 +130,9 @@ function rowExpander(currentHoveredRow)
                         }
                         logs += logLines[i][j].replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/,/g, ",&nbsp") + "<br/>";
                     }
+                    if (i < logLines.length - 1) {
+                        logs += "<br/>";
+                    }
                 }
                 var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
 
