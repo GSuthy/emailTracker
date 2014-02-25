@@ -19,7 +19,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('Helper', 'View');
+//App::uses('Helper', 'View');
 
 /**
  * Application helper
@@ -29,5 +29,18 @@ App::uses('Helper', 'View');
  *
  * @package       app.View.Helper
  */
+/*class AppHelper extends Helper {
+}*/
+
+App::uses('Helper', 'View');
+
 class AppHelper extends Helper {
+
+    function url($url = null, $full = false) {
+        $routerUrl = Router::url($url, $full);
+        if (!preg_match('/\\.(rss|html|js|css|jpeg|jpg|gif|png|xml?)$/', strtolower($routerUrl)) && substr($routerUrl, -1) != '/') {
+            $routerUrl .= '/';
+        }
+        return $routerUrl;
+    }
 }
