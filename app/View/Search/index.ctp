@@ -226,10 +226,12 @@ if ($show_table) {
 
             $is_even = true;
             $line_number = 0;
-            foreach($canitResults as $canit_row){
-                $warning_level_spam_score = $canit_row['hold_threshold'];
-                $auto_reject_spam_score = $canit_row['auto_reject'];
 
+            $scoreThresholds = CanItClient::getThresholds();
+            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
+            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
+
+            foreach($canitResults as $canit_row){
                 $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . ($line_number > 19 ? " full-results-row" : "") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
