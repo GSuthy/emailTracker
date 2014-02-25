@@ -19,8 +19,10 @@ class CanItClient {
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
 
-        $auto_reject = $api->do_get('realm/base/stream/default/setting/AutoReject')['value'];
-        $hold_threshold = $api->do_get('realm/base/stream/default/setting/HoldThreshold')['value'];
+        $autoRejectArray = $api->do_get('realm/base/stream/default/setting/AutoReject');
+        $auto_reject = $autoRejectArray['value'];
+        $holdThresholdArray = $api->do_get('realm/base/stream/default/setting/HoldThreshold');
+        $hold_threshold = $holdThresholdArray['value'];
         $results = array('auto_reject' => $auto_reject, 'hold_threshold' => $hold_threshold);
 
         if (!$api->succeeded()) {
