@@ -213,16 +213,15 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
         $rowOverlay.find("a.view-in-canit").on("click", function()
         {
-            var rlm = currentHoveredRow[0]['cells'][9].innerHTML;
+            var realm = currentHoveredRow[0]['cells'][9].innerHTML;
             var id = currentHoveredRow[0]['cells'][10].innerHTML;
             var stream = currentHoveredRow[0]['cells'][11].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + rlm + "&s=" + stream;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
             window.open(url, '_blank');
         });
 };
 
-$(document).ready(function() {
-
+$(document).ready(function(realm, stream) {
 
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
@@ -309,6 +308,18 @@ $(document).ready(function() {
         $(this).hide();
         $("#canitOverlay a.view-in-canit").show();
         $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
+    });
+
+    $("a.view-more-results").click(function() {
+        // this will do an AJAX method to get data
+        var classList = $(this).attr("class").split(/\s+/);
+        tableClass = classList[1];
+        
+        for (var i = 0; i < 20; i++)
+        {
+            $("table." + tableClass + " tr").last().after("<tr><td colspan='6'>This is just a little test, ya know.</td></tr>");
+        }
+        
     });
 
 

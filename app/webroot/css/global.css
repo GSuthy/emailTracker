@@ -546,6 +546,30 @@ a.view-logs:hover {
 	cursor: pointer;
 }
 
+a.view-more-results {
+	display: block;
+	color: white;
+	margin: 8px 0 0;
+	padding: 5px 0;
+	text-align: center;
+	background: #196499;
+	border: 1px solid #003b65;
+	border-radius: 3px;
+	font-size:.875em;
+	box-shadow:0px 2px 0px #003b65;
+}
+
+a.view-more-results:hover {
+	cursor: pointer;
+	background-color: #1B6DA8;
+}
+
+a.view-more-results:active {
+	background-color: #1E79BA;
+	box-shadow:0px 1px 0px #003b65;
+	margin:9px 0 -1px;
+}
+
 /*div.indent {
     margin-left:24px;
     width:900px;
