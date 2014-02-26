@@ -60,8 +60,6 @@ function rowExpander(currentHoveredRow)
                 return;
             }
             
-            
-
             for(var rowIndex in data) {
                 var row = data[rowIndex];
                 insertionText += '<div class="indentLine">';
@@ -191,23 +189,23 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
     	// unbinds the click function so it doesn't fire tons of log queries
     	$(document).find("a.view-logs").off("click");
 
-            // Binds the click function to the "view logs"    	
-	    $rowOverlay.find("a.view-logs").on("click", function()
-	    {
-	    	// Closes the log if it's currently open
-	    	if($(currentHoveredRow).next().hasClass('log'))
-	    	{
-                    $(currentHoveredRow).next().remove();
-                    $(this).text("View Log");
-                }
-                // Opens the log if it's not open
-                else
-                {
-                    $(currentHoveredRow).addClass('tr-clicked-state');
-                    rowExpander(currentHoveredRow);
-                    $(this).text("Close Log");
-	    	}
-	    });
+        // Binds the click function to the "view logs"    	
+        $rowOverlay.find("a.view-logs").on("click", function()
+        {
+            // Closes the log if it's currently open
+            if($(currentHoveredRow).next().hasClass('log'))
+            {
+                $(currentHoveredRow).next().remove();
+                $(this).text("View Log");
+            }
+            // Opens the log if it's not open
+            else
+            {
+                $(currentHoveredRow).addClass('tr-clicked-state');
+                rowExpander(currentHoveredRow);
+                $(this).text("Close Log");
+            }
+        });
 
         $(document).find("a.view-in-canit").off("click");
 
@@ -265,35 +263,40 @@ $(document).ready(function(realm, stream) {
 
 	
     $('table.results tr').not('.table-information').mouseover(function() {
-    	// alert($(this).next().attr("class"));
-    	if($(this).next().hasClass('log'))
-    	{
-    		$("#canitOverlay a.view-logs").text("Close Log");
-    	}
-    	else
-    	{
-    		$("#canitOverlay a.view-logs").text("View Log");
-    	}
-    	var overlayIDtoPass = "#nonCanitOverlay";
+        
+        var overlayID;
 
         // this determines if it's the canit or non canit overlay to use
     	if ($(this).parents('table').hasClass('canit'))
     	{
-    		overlayIDtoPass = "#canitOverlay";
+            overlayID = "#canitOverlay";
+    	} else 
+        {
+            overlayID = "#nonCanitOverlay";
+        }
+        
+    	// alert($(this).next().attr("class"));
+    	if($(this).next().hasClass('log'))
+    	{
+            $(overlayID + " a.view-logs").text("Close Log");
+    	}
+    	else
+    	{
+            $(overlayID + " a.view-logs").text("View Log");
     	}
 
         // This hides the "open in canit" if it's either red, green, or empty
         if ($(this).find("span").hasClass("spam-score-quarantined") == true)
         {
-            $("#canitOverlay a.view-in-canit").show();
+            $(overlayID + " a.view-in-canit").show();
 
         }
         else
         {
-            $("#canitOverlay a.view-in-canit").hide();
+            $(overlayID + " a.view-in-canit").hide();
         }
 
-    	rowHover($(this), overlayIDtoPass, $(this).attr('class'));
+    	rowHover($(this), overlayID, $(this).attr('class'));
 
     });
 
