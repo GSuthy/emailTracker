@@ -60,17 +60,18 @@ function rowExpander(currentHoveredRow)
                 return;
             }
             
+            insertionText += '<p>';
             for(var rowIndex in data) {
                 var row = data[rowIndex];
-                insertionText += '<div class="indentLine">';
                 insertionText += row["date_time"] + ', ';
                 insertionText += row["event_id"] + ', ';
                 insertionText += row["recipient_address"] + ', ';
                 insertionText += 'client: ' + row["client_hostname"] + ', ';
                 insertionText += 'server: ' + row["server_hostname"];
-                insertionText += '</div>';
+                insertionText += '<br/>';
             }
-            insertionText += '</div></td></tr>';
+            insertionText += '</p>';
+            insertionText += '</td></tr>';
             $(insertionText).insertAfter('tr.tr-clicked-state');
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
 	})
