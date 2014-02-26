@@ -261,6 +261,7 @@ if ($show_table) {
 
             $canit_table_string = $canit_table_string ."</tbody>" .
                 "</table>" .
+                "<a class='view-more-results canit'>View 20 More Results</a>" . 
                 "<br/>";
 
             echo $canit_table_string;
