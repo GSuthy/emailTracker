@@ -55,7 +55,7 @@ function rowExpander(currentHoveredRow)
                 insertionText += '<p>error: ' + data['error'] + '</p>';
                 insertionText += '</td></tr>';
                 
-                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
                 return;
             }
@@ -72,13 +72,13 @@ function rowExpander(currentHoveredRow)
             }
             insertionText += '</p>';
             insertionText += '</td></tr>';
-            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
 	})
         .fail(function(data) {
             console.log(document.URL);
             var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
-            $(insertionText).insertAfter('tr.tr-clicked-state');
+            $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
         });
     } else if (currentHoveredRow.hasClass("canit")) {
@@ -135,7 +135,7 @@ function rowExpander(currentHoveredRow)
                 }
                 var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
 
-                $(insertionText).insertAfter('tr.tr-clicked-state');
+                $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
 
