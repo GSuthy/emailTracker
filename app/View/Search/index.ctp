@@ -183,6 +183,18 @@ if ($show_table) {
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
 
+    $paramsTable = "<table id=\"paramsTable\" hidden><tr>".
+        "<td>".$recipient."</td>".
+        "<td>".$recipientContains."</td>".
+        "<td>".$sender."</td>".
+        "<td>".$senderContains."</td>".
+        "<td>".$subject."</td>".
+        "<td>".$subjectContains."</td>".
+        "<td>".$startDttm."</td>".
+        "<td>".$endDttm."</td>".
+        "</tr></table>";
+    echo $paramsTable;
+
     $max_results = 30;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
@@ -194,7 +206,14 @@ if ($show_table) {
     if (!$hasErrors) {
         if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
 
-            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
+
+            $scoreThresholds = CanItClient::getThresholds();
+            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
+            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
+
+            $warningDiv = "<div class=\"warningDiv\">".$warning_level_spam_score."</div>";
+            $rejectDiv = "<div class=\"rejectDiv\">".$auto_reject_spam_score."</div>";
 
             $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
@@ -219,10 +238,6 @@ if ($show_table) {
             $is_even = true;
             $line_number = 0;
 
-            $scoreThresholds = CanItClient::getThresholds();
-            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
-            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
-
             foreach($canitResults as $canit_row){
                 $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . ($line_number > 19 ? " full-results-row" : "") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
@@ -232,6 +247,7 @@ if ($show_table) {
                 foreach ($canit_row['recipients'] as $recip) {
                     $canit_table_string .= $recip . "<br/>";
                 }
+
                 $canit_spam_score_string = "";
                 $canit_spam_score = $canit_row['score'];
                 if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }

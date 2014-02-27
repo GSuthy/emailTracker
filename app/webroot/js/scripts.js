@@ -1,3 +1,5 @@
+var numResults;
+
 function arrowChecker(currentBox) {
 	var prevArrow = $(currentBox).prev('.server-arrow');
 	var nextArrow = $(currentBox).next('.server-arrow');
@@ -223,6 +225,8 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
 $(document).ready(function(realm, stream) {
 
+    numResults = {'canit': 30, 'routers': 30, 'exchange': 30}
+
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
 	    inline: true,  
@@ -313,14 +317,83 @@ $(document).ready(function(realm, stream) {
     $("a.view-more-results").click(function() {
         // this will do an AJAX method to get data
         var classList = $(this).attr("class").split(/\s+/);
-        tableClass = classList[1];
-        
-        for (var i = 0; i < 20; i++)
+        var tableClass = classList[1];
+
+        var table = document.getElementById("paramsTable");
+        var row = table.rows[0];
+
+        var recipient = row.cells[0].innerText;
+        var recipientContains = row.cells[1].innerText;
+        var sender = row.cells[2].innerText;
+        var senderContains = row.cells[3].innerText;
+        var subject = row.cells[4].innerText;
+        var subjectContains = row.cells[5].innerText;
+        var startDttm = row.cells[6].innerText;
+        var endDttm = row.cells[7].innerText;
+        var maxResults = 20;
+        var offset = numResults[tableClass];
+
+        if (tableClass == "canit") {
+            $.ajax
+            ({
+                type: "POST",
+                url: "Search/canitresults",
+                data: {recipient: recipient, recipient_contains: recipientContains, sender: sender, sender_contains: senderContains,
+                       subject: subject, subject_contains: subjectContains, start_date: startDttm, end_date: endDttm, max_results: maxResults,
+                       offset: offset},
+                dataType: "json"
+            })
+            .done(function(data)
+            {
+                displayMoreResults(data, tableClass);
+            });
+        }
+
+        numResults[tableClass] += 20;
+
+        /*for (var i = 0; i < 20; i++)
         {
             $("table." + tableClass + " tr").last().after("<tr><td colspan='6'>This is just a little test, ya know.</td></tr>");
-        }
+        }*/
         
     });
 
+    //TODO  Don't hard code variable 'is_even'
+    //TODO  Find some way to hide button when no new results are available
+    //TODO  Highlight not working on rows added
+
+    function displayMoreResults(results, tableClass) {
+        var is_even = false;
+
+        var warning_level_spam_score = $(".warningDiv").text();
+        var auto_reject_spam_score = $(".rejectDiv").text();
+
+        for (var i = 0; i < results.length; i++)
+        {
+            var r = results[i];
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+r['ts']+"</td><td>"+r['ts']+"</td><td><span class='canit-sender'>"+
+                           r['sender']+"</span></td><td><span class='canit-recipients'>";
+            for (var j = 0; j < r['recipients'].length; j++) {
+                inputRow += r['recipients'][j] + "<br/>";
+            }
+            inputRow += "</span></td><td>"+(r['subject'] ? r['subject'] : "")+"</td><td>"+(r['what'] ? r['what'] : "")+"</td>";
+
+            var canit_spam_score_string = "";
+            var canit_spam_score = r['score'];
+            if (!canit_spam_score){ canit_spam_score_string = "spam-score-empty"; }
+            else if (canit_spam_score < warning_level_spam_score){ canit_spam_score_string = "spam-score-good"; }
+            else if (canit_spam_score < auto_reject_spam_score){ canit_spam_score_string = "spam-score-quarantined"; }
+            else { canit_spam_score_string = "spam-score-rejected"; }
+
+            inputRow += "<td><span class=\""+canit_spam_score_string+"\">"+(r['score'] ? r['score'] : "")+"</span></td>";
+            inputRow += "<td hidden>" + r['queue_id'] + "</td>";
+            inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
+            inputRow += "<td hidden>" + r['realm'] + "</td>";
+            inputRow += "<td hidden>" + r['incident_id'] + "</td>";
+            inputRow += "<td hidden>" + r['stream'] + "</td></tr>";
+            is_even = !is_even;
+            $("table." + tableClass + " tr").last().after(inputRow);
+        }
+    }
 
 });
