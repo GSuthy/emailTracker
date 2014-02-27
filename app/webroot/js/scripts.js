@@ -349,12 +349,14 @@ $(document).ready(function(realm, stream) {
             })
             .done(function(data)
             {
-                displayMoreResults(data, tableClass);
+                displayMoreCanitResults(data, tableClass);
             });
         }
 
         numResults[tableClass] += 20;
 
+        /*var table = document.getElementsByClassName(tableClass + " results");
+        table.refresh();*/
         /*for (var i = 0; i < 20; i++)
         {
             $("table." + tableClass + " tr").last().after("<tr><td colspan='6'>This is just a little test, ya know.</td></tr>");
@@ -366,16 +368,24 @@ $(document).ready(function(realm, stream) {
     //TODO  Find some way to hide button when no new results are available
     //TODO  Highlight not working on rows added
 
-    function displayMoreResults(results, tableClass) {
-        var is_even = false;
+    function displayMoreCanitResults(results, tableClass) {
+        var is_even;
+        if ($("table." + tableClass + " tr").last().hasClass('is_even')) {
+            is_even = false;
+        } else {
+            is_even = true;
+        }
 
-        var warning_level_spam_score = $(".warningDiv").text();
-        var auto_reject_spam_score = $(".rejectDiv").text();
+        var warning_level_spam_score = parseInt($("#warningDiv").text());
+        var auto_reject_spam_score = parseInt($("#rejectDiv").text());
 
         for (var i = 0; i < results.length; i++)
         {
             var r = results[i];
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+r['ts']+"</td><td>"+r['ts']+"</td><td><span class='canit-sender'>"+
+            var dateTime = new Date(r['ts'] * 1000);
+            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate()) + "/" + dateTime.getFullYear();
+            var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
                            r['sender']+"</span></td><td><span class='canit-recipients'>";
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
@@ -398,6 +408,11 @@ $(document).ready(function(realm, stream) {
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
+    }
+
+    function padToTwo(number) {
+        if (number<=9) { number = ("0"+number).slice(-2); }
+        return number;
     }
 
 });
