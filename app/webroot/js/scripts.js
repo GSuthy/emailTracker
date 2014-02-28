@@ -359,7 +359,7 @@ $(document).ready(function(realm, stream) {
 
     function displayMoreCanitResults(results, tableClass) {
         var is_even;
-        if ($("table." + tableClass + " tr").last().hasClass('is_even')) {
+        if ($("table.canit tr").last().hasClass('is_even')) {
             is_even = false;
         } else {
             is_even = true;
@@ -396,6 +396,13 @@ $(document).ready(function(realm, stream) {
             inputRow += "<td hidden>" + r['stream'] + "</td></tr>";
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
+        }
+
+        if (results.length < 20) {
+            var button = $("a.view-more-results.canit");
+            button.text('No More Results');
+            button.removeClass("view-more-results");
+            button.addClass("no-more-results");
         }
     }
 
