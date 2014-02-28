@@ -1,2 +1,2 @@
 <?php
-    echo $logs;
+echo $logs;

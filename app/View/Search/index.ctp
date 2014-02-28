@@ -183,6 +183,18 @@ if ($show_table) {
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
 
+    $paramsTable = "<table id=\"paramsTable\" hidden><tr>".
+        "<td>".$recipient."</td>".
+        "<td>".$recipientContains."</td>".
+        "<td>".$sender."</td>".
+        "<td>".$senderContains."</td>".
+        "<td>".$subject."</td>".
+        "<td>".$subjectContains."</td>".
+        "<td>".$startDttm."</td>".
+        "<td>".$endDttm."</td>".
+        "</tr></table>";
+    echo $paramsTable;
+
     $max_results = 30;
 
     $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
@@ -194,7 +206,16 @@ if ($show_table) {
     if (!$hasErrors) {
         if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
 
-            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
+
+            $scoreThresholds = CanItClient::getThresholds();
+            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
+            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
+
+            $warningDiv = "<div id=\"warningDiv\" hidden>".$warning_level_spam_score."</div>";
+            $rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
+            echo $warningDiv;
+            echo $rejectDiv;
 
             $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
@@ -217,14 +238,9 @@ if ($show_table) {
                 "</tr>";
 
             $is_even = true;
-            $line_number = 0;
-
-            $scoreThresholds = CanItClient::getThresholds();
-            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
-            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
 
             foreach($canitResults as $canit_row){
-                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . ($line_number > 19 ? " full-results-row" : "") . " canit'>".
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
                     "<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
@@ -232,6 +248,7 @@ if ($show_table) {
                 foreach ($canit_row['recipients'] as $recip) {
                     $canit_table_string .= $recip . "<br/>";
                 }
+
                 $canit_spam_score_string = "";
                 $canit_spam_score = $canit_row['score'];
                 if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
@@ -251,10 +268,9 @@ if ($show_table) {
                 $is_even = !$is_even;
             }
 
-            $canit_table_string = $canit_table_string ."</tbody>" .
-                "</table>" .
-                "<a class='view-more-results canit'>View 20 More Results</a>" . 
-                "<br/>";
+            $canit_table_string .= "</tbody></table>";
+            $canit_table_string .= (count($canitResults) == $max_results ? "<a class='view-more-results canit'>View More Results</a>" : "<a class='no-more-results canit'>No More Results</a>");
+            $canit_table_string .= "<br/>";
 
             echo $canit_table_string;
         }
@@ -323,18 +339,19 @@ if ($show_table) {
             
             if(isset($exchangeResults['error'])) {
                 $exchange_table_string = $exchange_table_string . "<tr class='odd-row exchange'>" .
-                    "<td>" . $exchangeResults['error'] . "</td>" .
+                    "<td colspan='6'><p>error: " . $exchangeResults['error'] . "</p></td>" .
                     "</tr>\n";
             } else {
                 $is_even = true;
                 foreach($exchangeResults as $row) {
+                    
                     $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
                         "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                         "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                         "<td>" . $row['sender_address'] . "</td>" .
                         "<td>" . $row['recipient_address'] . "</td>" .
                         "<td>" . $row['message_subject'] . "</td>" .
-                        "<td>" . $row['internal_message_id'] . "</td>" .
+                        "<td>" . htmlentities($row['message_id']) . "</td>" .
                         "</tr>\n";
                     $is_even = !$is_even;
                 }

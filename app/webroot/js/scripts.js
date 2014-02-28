@@ -1,3 +1,5 @@
+var numResults;
+
 function arrowChecker(currentBox) {
 	var prevArrow = $(currentBox).prev('.server-arrow');
 	var nextArrow = $(currentBox).next('.server-arrow');
@@ -28,32 +30,26 @@ function checkboxHandler(name, onOrOff) {
 function rowExpander(currentHoveredRow)
 {
     if(currentHoveredRow.hasClass("exchange")) {
-        var date = currentHoveredRow[0]['cells'][0].innerHTML;
-        var time = currentHoveredRow[0]['cells'][1].innerHTML;
-        
-        var timestamp = new Date(date + " " + time);
-        
-        var internalMessageId = currentHoveredRow[0]['cells'][5].innerHTML;
+        var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
         
         $.ajax
 	({
-            type: "GET",
+            type: "POST",
             url: "exchange/getAdditionalLogs",
             data: {
-                internal_message_id: internalMessageId,
-                max_results: maxResults,
-                utc_milliseconds: timestamp.getTime()
+                message_id: messageId,
+                max_results: maxResults
             },
             dataType: "json"
 	})
 	.done(function(data)
 	{
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent">';
             
             if(data.hasOwnProperty('error')) {
                 insertionText += '<p>error: ' + data['error'] + '</p>';
-                insertionText += '</td></tr>';
+                insertionText += '</div></td></tr>';
                 
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
@@ -71,7 +67,7 @@ function rowExpander(currentHoveredRow)
                 insertionText += '<br/>';
             }
             insertionText += '</p>';
-            insertionText += '</td></tr>';
+            insertionText += '</div></td></tr>';
             $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
 	})
@@ -154,14 +150,49 @@ function rowExpander(currentHoveredRow)
     }
 };
 
-function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
+function rowHover(currentHoveredRow)
 {
+
+        var overlayID;
+
+        // this determines if it's the canit or non canit overlay to use
+        if ($(currentHoveredRow).parents('table').hasClass('canit'))
+        {
+            overlayID = "#canitOverlay";
+        }
+        else 
+        {
+            overlayID = "#nonCanitOverlay";
+        }
+        
+        // alert($(this).next().attr("class"));
+        if($(currentHoveredRow).next().hasClass('log'))
+        {
+            $(overlayID + " a.view-logs").text("Close Log");
+        }
+        else
+        {
+            $(overlayID + " a.view-logs").text("View Log");
+        }
+
+        // This hides the "open in canit" if it's either red, green, or empty
+        if ($(currentHoveredRow).find("span").hasClass("spam-score-quarantined") == true)
+        {
+            $(overlayID + " a.view-in-canit").show();
+
+        }
+        else
+        {
+            $(overlayID + " a.view-in-canit").hide();
+        }
+
+
         // define useful variables
-        var $rowOverlay = $(rowOverlayChoice);
+        var $rowOverlay = $(overlayID);
         var rowWidth = $(currentHoveredRow).width() + 2;
         var rowHeight = $(currentHoveredRow).height() + 2;
         var rowPos = $(currentHoveredRow).position();
-       	var rowTop = rowPos.top - 1;
+        var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
 
         // This defines the overlay position so it's over the <tr>
@@ -184,13 +215,13 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
             'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
         });
 
-        // This adds the class so you can change the color of the entire row	
+        // This adds the class so you can change the color of the entire row    
         $(currentHoveredRow).addClass('tr-hover-state');
 
-    	// unbinds the click function so it doesn't fire tons of log queries
-    	$(document).find("a.view-logs").off("click");
+        // unbinds the click function so it doesn't fire tons of log queries
+        $(document).find("a.view-logs").off("click");
 
-        // Binds the click function to the "view logs"    	
+        // Binds the click function to the "view logs"      
         $rowOverlay.find("a.view-logs").on("click", function()
         {
             // Closes the log if it's currently open
@@ -222,6 +253,8 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
 
 $(document).ready(function(realm, stream) {
 
+    numResults = {'canit': 30, 'routers': 30, 'exchange': 30}
+
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
 	    inline: true,  
@@ -236,6 +269,7 @@ $(document).ready(function(realm, stream) {
                 $( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
             }
 	});
+
 	$( "#datepickerEnd" ).datepicker({
 	    inline: true,  
 	    showOtherMonths: true,  
@@ -262,43 +296,9 @@ $(document).ready(function(realm, stream) {
 		arrowChecker($(this));
 	});
 
-	
-    $('table.results tr').not('.table-information').mouseover(function() {
-        
-        var overlayID;
-
-        // this determines if it's the canit or non canit overlay to use
-    	if ($(this).parents('table').hasClass('canit'))
-    	{
-            overlayID = "#canitOverlay";
-    	} else 
-        {
-            overlayID = "#nonCanitOverlay";
-        }
-        
-    	// alert($(this).next().attr("class"));
-    	if($(this).next().hasClass('log'))
-    	{
-            $(overlayID + " a.view-logs").text("Close Log");
-    	}
-    	else
-    	{
-            $(overlayID + " a.view-logs").text("View Log");
-    	}
-
-        // This hides the "open in canit" if it's either red, green, or empty
-        if ($(this).find("span").hasClass("spam-score-quarantined") == true)
-        {
-            $(overlayID + " a.view-in-canit").show();
-
-        }
-        else
-        {
-            $(overlayID + " a.view-in-canit").hide();
-        }
-
-    	rowHover($(this), overlayID, $(this).attr('class'));
-
+    // This initially binds the mouseover function to table.results tr
+    $('table.results tr').not('.table-information').on('mouseover', function() {
+        rowHover($(this));
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header
@@ -317,14 +317,116 @@ $(document).ready(function(realm, stream) {
     $("a.view-more-results").click(function() {
         // this will do an AJAX method to get data
         var classList = $(this).attr("class").split(/\s+/);
-        tableClass = classList[1];
-        
-        for (var i = 0; i < 20; i++)
+        var tableClass = classList[1];
+
+        var params = getStoredSearchParameters(tableClass);
+
+        if (tableClass == "canit") {
+            $.ajax
+            ({
+                type: "POST",
+                url: "Search/canitresults",
+                data: params,
+                dataType: "json"
+            })
+            .done(function(data)
+            {
+                displayMoreCanitResults(data, tableClass);                
+                $('table.results tr').not('.table-information').on('mouseover', function() {
+                    rowHover($(this));
+                });
+            });
+        }
+
+        numResults[tableClass] += 20;
+
+        /*var table = document.getElementsByClassName(tableClass + " results");
+        table.refresh();*/
+        /*for (var i = 0; i < 20; i++)
         {
             $("table." + tableClass + " tr").last().after("<tr><td colspan='6'>This is just a little test, ya know.</td></tr>");
-        }
+        }*/
         
     });
 
+    //TODO  Find some way to hide button when no new results are available
+
+    function displayMoreCanitResults(results, tableClass) {
+        var is_even;
+        if ($("table.canit tr").last().hasClass('is_even')) {
+            is_even = false;
+        } else {
+            is_even = true;
+        }
+
+        var warning_level_spam_score = parseInt($("#warningDiv").text());
+        var auto_reject_spam_score = parseInt($("#rejectDiv").text());
+
+        for (var i = 0; i < results.length; i++)
+        {
+            var r = results[i];
+            var dateTime = new Date(r['ts'] * 1000);
+            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate()) + "/" + dateTime.getFullYear();
+            var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
+                           r['sender']+"</span></td><td><span class='canit-recipients'>";
+            for (var j = 0; j < r['recipients'].length; j++) {
+                inputRow += r['recipients'][j] + "<br/>";
+            }
+            inputRow += "</span></td><td>"+(r['subject'] ? r['subject'] : "")+"</td><td>"+(r['what'] ? r['what'] : "")+"</td>";
+
+            var canit_spam_score_string = "";
+            var canit_spam_score = r['score'];
+            if (!canit_spam_score){ canit_spam_score_string = "spam-score-empty"; }
+            else if (canit_spam_score < warning_level_spam_score){ canit_spam_score_string = "spam-score-good"; }
+            else if (canit_spam_score < auto_reject_spam_score){ canit_spam_score_string = "spam-score-quarantined"; }
+            else { canit_spam_score_string = "spam-score-rejected"; }
+
+            inputRow += "<td><span class=\""+canit_spam_score_string+"\">"+(r['score'] ? r['score'] : "")+"</span></td>";
+            inputRow += "<td hidden>" + r['queue_id'] + "</td>";
+            inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
+            inputRow += "<td hidden>" + r['realm'] + "</td>";
+            inputRow += "<td hidden>" + r['incident_id'] + "</td>";
+            inputRow += "<td hidden>" + r['stream'] + "</td></tr>";
+            is_even = !is_even;
+            $("table." + tableClass + " tr").last().after(inputRow);
+        }
+
+        if (results.length < 20) {
+            var button = $("a.view-more-results.canit");
+            button.text('No More Results');
+            button.removeClass("view-more-results");
+            button.addClass("no-more-results");
+        }
+    }
+
+    // Used to make sure all month and day strings have two digits
+
+    function padToTwo(number) {
+        if (number<=9) { number = ("0"+number).slice(-2); }
+        return number;
+    }
+
+    function getStoredSearchParameters(tableClass) {
+        var table = document.getElementById("paramsTable");
+        var row = table.rows[0];
+
+        var recipient = row.cells[0].innerText;
+        var recipientContains = row.cells[1].innerText;
+        var sender = row.cells[2].innerText;
+        var senderContains = row.cells[3].innerText;
+        var subject = row.cells[4].innerText;
+        var subjectContains = row.cells[5].innerText;
+        var startDttm = row.cells[6].innerText;
+        var endDttm = row.cells[7].innerText;
+        var maxResults = 20;
+        var offset = numResults[tableClass]
+
+        var results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+                       sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+                       start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+
+        return results;
+    }
 
 });
