@@ -117,7 +117,7 @@ if (!$authorized) {
                 <div class="status-indicator"></div>
             </div>
             <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
-            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
@@ -341,18 +341,19 @@ if ($show_table) {
             
             if(isset($exchangeResults['error'])) {
                 $exchange_table_string = $exchange_table_string . "<tr class='odd-row exchange'>" .
-                    "<td>" . $exchangeResults['error'] . "</td>" .
+                    "<td colspan='6'><p>error: " . $exchangeResults['error'] . "</p></td>" .
                     "</tr>\n";
             } else {
                 $is_even = true;
                 foreach($exchangeResults as $row) {
+                    
                     $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
                         "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                         "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
                         "<td>" . $row['sender_address'] . "</td>" .
                         "<td>" . $row['recipient_address'] . "</td>" .
                         "<td>" . $row['message_subject'] . "</td>" .
-                        "<td>" . $row['internal_message_id'] . "</td>" .
+                        "<td>" . htmlentities($row['message_id']) . "</td>" .
                         "</tr>\n";
                     $is_even = !$is_even;
                 }
