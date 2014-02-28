@@ -238,10 +238,9 @@ if ($show_table) {
                 "</tr>";
 
             $is_even = true;
-            $line_number = 0;
 
             foreach($canitResults as $canit_row){
-                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . ($line_number < 19 ? " full-results-row" : "") . " canit'>".
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
                     "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
                     "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
                     "<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
@@ -269,10 +268,9 @@ if ($show_table) {
                 $is_even = !$is_even;
             }
 
-            $canit_table_string = $canit_table_string ."</tbody>" .
-                "</table>" .
-                "<a class='view-more-results canit'>View More Results</a>" .
-                "<br/>";
+            $canit_table_string .= "</tbody></table>";
+            $canit_table_string .= (count($canitResults) == $max_results ? "<a class='view-more-results canit'>View More Results</a>" : "<a class='no-more-results canit'>No More Results</a>");
+            $canit_table_string .= "<br/>";
 
             echo $canit_table_string;
         }
