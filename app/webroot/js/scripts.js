@@ -319,28 +319,14 @@ $(document).ready(function(realm, stream) {
         var classList = $(this).attr("class").split(/\s+/);
         var tableClass = classList[1];
 
-        var table = document.getElementById("paramsTable");
-        var row = table.rows[0];
-
-        var recipient = row.cells[0].innerText;
-        var recipientContains = row.cells[1].innerText;
-        var sender = row.cells[2].innerText;
-        var senderContains = row.cells[3].innerText;
-        var subject = row.cells[4].innerText;
-        var subjectContains = row.cells[5].innerText;
-        var startDttm = row.cells[6].innerText;
-        var endDttm = row.cells[7].innerText;
-        var maxResults = 20;
-        var offset = numResults[tableClass];
+        var params = getStoredSearchParameters(tableClass);
 
         if (tableClass == "canit") {
             $.ajax
             ({
                 type: "POST",
                 url: "Search/canitresults",
-                data: {recipient: recipient, recipient_contains: recipientContains, sender: sender, sender_contains: senderContains,
-                       subject: subject, subject_contains: subjectContains, start_date: startDttm, end_date: endDttm, max_results: maxResults,
-                       offset: offset},
+                data: params,
                 dataType: "json"
             })
             .done(function(data)
@@ -363,13 +349,11 @@ $(document).ready(function(realm, stream) {
         
     });
 
-    //TODO  Don't hard code variable 'is_even'
     //TODO  Find some way to hide button when no new results are available
-    //TODO  Highlight not working on rows added
 
     function displayMoreCanitResults(results, tableClass) {
         var is_even;
-        if ($("table." + tableClass + " tr").last().hasClass('is_even')) {
+        if ($("table.canit tr").last().hasClass('is_even')) {
             is_even = false;
         } else {
             is_even = true;
@@ -407,11 +391,42 @@ $(document).ready(function(realm, stream) {
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
+
+        if (results.length < 20) {
+            var button = $("a.view-more-results.canit");
+            button.text('No More Results');
+            button.removeClass("view-more-results");
+            button.addClass("no-more-results");
+        }
     }
+
+    // Used to make sure all month and day strings have two digits
 
     function padToTwo(number) {
         if (number<=9) { number = ("0"+number).slice(-2); }
         return number;
+    }
+
+    function getStoredSearchParameters(tableClass) {
+        var table = document.getElementById("paramsTable");
+        var row = table.rows[0];
+
+        var recipient = row.cells[0].innerText;
+        var recipientContains = row.cells[1].innerText;
+        var sender = row.cells[2].innerText;
+        var senderContains = row.cells[3].innerText;
+        var subject = row.cells[4].innerText;
+        var subjectContains = row.cells[5].innerText;
+        var startDttm = row.cells[6].innerText;
+        var endDttm = row.cells[7].innerText;
+        var maxResults = 20;
+        var offset = numResults[tableClass]
+
+        var results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+                       sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+                       start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+
+        return results;
     }
 
 });
