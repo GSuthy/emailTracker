@@ -117,7 +117,7 @@ if (!$authorized) {
                 <div class="status-indicator"></div>
             </div>
             <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
-            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
