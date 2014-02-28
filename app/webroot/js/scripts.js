@@ -156,14 +156,49 @@ function rowExpander(currentHoveredRow)
     }
 };
 
-function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
+function rowHover(currentHoveredRow)
 {
+
+        var overlayID;
+
+        // this determines if it's the canit or non canit overlay to use
+        if ($(currentHoveredRow).parents('table').hasClass('canit'))
+        {
+            overlayID = "#canitOverlay";
+        }
+        else 
+        {
+            overlayID = "#nonCanitOverlay";
+        }
+        
+        // alert($(this).next().attr("class"));
+        if($(currentHoveredRow).next().hasClass('log'))
+        {
+            $(overlayID + " a.view-logs").text("Close Log");
+        }
+        else
+        {
+            $(overlayID + " a.view-logs").text("View Log");
+        }
+
+        // This hides the "open in canit" if it's either red, green, or empty
+        if ($(currentHoveredRow).find("span").hasClass("spam-score-quarantined") == true)
+        {
+            $(overlayID + " a.view-in-canit").show();
+
+        }
+        else
+        {
+            $(overlayID + " a.view-in-canit").hide();
+        }
+
+
         // define useful variables
-        var $rowOverlay = $(rowOverlayChoice);
+        var $rowOverlay = $(overlayID);
         var rowWidth = $(currentHoveredRow).width() + 2;
         var rowHeight = $(currentHoveredRow).height() + 2;
         var rowPos = $(currentHoveredRow).position();
-       	var rowTop = rowPos.top - 1;
+        var rowTop = rowPos.top - 1;
         var rowLeft = rowPos.left;
 
         // This defines the overlay position so it's over the <tr>
@@ -186,13 +221,13 @@ function rowHover(currentHoveredRow, rowOverlayChoice, currentRowClass)
             'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
         });
 
-        // This adds the class so you can change the color of the entire row	
+        // This adds the class so you can change the color of the entire row    
         $(currentHoveredRow).addClass('tr-hover-state');
 
-    	// unbinds the click function so it doesn't fire tons of log queries
-    	$(document).find("a.view-logs").off("click");
+        // unbinds the click function so it doesn't fire tons of log queries
+        $(document).find("a.view-logs").off("click");
 
-        // Binds the click function to the "view logs"    	
+        // Binds the click function to the "view logs"      
         $rowOverlay.find("a.view-logs").on("click", function()
         {
             // Closes the log if it's currently open
@@ -240,6 +275,7 @@ $(document).ready(function(realm, stream) {
                 $( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
             }
 	});
+
 	$( "#datepickerEnd" ).datepicker({
 	    inline: true,  
 	    showOtherMonths: true,  
@@ -266,43 +302,9 @@ $(document).ready(function(realm, stream) {
 		arrowChecker($(this));
 	});
 
-	
-    $('table.results tr').not('.table-information').mouseover(function() {
-        
-        var overlayID;
-
-        // this determines if it's the canit or non canit overlay to use
-    	if ($(this).parents('table').hasClass('canit'))
-    	{
-            overlayID = "#canitOverlay";
-    	} else 
-        {
-            overlayID = "#nonCanitOverlay";
-        }
-        
-    	// alert($(this).next().attr("class"));
-    	if($(this).next().hasClass('log'))
-    	{
-            $(overlayID + " a.view-logs").text("Close Log");
-    	}
-    	else
-    	{
-            $(overlayID + " a.view-logs").text("View Log");
-    	}
-
-        // This hides the "open in canit" if it's either red, green, or empty
-        if ($(this).find("span").hasClass("spam-score-quarantined") == true)
-        {
-            $(overlayID + " a.view-in-canit").show();
-
-        }
-        else
-        {
-            $(overlayID + " a.view-in-canit").hide();
-        }
-
-    	rowHover($(this), overlayID, $(this).attr('class'));
-
+    // This initially binds the mouseover function to table.results tr
+    $('table.results tr').not('.table-information').on('mouseover', function() {
+        rowHover($(this));
     });
 
 	// This prevents the click/hover effect from happening when you mouseover the table header
@@ -349,7 +351,10 @@ $(document).ready(function(realm, stream) {
             })
             .done(function(data)
             {
-                displayMoreCanitResults(data, tableClass);
+                displayMoreCanitResults(data, tableClass);                
+                $('table.results tr').not('.table-information').on('mouseover', function() {
+                    rowHover($(this));
+                });
             });
         }
 
