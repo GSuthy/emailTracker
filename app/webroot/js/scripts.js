@@ -28,32 +28,26 @@ function checkboxHandler(name, onOrOff) {
 function rowExpander(currentHoveredRow)
 {
     if(currentHoveredRow.hasClass("exchange")) {
-        var date = currentHoveredRow[0]['cells'][0].innerHTML;
-        var time = currentHoveredRow[0]['cells'][1].innerHTML;
-        
-        var timestamp = new Date(date + " " + time);
-        
-        var internalMessageId = currentHoveredRow[0]['cells'][5].innerHTML;
+        var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
         
         $.ajax
 	({
-            type: "GET",
+            type: "POST",
             url: "exchange/getAdditionalLogs",
             data: {
-                internal_message_id: internalMessageId,
-                max_results: maxResults,
-                utc_milliseconds: timestamp.getTime()
+                message_id: messageId,
+                max_results: maxResults
             },
             dataType: "json"
 	})
 	.done(function(data)
 	{
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">';
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent">';
             
             if(data.hasOwnProperty('error')) {
                 insertionText += '<p>error: ' + data['error'] + '</p>';
-                insertionText += '</td></tr>';
+                insertionText += '</div></td></tr>';
                 
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
@@ -71,7 +65,7 @@ function rowExpander(currentHoveredRow)
                 insertionText += '<br/>';
             }
             insertionText += '</p>';
-            insertionText += '</td></tr>';
+            insertionText += '</div></td></tr>';
             $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
 	})
