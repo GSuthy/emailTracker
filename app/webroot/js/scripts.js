@@ -73,13 +73,13 @@ function rowExpander(currentHoveredRow)
 	})
         .fail(function(data) {
             console.log(document.URL);
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><div class="indent"><p>An error occurred</p></td></tr>';
             $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
         });
     } else if (currentHoveredRow.hasClass("canit")) {
-        var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
-        var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
+        var queueId = currentHoveredRow[0]['cells'][8].innerHTML;
+        var reportingHost = currentHoveredRow[0]['cells'][9].innerHTML;
 
         $.ajax
         ({
@@ -90,12 +90,6 @@ function rowExpander(currentHoveredRow)
         })
             .done(function(data) {
                 var logs = "";
-
-                /*for (var i = 0; i < data.length; i++) {
-                    logs += "<div class='indentLine'>" + data[i] + "</div>";
-                }
-
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">' + logs + '</div></td></tr>';*/
 
                 var logLines = new Array();
                 for (var i = 0; i < data.length; i++) {
@@ -129,7 +123,7 @@ function rowExpander(currentHoveredRow)
                         logs += "<br/>";
                     }
                 }
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><p>' + logs + '</p></td></tr>';
 
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
