@@ -73,13 +73,13 @@ function rowExpander(currentHoveredRow)
 	})
         .fail(function(data) {
             console.log(document.URL);
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><div class="indent"><p>An error occurred</p></td></tr>';
             $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
         });
     } else if (currentHoveredRow.hasClass("canit")) {
-        var queueId = currentHoveredRow[0]['cells'][7].innerHTML;
-        var reportingHost = currentHoveredRow[0]['cells'][8].innerHTML;
+        var queueId = currentHoveredRow[0]['cells'][8].innerHTML;
+        var reportingHost = currentHoveredRow[0]['cells'][9].innerHTML;
 
         $.ajax
         ({
@@ -90,12 +90,6 @@ function rowExpander(currentHoveredRow)
         })
             .done(function(data) {
                 var logs = "";
-
-                /*for (var i = 0; i < data.length; i++) {
-                    logs += "<div class='indentLine'>" + data[i] + "</div>";
-                }
-
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent">' + logs + '</div></td></tr>';*/
 
                 var logLines = new Array();
                 for (var i = 0; i < data.length; i++) {
@@ -129,7 +123,7 @@ function rowExpander(currentHoveredRow)
                         logs += "<br/>";
                     }
                 }
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + logs + '</p></td></tr>';
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><p>' + logs + '</p></td></tr>';
 
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
@@ -175,8 +169,8 @@ function rowHover(currentHoveredRow)
             $(overlayID + " a.view-logs").text("View Log");
         }
 
-        // This hides the "open in canit" if it's either red, green, or empty
-        if ($(currentHoveredRow).find("span").hasClass("spam-score-quarantined") == true)
+        // This hides the "open in canit" if the line has no incident id     TODO
+        if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
         {
             $(overlayID + " a.view-in-canit").show();
 
@@ -243,9 +237,9 @@ function rowHover(currentHoveredRow)
 
         $rowOverlay.find("a.view-in-canit").on("click", function()
         {
-            var realm = currentHoveredRow[0]['cells'][9].innerHTML;
-            var id = currentHoveredRow[0]['cells'][10].innerHTML;
-            var stream = currentHoveredRow[0]['cells'][11].innerHTML;
+            var realm = currentHoveredRow[0]['cells'][10].innerHTML;
+            var id = currentHoveredRow[0]['cells'][11].innerHTML;
+            var stream = currentHoveredRow[0]['cells'][5].innerHTML;
             var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
             window.open(url, '_blank');
         });
@@ -349,8 +343,6 @@ $(document).ready(function(realm, stream) {
         
     });
 
-    //TODO  Find some way to hide button when no new results are available
-
     function displayMoreCanitResults(results, tableClass) {
         var is_even;
         if ($("table.canit tr").last().hasClass('is_even')) {
@@ -373,7 +365,9 @@ $(document).ready(function(realm, stream) {
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
             }
-            inputRow += "</span></td><td>"+(r['subject'] ? r['subject'] : "")+"</td><td>"+(r['what'] ? r['what'] : "")+"</td>";
+            inputRow += "</span></td><td>"+(r['subject'] ? r['subject'] : "")+"</td>"+
+                "<td>"+(r['stream'] ? r['stream'] : "")+"</td>" +
+                "<td>"+(r['what'] ? r['what'] : "")+"</td>";
 
             var canit_spam_score_string = "";
             var canit_spam_score = r['score'];
@@ -386,8 +380,8 @@ $(document).ready(function(realm, stream) {
             inputRow += "<td hidden>" + r['queue_id'] + "</td>";
             inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
             inputRow += "<td hidden>" + r['realm'] + "</td>";
-            inputRow += "<td hidden>" + r['incident_id'] + "</td>";
-            inputRow += "<td hidden>" + r['stream'] + "</td></tr>";
+            var incidentIdClass = (r['incident_id'] ? "has-incident" : "")                  //TODO
+            inputRow += "<td class=\""+incidentIdClass+"\" hidden>" + r['incident_id'] + "</td>";
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
