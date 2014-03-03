@@ -375,7 +375,7 @@ if ($show_table) {
     <a class="view-in-canit">Open in CanIt</a>
     </span>
 </div>
-    
+
 <div id="nonCanitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a class="view-logs">View Logs</a>
