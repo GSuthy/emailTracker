@@ -60,8 +60,8 @@ function rowExpander(currentHoveredRow)
             for(var rowIndex in data) {
                 var row = data[rowIndex];
                 insertionText += row["date_time"] + ', ';
-                insertionText += row["event_id"] + ', ';
-                insertionText += row["recipient_address"] + ', ';
+                insertionText += 'event: ' + row["event_id"] + ', ';
+                insertionText += 'recipient: ' + row["recipient_address"] + ', ';
                 insertionText += 'client: ' + row["client_hostname"] + ', ';
                 insertionText += 'server: ' + row["server_hostname"];
                 insertionText += '<br/>';

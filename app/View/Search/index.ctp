@@ -117,7 +117,7 @@ if (!$authorized) {
                 <div class="status-indicator"></div>
             </div>
             <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
-            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
@@ -334,7 +334,7 @@ if ($show_table) {
                 "<th>Sender</th>" .
                 "<th>Recipient</th>" .
                 "<th>Subject</th>" .
-		"<th>Message ID</th>" .
+		"<th hidden>Message ID</th>" .
                 "</tr>\n";
             
             if(isset($exchangeResults['error'])) {
@@ -351,7 +351,7 @@ if ($show_table) {
                         "<td>" . $row['sender_address'] . "</td>" .
                         "<td>" . $row['recipient_address'] . "</td>" .
                         "<td>" . $row['message_subject'] . "</td>" .
-                        "<td>" . htmlentities($row['message_id']) . "</td>" .
+                        "<td hidden>" . htmlentities($row['message_id']) . "</td>" .
                         "</tr>\n";
                     $is_even = !$is_even;
                 }
