@@ -33,13 +33,25 @@ function rowExpander(currentHoveredRow)
         var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
         
+        var date = currentHoveredRow[0]['cells'][0].innerHTML;
+        var time = currentHoveredRow[0]['cells'][1].innerHTML;
+        var timestamp = new Date(date + " " + time);
+        var utcMilliseconds = timestamp.getTime();
+        
+        var sender = currentHoveredRow[0]['cells'][2].innerHTML;
+        
+        var subject = currentHoveredRow[0]['cells'][4].innerHTML;
+        
         $.ajax
 	({
             type: "POST",
             url: "exchange/getAdditionalLogs",
             data: {
                 message_id: messageId,
-                max_results: maxResults
+                max_results: maxResults,
+                utc_milliseconds: utcMilliseconds,
+                sender_address: sender,
+                message_subject: subject
             },
             dataType: "json"
 	})
