@@ -169,8 +169,8 @@ function rowHover(currentHoveredRow)
             $(overlayID + " a.view-logs").text("View Log");
         }
 
-        // This hides the "open in canit" if it's either red, green, or empty
-        if ($(currentHoveredRow).find("span").hasClass("spam-score-quarantined") == true)
+        // This hides the "open in canit" if the line has no incident id     TODO
+        if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
         {
             $(overlayID + " a.view-in-canit").show();
 
@@ -343,8 +343,6 @@ $(document).ready(function(realm, stream) {
         
     });
 
-    //TODO  Find some way to hide button when no new results are available
-
     function displayMoreCanitResults(results, tableClass) {
         var is_even;
         if ($("table.canit tr").last().hasClass('is_even')) {
@@ -382,7 +380,8 @@ $(document).ready(function(realm, stream) {
             inputRow += "<td hidden>" + r['queue_id'] + "</td>";
             inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
             inputRow += "<td hidden>" + r['realm'] + "</td>";
-            inputRow += "<td hidden>" + r['incident_id'] + "</td>";
+            var incidentIdClass = (r['incident_id'] ? "has-incident" : "")                  //TODO
+            inputRow += "<td class=\""+incidentIdClass+"\" hidden>" + r['incident_id'] + "</td>";
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
