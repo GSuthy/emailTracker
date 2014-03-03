@@ -183,7 +183,7 @@ if ($show_table) {
         $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
     }
 
-    $paramsTable = "<table id=\"paramsTable\" hidden><tr>".
+    $paramsTable = "<table id=\"paramsTable\" style=\"display: none\"><tr>".
         "<td>".$recipient."</td>".
         "<td>".$recipientContains."</td>".
         "<td>".$sender."</td>".
@@ -263,7 +263,8 @@ if ($show_table) {
                 $canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
                 $canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
-                $canit_table_string .= "<td hidden>" . $canit_row['incident_id'] . "</td>";
+                $incidentIdClass = (empty($canit_row['incident_id']) ?  "" : "has-incident");
+                $canit_table_string .= "<td class='".$incidentIdClass."' hidden>" . $canit_row['incident_id'] . "</td>";
                 $is_even = !$is_even;
             }
 
