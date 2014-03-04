@@ -334,7 +334,7 @@ if ($show_table) {
                 "<th>Sender</th>" .
                 "<th>Recipient</th>" .
                 "<th>Subject</th>" .
-		"<th>Message ID</th>" .
+		"<th hidden>Message ID</th>" .
                 "</tr>\n";
             
             if(isset($exchangeResults['error'])) {
@@ -351,7 +351,7 @@ if ($show_table) {
                         "<td>" . $row['sender_address'] . "</td>" .
                         "<td>" . $row['recipient_address'] . "</td>" .
                         "<td>" . $row['message_subject'] . "</td>" .
-                        "<td>" . htmlentities($row['message_id']) . "</td>" .
+                        "<td hidden>" . htmlentities($row['message_id']) . "</td>" .
                         "</tr>\n";
                     $is_even = !$is_even;
                 }
