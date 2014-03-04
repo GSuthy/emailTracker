@@ -8,7 +8,7 @@ I spoke with Kevin, and here's the known differences/issues/things to work on (i
 - In the table I created, we left off the left side counter column, the incident ID column (since it's usually blank), and the "view logs" button; I planned on creating a client-side script that makes an AJAX call to get the log data (I'll need your help with that). Assuming the information that is required to make that call can be stuck in a hidden field somehwere at some point, I don't think we need it for now?
 - In my table, there are separate columns for date & time - Kevin said we could parse it so those end up in different columns, rather than in a single column.
 - The column entitled "what" has been changed to be titled "Status"
-- Be aware of the top of the table -> <tr class="table-information"><td colspan="7">Routers Results</td></tr>
+- Be aware of the top of the table -> <tr class="table-information"><td colspan="8">Routers Results</td></tr>
 - I tried to go through the inputs and rename them to match the names of your .php form.
 - I'll add a logout/BYU search button at the top at some point.
 - Let me know if you notice any browser quirks, as far as styling goes. Firefox has a known issue with the dropdowns, but the rest should be fine.

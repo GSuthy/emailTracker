@@ -85,7 +85,7 @@ function rowExpander(currentHoveredRow)
 	})
         .fail(function(data) {
             console.log(document.URL);
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><div class="indent"><p>An error occurred</p></td></tr>';
+            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent"><p>An error occurred</p></td></tr>';
             $(insertionText).insertAfter(currentHoveredRow);
             $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
         });
@@ -345,14 +345,6 @@ $(document).ready(function(realm, stream) {
         }
 
         numResults[tableClass] += 20;
-
-        /*var table = document.getElementsByClassName(tableClass + " results");
-        table.refresh();*/
-        /*for (var i = 0; i < 20; i++)
-        {
-            $("table." + tableClass + " tr").last().after("<tr><td colspan='6'>This is just a little test, ya know.</td></tr>");
-        }*/
-        
     });
 
     function displayMoreCanitResults(results, tableClass) {
