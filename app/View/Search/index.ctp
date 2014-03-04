@@ -220,7 +220,7 @@ if ($show_table) {
             $canit_table_string = "<table class='results canit'>" .
                 "<tbody>" .
                 "<tr class='table-information'>" .
-                "<td colspan='6'>CanIt Results</td>" .
+                "<td colspan='8'>CanIt Results</td>" .
                 "<tr>" .
                 "<th>Date</th>" .
                 "<th>Time</th>" .
