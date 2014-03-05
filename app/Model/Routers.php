@@ -4,7 +4,7 @@ App::uses('AppModel', 'Model');
 class Routers extends AppModel {
     public $name = 'Routers';
     public $useDbConfig = 'routers';
-    public $useTable = 'systemevents';
+    public $useTable = 'emailevents';
 	public $primaryKey = 'ID';
 
     public function getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults) {
@@ -32,9 +32,10 @@ class Routers extends AppModel {
         $conditions = array();
         if (!is_null($sender) && is_null($recipient)) {
             $conditions['OR'] = array(
-                                        array("Message LIKE" => "%from=<" . $sender . ">, size%"),
-                                        array("Message LIKE" => "%from=" . $sender . ", size%")
+                                        array("sender_receiver LIKE" => "<".$sender.">"),
+                                        array("sender_receiver LIKE" => $sender)
                                      );
+            $conditions['is_type_from'] = 1;
         } else if (!is_null($recipient)) {
             $conditions['OR'] = array(
                                         array("Message LIKE" => "%to=" . $recipient . ",%delay%"),
@@ -49,9 +50,9 @@ class Routers extends AppModel {
                                         array("Message LIKE" => "%from=%")
                                     );
         }
-        $conditions['ReceivedAt BETWEEN ? AND ?'] = array($start_date->format('Y-m-d\TH:i:s'), $end_date->format('Y-m-d\TH:i:s'));
+        $conditions['received_at BETWEEN ? AND ?'] = array($start_date->format('Y-m-d\TH:i:s'), $end_date->format('Y-m-d\TH:i:s'));
 
-        $temp_results = $this->find('all', array('conditions' => $conditions, 'order' => 'ReceivedAt DESC', 'limit' => $maxResults, 'fields' => array('Message', 'ReceivedAt')));
+        $temp_results = $this->find('all', array('conditions' => $conditions, 'order' => 'received_at DESC', 'limit' => $maxResults));
 
         $results = array();
         if (!empty($temp_results)) {
