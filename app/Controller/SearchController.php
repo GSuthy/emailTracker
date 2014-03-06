@@ -18,13 +18,15 @@ class SearchController extends AppController {
                 $sender_contains = ($this->request['data']['senderSearchType'] == "contains") ? true : false;
                 $startDttm = $this->request['data']['start_date'];
                 $endDttm = $this->request['data']['end_date'];
-                $maxCount = 20;
+                $maxCount = 30;
+                $offset = 0;
 
                 $routerResults = $this->Routers->getTable($recipient, $recipient_contains,
                     $sender, $sender_contains,
-                    $startDttm, $endDttm, $maxCount);
+                    $startDttm, $endDttm, $maxCount, $offset);
 
-                $this->set('routerResults', $routerResults);
+                $this->set('numRouterResultsLeft', $routerResults['count'] - count($routerResults['results']));
+                $this->set('routerResults', $routerResults['results']);
             }
         }
     }
@@ -52,6 +54,14 @@ class SearchController extends AppController {
         $this->set('moreResults', $json);
         $this->layout = null;
         $this->render('canitresults');
+    }
+
+    public function routersresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
+        $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
+        $json = json_encode($results);
+        $this->set('moreResults', $json);
+        $this->layout = null;
+        $this->render('routersresults');
     }
 
     public function canitlogs($queue_id = null, $reporting_host = null) {

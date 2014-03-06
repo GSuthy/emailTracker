@@ -1,3 +1,5 @@
+var NUM_RESULTS_INITIAL = 30;
+var ADDITIONAL_RESULTS_CONST = 20;
 var numResults;
 
 function arrowChecker(currentBox) {
@@ -259,7 +261,7 @@ function rowHover(currentHoveredRow)
 
 $(document).ready(function(realm, stream) {
 
-    numResults = {'canit': 30, 'routers': 30, 'exchange': 30}
+    numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': NUM_RESULTS_INITIAL, 'exchange': NUM_RESULTS_INITIAL}
 
 	// Initialize the datepickers
 	$( "#datepickerStart" ).datepicker({
@@ -344,7 +346,7 @@ $(document).ready(function(realm, stream) {
             });
         }
 
-        numResults[tableClass] += 20;
+        numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
     });
 
     function displayMoreCanitResults(results, tableClass) {
@@ -396,6 +398,17 @@ $(document).ready(function(realm, stream) {
             button.removeClass("view-more-results");
             button.addClass("no-more-results");
         }
+    }
+
+    function displayMoreCanitResults(results, tableClass) {
+        var is_even;
+        if ($("table.routers tr").last().hasClass('is_even')) {
+            is_even = false;
+        } else {
+            is_even = true;
+        }
+
+
     }
 
     // Used to make sure all month and day strings have two digits

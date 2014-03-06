@@ -169,7 +169,7 @@ if ($show_table) {
     $subject = strtolower($_POST['subject']);
     $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
 
-    if (empty($_POST['start_date'])) {
+    if (empty($_POST['start_date']) || (!empty($_POST['start_date']) && $_POST['start_date'] == "")) {
         $start_date_error = "Start date required";
     } else {
         $date = $_POST['start_date'];
@@ -309,9 +309,9 @@ if ($show_table) {
                 $is_even = !$is_even;
             }
 
-            $router_table_string = $router_table_string ."</tbody>" .
-                "</table>" .
-                "<br/>";
+            $router_table_string .= "</tbody></table>";
+            $router_table_string .= ($numRouterResultsLeft > 0 ? "<a class='view-more-results routers'>View More Results</a>" : "<a class='no-more-results routers'>No More Results</a>");
+            $router_table_string .= "<br/>";
 
             echo $router_table_string;
         }
@@ -334,7 +334,7 @@ if ($show_table) {
                 "<th>Sender</th>" .
                 "<th>Recipient</th>" .
                 "<th>Subject</th>" .
-		"<th hidden>Message ID</th>" .
+		        "<th hidden>Message ID</th>" .
                 "</tr>\n";
             
             if(isset($exchangeResults['error'])) {
