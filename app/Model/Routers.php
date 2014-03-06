@@ -24,8 +24,16 @@ class Routers extends AppModel {
         );
 
         $conditions = array();
-        $conditions['Routers.sender_receiver LIKE'] = $sender;
-        $conditions['Table2.sender_receiver LIKE'] = $recipient;
+        $conditions['AND'] = array(
+            array('OR' => array(
+                array('Routers.sender_receiver LIKE' => $sender),
+                array('Routers.sender_receiver LIKE' => '<'.$sender.'>')
+            )),
+            array('OR' => array(
+                array('Table2.sender_receiver LIKE' => $recipient),
+                array('Table2.sender_receiver LIKE' => '<'.$recipient.'>')
+            ))
+        );
         $conditions['Routers.received_at BETWEEN ? AND ?'] = array($startDttm->format("Y-m-d H:i:s"), $endDttm->format("Y-m-d H:i:s"));
 
         $options['conditions'] = $conditions;
@@ -50,7 +58,7 @@ class Routers extends AppModel {
         return $results;
     }
 
-    private function formatInput(&$sender, $sender_contains, &$recipient, $recipient_contains, &$startDttm, &$endDttm) {
+    private function formatInput(&$recipient, $recipient_contains, &$sender, $sender_contains, &$startDttm, &$endDttm) {
         if (!is_null($sender)) {
             if ($sender_contains) {
                 $sender = "%" . $sender . "%";
