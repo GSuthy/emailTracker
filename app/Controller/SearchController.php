@@ -23,6 +23,7 @@ class SearchController extends AppController {
                 $routerResults = $this->Routers->getTable($recipient, $recipient_contains,
                     $sender, $sender_contains,
                     $startDttm, $endDttm, $maxCount);
+
                 $this->set('routerResults', $routerResults);
             }
         }
