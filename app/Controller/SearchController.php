@@ -25,7 +25,7 @@ class SearchController extends AppController {
                     $sender, $sender_contains,
                     $startDttm, $endDttm, $maxCount, $offset);
 
-                $this->set('numRouterResultsLeft', $routerResults['count'] - count($routerResults['results']));
+                $this->set('numRouterResultsLeft', $routerResults['count']);
                 $this->set('routerResults', $routerResults['results']);
             }
         }
@@ -57,6 +57,15 @@ class SearchController extends AppController {
     }
 
     public function routersresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
+        $recipient = $_REQUEST['recipient'];
+        $recipient_contains = $_REQUEST["recipient_contains"];
+        $sender = $_REQUEST['sender'];
+        $sender_contains = $_REQUEST["sender_contains"];
+        $startDttm = $_REQUEST['start_date'];
+        $endDttm = $_REQUEST['end_date'];
+        $maxResults = $_REQUEST['max_results'];
+        $offset = $_REQUEST['offset'];
+
         $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
         $json = json_encode($results);
         $this->set('moreResults', $json);

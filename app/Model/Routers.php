@@ -44,6 +44,7 @@ class Routers extends AppModel {
 
         if (!empty($temp_results)) {
             $results['results'] = $this->formatOutput($temp_results);
+            $results['count'] -= ($offset + count($results['results']));
         }
 
         return $results;
@@ -62,8 +63,12 @@ class Routers extends AppModel {
             }
         }
 
-        $startDttm = date_create_from_format('m/d/Y H:i:s', $startDttm . " 00:00:00");
-        $endDttm = date_create_from_format('m/d/Y H:i:s', $endDttm . " 00:00:00");
+        $startDttm = (date_create_from_format('m/d/Y H:i:s', $startDttm . " 00:00:00") ?
+                      date_create_from_format('m/d/Y H:i:s', $startDttm . " 00:00:00") :
+                      date_create_from_format('Y-m-d H:i:s.u', str_replace('T', ' ', $startDttm)));
+        $endDttm = (date_create_from_format('m/d/Y H:i:s', $endDttm . " 00:00:00") ?
+                    date_create_from_format('m/d/Y H:i:s', $endDttm . " 00:00:00") :
+                    date_create_from_format('Y-m-d H:i:s.u', str_replace('T', ' ', $endDttm)));
         $endDttm->add(new DateInterval('P1D'));
     }
 

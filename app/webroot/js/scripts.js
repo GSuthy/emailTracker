@@ -344,6 +344,21 @@ $(document).ready(function(realm, stream) {
                     rowHover($(this));
                 });
             });
+        } else if (tableClass == "routers") {
+            $.ajax
+            ({
+                type: "POST",
+                url: "Search/routersresults",
+                data: params,
+                dataType: "json"
+            })
+                .done(function(data)
+                {
+                    displayMoreRoutersResults(data, tableClass);
+                    $('table.results tr').not('.table-information').on('mouseover', function() {
+                        rowHover($(this));
+                    });
+                });
         }
 
         numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
@@ -387,7 +402,7 @@ $(document).ready(function(realm, stream) {
             inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
             inputRow += "<td hidden>" + r['realm'] + "</td>";
             var incidentIdClass = (r['incident_id'] ? "has-incident" : "")                  //TODO
-            inputRow += "<td class=\""+incidentIdClass+"\" hidden>" + r['incident_id'] + "</td>";
+            inputRow += "<td class=\""+incidentIdClass+"\" hidden>" + r['incident_id'] + "</td></tr>";
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
@@ -400,7 +415,7 @@ $(document).ready(function(realm, stream) {
         }
     }
 
-    function displayMoreCanitResults(results, tableClass) {
+    function displayMoreRoutersResults(results, tableClass) {
         var is_even;
         if ($("table.routers tr").last().hasClass('is_even')) {
             is_even = false;
@@ -408,7 +423,28 @@ $(document).ready(function(realm, stream) {
             is_even = true;
         }
 
+        for (var i = 0; i < results['results'].length; i++)
+        {
+            var r = results['results'][i];
+            var date = r['Date'];
+            var time = r['Time'];
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td>"+
+                r['Sender']+"</td><td>";
+            for (var j = 0; j < r['Recipients'].length; j++) {
+                inputRow += r['Recipients'][j] + "<br/>";
+            }
+            inputRow += "</td><td>"+r['Status']+"</td></tr>";
 
+            is_even = !is_even;
+            $("table." + tableClass + " tr").last().after(inputRow);
+        }
+
+        if (results['count'] == 0) {
+            var button = $("a.view-more-results.routers");
+            button.text('No More Results');
+            button.removeClass("view-more-results");
+            button.addClass("no-more-results");
+        }
     }
 
     // Used to make sure all month and day strings have two digits
@@ -431,11 +467,22 @@ $(document).ready(function(realm, stream) {
         var startDttm = row.cells[6].innerText;
         var endDttm = row.cells[7].innerText;
         var maxResults = 20;
-        var offset = numResults[tableClass]
+        var offset = numResults[tableClass];
+        var results;
 
-        var results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+        if (tableClass == "canit") {
+            results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
                        sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
                        start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+        } else if (tableClass == "routers") {
+            results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+                       sender_contains: senderContains, start_date: startDttm, end_date: endDttm,
+                       max_results: maxResults, offset: offset};
+        } else {
+            results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+                sender_contains: senderContains, start_date: startDttm, end_date: endDttm, max_results: maxResults,
+                offset: offset};
+        }
 
         return results;
     }
