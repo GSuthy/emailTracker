@@ -116,8 +116,8 @@ if (!$authorized) {
                 <h4>Routers</h4><p>(Alias Routing)</p>
                 <div class="status-indicator"></div>
             </div>
-            <div <?php /*if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";*/?>></div>
-            <div hidden <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
+            <div <?php if ($show_table && isset($_POST['routerSelect']) && isset($_POST['exchangeSelect'])) echo "class='server-arrow on'"; else echo "class='server-arrow'";?>></div>
+            <div <?php if ($show_table && isset($_POST['exchangeSelect'])) echo "class='box-selector on'"; else echo "class='box-selector'"?> id="Exchange">
                 <h4>Exchange</h4><p>(Mail Delivery)</p>
                 <div class="status-indicator"></div>
             </div>
@@ -359,9 +359,9 @@ if ($show_table) {
                 }
             }
 
-            $exchange_table_string = $exchange_table_string . "</tbody>\n" .
-                "</table>\n" .
-                "<br/>";
+            $exchange_table_string .= "</tbody></table>";
+            $exchange_table_string .= (count($exchangeResults) == $max_results ? "<a class='view-more-results exchange'>View More Results</a>" : "<a class='no-more-results exchange'>No More Results</a>");
+            $exchange_table_string .= "<br/>";
 
             echo $exchange_table_string;
         }
