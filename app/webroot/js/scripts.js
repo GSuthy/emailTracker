@@ -428,12 +428,12 @@ $(document).ready(function(realm, stream) {
             var r = results['results'][i];
             var date = r['Date'];
             var time = r['Time'];
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td>"+
-                r['Sender']+"</td><td>";
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
+                r['Sender']+"</span></td><td><span class='routers-recipients'>";
             for (var j = 0; j < r['Recipients'].length; j++) {
                 inputRow += r['Recipients'][j] + "<br/>";
             }
-            inputRow += "</td><td>"+r['Status']+"</td></tr>";
+            inputRow += "</span></td><td>"+r['Status']+"</td></tr>";
 
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
