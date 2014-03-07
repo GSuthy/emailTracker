@@ -300,12 +300,12 @@ if ($show_table) {
                 $router_table_string = $router_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " routers'>" .
                     "<td>" . $row['Date'] . "</td>" .
                     "<td>" . $row['Time'] . "</td>" .
-                    "<td>" . $row['Sender'] . "</td>" .
-                    "<td>";
+                    "<td><span class='routers-sender'>" . $row['Sender'] . "</span></td>" .
+                    "<td><span class='routers-recipients'>";
                 foreach ($row['Recipients'] as $recip) {
                     $router_table_string .= $recip . "<br/>";
                 }
-                $router_table_string .= "</td>" .
+                $router_table_string .= "</span></td>" .
                     "<td>" . $row['Status'] . "</td>" .
                     "</tr>";
                 $is_even = !$is_even;
