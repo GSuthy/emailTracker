@@ -143,20 +143,56 @@ function rowExpander(currentHoveredRow)
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
 
-    } else {
-	$.ajax
-	({
-            type: "GET",
-            url: "../ajaxtest.php",
-            data: {ID: "5"}
-	})
-	.done(function(data)
-	{
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
-            $(insertionText).insertAfter('tr.tr-hover-state');
-	});
+    } else if (currentHoveredRow.hasClass("routers")) {
+        var message_id = currentHoveredRow[0]['cells'][5].innerHTML;
+        var next_id = currentHoveredRow[0]['cells'][6].innerHTML;
+        $.ajax
+        ({
+            type: "POST",
+            url: "Search/routerslogs",
+            data: {message_id: message_id,
+                next_id: next_id},
+            dataType: "json"
+        })
+            .done(function(data)
+            {
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7">';
+
+                insertionText += '<p>';
+                insertionText += recursivePrintArray(data, "");
+                insertionText += '</p>';
+                insertionText += '</td></tr>';
+                $(insertionText).insertAfter(currentHoveredRow);
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            })
+            .fail(function(data) {
+                console.log(document.URL);
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+                $(insertionText).insertAfter(currentHoveredRow);
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            });
     }
 };
+
+function recursivePrintArray(array, insertion_text) {
+    for (var i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) {
+            insertion_text += recursivePrintArray(array[i], insertion_text);
+        } else {
+            var row = array[i]['Routers'];
+            insertion_text += row["received_at"] + ', ';
+            insertion_text += 'MessageID: ' + row["message_id"] + ', ';
+            insertion_text += 'FromHost: ' + row["from_host"] + ', ';
+            insertion_text += (row["is_type_from"] == 1 ? 'from: ' : 'to: ') + row["sender_receiver"] + ', ';
+            insertion_text += 'Relay: ' + row["relay"];
+            insertion_text += 'DSN: ' + row["dsn"];
+            insertion_text += 'Stat: ' + row["stat"];
+            insertion_text += 'NextID: ' + row["next_id"];
+            insertion_text += '<br/>';
+        }
+    }
+    return insertion_text;
+}
 
 function rowHover(currentHoveredRow)
 {

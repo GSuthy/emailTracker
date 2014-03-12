@@ -88,5 +88,45 @@ class SearchController extends AppController {
         $this->render('canitlogs');
     }
 
+    public function routerslogs($messageId = null, $nextId = null) {
+        $messageId = $_REQUEST['message_id'];
+        $nextId = $_REQUEST['next_id'];
+
+        $allLogs = array();
+
+        $currentMessageId = $messageId;
+        while (!is_null($currentMessageId)) {
+            $previousLink = $this->Routers->getPreviousLink($currentMessageId);
+
+            $temp_id = null;
+            foreach ($previousLink as $array) {
+                array_unshift($allLogs, $array);
+                if (!is_null($array['Routers']['message_id'])) {
+                    $temp_id = $array['Routers']['message_id'];
+                }
+            }
+            $currentMessageId = $temp_id;
+        }
+
+        $currentLog = $this->Routers->getCurrentLog($messageId);
+        array_push($allLogs, $currentLog);
+
+        $currentNextId = $nextId;
+        while (!is_null($currentNextId)) {
+            $nextLink = $this->Routers->getNextLink($currentNextId);
+
+            $temp_id = null;
+            foreach ($nextLink as $array) {
+                array_push($allLogs, $array);
+                if (!is_null($array['Routers']['next_id'])) {
+                    $temp_id = $array['Routers']['next_id'];
+                }
+            }
+            $currentNextId = $temp_id;
+        }
+
+        return new CakeResponse(array('body' => json_encode($allLogs), 'type' => 'json'));
+    }
+
     public function unauthorized() {}
 }
