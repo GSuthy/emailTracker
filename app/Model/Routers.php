@@ -37,7 +37,7 @@ class Routers extends AppModel {
         $conditions['Routers.received_at BETWEEN ? AND ?'] = array($startDttm->format("Y-m-d H:i:s"), $endDttm->format("Y-m-d H:i:s"));
 
         $options['conditions'] = $conditions;
-        $options['fields'] = array('Routers.message_id', 'Routers.received_at', 'Routers.sender_receiver', 'Table2.sender_receiver', 'Table2.stat');
+        $options['fields'] = array('Routers.message_id', 'Routers.received_at', 'Routers.sender_receiver', 'Table2.next_id', 'Table2.sender_receiver', 'Table2.stat');
         $options['offset'] = $offset;
 
         $count = $this->find('count', $options);
@@ -54,6 +54,37 @@ class Routers extends AppModel {
             $results['results'] = $this->formatOutput($temp_results);
             $results['count'] -= ($offset + count($results['results']));
         }
+
+        return $results;
+    }
+
+    public function getPreviousLink($message_id) {
+        $conditions = array();
+        $conditions['next_id'] = $message_id;
+
+        $resultsTemp = $this->find('all', array('conditions' => $conditions));
+        $results = array();
+        foreach ($resultsTemp as $resultTemp) {
+            array_push($results, $this->getCurrentLog($resultTemp['Routers']['message_id']));
+        }
+
+        return $results;
+    }
+
+    public function getCurrentLog($message_id) {
+        $conditions = array();
+        $conditions['message_id'] = $message_id;
+
+        $results = $this->find('all', array('conditions' => $conditions));
+
+        return $results;
+    }
+
+    public function getNextLink($next_id) {
+        $conditions = array();
+        $conditions['message_id'] = $next_id;
+
+        $results = $this->find('all', array('conditions' => $conditions));
 
         return $results;
     }
@@ -91,6 +122,8 @@ class Routers extends AppModel {
             $result['Sender'] = preg_replace("/<|>/", "", $temp_result['Routers']['sender_receiver']);
             $result['Recipients'] = explode(",", preg_replace("/<|>/", "", $temp_result['Table2']['sender_receiver']));
             $result['Status'] = $temp_result['Table2']['stat'];
+            $result['Message_ID'] = $temp_result['Routers']['message_id'];
+            $result['Next_ID'] = $temp_result['Table2']['next_id'];
 
             array_push($results, $result);
         }

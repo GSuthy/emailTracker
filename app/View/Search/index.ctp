@@ -293,6 +293,8 @@ if ($show_table) {
                 "<th>Sender</th>" .
                 "<th>Recipients</th>" .
                 "<th>Status</th>" .
+                "<th style='display: none'>Current ID</th>" .
+                "<th style='display: none'>Next ID</th>" .
                 "</tr>";
 
             $is_even = true;
@@ -307,6 +309,8 @@ if ($show_table) {
                 }
                 $router_table_string .= "</span></td>" .
                     "<td>" . $row['Status'] . "</td>" .
+                    "<td style='display: none'>" . $row['Message_ID'] . "</td>" .
+                    "<td style='display: none'>" . $row['Next_ID'] . "</td>" .
                     "</tr>";
                 $is_even = !$is_even;
             }

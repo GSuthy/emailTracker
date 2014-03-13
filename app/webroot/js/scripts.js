@@ -3,30 +3,30 @@ var ADDITIONAL_RESULTS_CONST = 20;
 var numResults;
 
 function arrowChecker(currentBox) {
-	var prevArrow = $(currentBox).prev('.server-arrow');
-	var nextArrow = $(currentBox).next('.server-arrow');
+    var prevArrow = $(currentBox).prev('.server-arrow');
+    var nextArrow = $(currentBox).next('.server-arrow');
 
-	if (prevArrow.next().hasClass('on') && prevArrow.prev().hasClass('on'))
-	{
-		prevArrow.addClass('on');
-	}
-	else
-	{
-		prevArrow.removeClass('on');
-	}
+    if (prevArrow.next().hasClass('on') && prevArrow.prev().hasClass('on'))
+    {
+        prevArrow.addClass('on');
+    }
+    else
+    {
+        prevArrow.removeClass('on');
+    }
 
-	if (nextArrow.next().hasClass('on') && nextArrow.prev().hasClass('on'))
-	{
-		nextArrow.addClass('on');
-	}
-	else
-	{
-		nextArrow.removeClass('on');
-	}
+    if (nextArrow.next().hasClass('on') && nextArrow.prev().hasClass('on'))
+    {
+        nextArrow.addClass('on');
+    }
+    else
+    {
+        nextArrow.removeClass('on');
+    }
 };
 
 function checkboxHandler(name, onOrOff) {
-	$(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
+    $(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
 function rowExpander(currentHoveredRow)
@@ -34,18 +34,18 @@ function rowExpander(currentHoveredRow)
     if(currentHoveredRow.hasClass("exchange")) {
         var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
-        
+
         var date = currentHoveredRow[0]['cells'][0].innerHTML;
         var time = currentHoveredRow[0]['cells'][1].innerHTML;
         var timestamp = new Date(date + " " + time);
         var utcMilliseconds = timestamp.getTime();
-        
+
         var sender = currentHoveredRow[0]['cells'][2].innerHTML;
-        
+
         var subject = currentHoveredRow[0]['cells'][4].innerHTML;
-        
+
         $.ajax
-	({
+        ({
             type: "POST",
             url: "exchange/getAdditionalLogs",
             data: {
@@ -56,41 +56,41 @@ function rowExpander(currentHoveredRow)
                 message_subject: subject
             },
             dataType: "json"
-	})
-	.done(function(data)
-	{
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent">';
-            
-            if(data.hasOwnProperty('error')) {
-                insertionText += '<p>error: ' + data['error'] + '</p>';
+        })
+            .done(function(data)
+            {
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent">';
+
+                if(data.hasOwnProperty('error')) {
+                    insertionText += '<p>error: ' + data['error'] + '</p>';
+                    insertionText += '</div></td></tr>';
+
+                    $(insertionText).insertAfter(currentHoveredRow);
+                    $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+                    return;
+                }
+
+                insertionText += '<p>';
+                for(var rowIndex in data) {
+                    var row = data[rowIndex];
+                    insertionText += row["date_time"] + ', ';
+                    insertionText += 'event: ' + row["event_id"] + ', ';
+                    insertionText += 'recipient: ' + row["recipient_address"] + ', ';
+                    insertionText += 'client: ' + row["client_hostname"] + ', ';
+                    insertionText += 'server: ' + row["server_hostname"];
+                    insertionText += '<br/>';
+                }
+                insertionText += '</p>';
                 insertionText += '</div></td></tr>';
-                
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
-                return;
-            }
-            
-            insertionText += '<p>';
-            for(var rowIndex in data) {
-                var row = data[rowIndex];
-                insertionText += row["date_time"] + ', ';
-                insertionText += 'event: ' + row["event_id"] + ', ';
-                insertionText += 'recipient: ' + row["recipient_address"] + ', ';
-                insertionText += 'client: ' + row["client_hostname"] + ', ';
-                insertionText += 'server: ' + row["server_hostname"];
-                insertionText += '<br/>';
-            }
-            insertionText += '</p>';
-            insertionText += '</div></td></tr>';
-            $(insertionText).insertAfter(currentHoveredRow);
-            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
-	})
-        .fail(function(data) {
-            console.log(document.URL);
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent"><p>An error occurred</p></td></tr>';
-            $(insertionText).insertAfter(currentHoveredRow);
-            $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
-        });
+            })
+            .fail(function(data) {
+                console.log(document.URL);
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent"><p>An error occurred</p></td></tr>';
+                $(insertionText).insertAfter(currentHoveredRow);
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            });
     } else if (currentHoveredRow.hasClass("canit")) {
         var queueId = currentHoveredRow[0]['cells'][8].innerHTML;
         var reportingHost = currentHoveredRow[0]['cells'][9].innerHTML;
@@ -103,219 +103,270 @@ function rowExpander(currentHoveredRow)
             dataType: "json"
         })
             .done(function(data) {
-                var logs = "";
 
-                var logLines = new Array();
-                for (var i = 0; i < data.length; i++) {
-                    var lines = new Array();
-                    var lineLength = 100;
+                var logs = doIndent(data);
 
-                    var logDelimited = data[i].split(/[\s;]+/g);
-                    var line = "";
-                    for (var j = 0; j < logDelimited.length; j++) {
-                        var tempLine = line + logDelimited[j];
-                        if (tempLine.length > lineLength) {
-                            lines.push(line);
-                            line = logDelimited[j];
-                        } else if (tempLine.length <= lineLength && j < logDelimited.length - 1) {
-                            line = tempLine;
-                        } else {
-                            lines.push(tempLine);
-                        }
-                    }
-                    logLines.push(lines);
-                }
-
-                for (var i = 0; i < logLines.length; i++) {
-                    for (var j = 0; j < logLines[i].length; j++) {
-                        if (j > 0) {
-                            logs += "&nbsp&nbsp&nbsp&nbsp&nbsp";
-                        }
-                        logs += logLines[i][j].replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/,/g, ",&nbsp") + "<br/>";
-                    }
-                    if (i < logLines.length - 1) {
-                        logs += "<br/>";
-                    }
-                }
                 var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><p>' + logs + '</p></td></tr>';
 
                 $(insertionText).insertAfter(currentHoveredRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
 
-    } else {
-	$.ajax
-	({
-            type: "GET",
-            url: "../ajaxtest.php",
-            data: {ID: "5"}
-	})
-	.done(function(data)
-	{
-            var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><p>' + data + '</p></td></tr>';
-            $(insertionText).insertAfter('tr.tr-hover-state');
-	});
+    } else if (currentHoveredRow.hasClass("routers")) {
+        var message_id = currentHoveredRow[0]['cells'][5].innerHTML;
+        var next_id = currentHoveredRow[0]['cells'][6].innerHTML;
+        $.ajax
+        ({
+            type: "POST",
+            url: "Search/routerslogs",
+            data: {message_id: message_id,
+                next_id: next_id},
+            dataType: "json"
+        })
+            .done(function(data)
+            {
+                var rawLogs = simplifyArray(data);
+                var logs = doIndent(rawLogs);
+
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7">';
+
+                insertionText += '<p>';
+                insertionText += logs;
+                insertionText += '</p>';
+                insertionText += '</td></tr>';
+                $(insertionText).insertAfter(currentHoveredRow);
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            })
+            .fail(function(data) {
+                console.log(document.URL);
+                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+                $(insertionText).insertAfter(currentHoveredRow);
+                $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
+            });
     }
 };
+
+function simplifyArray(array) {
+    var returnArray = Array();
+    for (var i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) {
+           returnArray = returnArray.concat(simplifyArray(array[i]));
+        } else {
+            var row = array[i]['Routers'];
+            var line = row["received_at"] + ', ';
+            line += 'MessageID: ' + row["message_id"] + ', ';
+            line += 'FromHost: ' + row["from_host"] + ', ';
+            line += (row["is_type_from"] == 1 ? 'from: ' : 'to: ') + row["sender_receiver"] + ', ';
+            line += 'Relay: ' + row["relay"];
+            if (row["is_type_from"] == 0)
+            {
+                line += ', DSN: ' + row["dsn"] + ", ";
+                line += 'Stat: ' + row["stat"];
+                if (row["next_id"] != null) {
+                    line += ', NextID: ' + row["next_id"];
+                }
+            }
+            returnArray.push(line);
+        }
+    }
+    return returnArray;
+}
+
+function doIndent(array) {
+    var logs = "";
+    var logLines = new Array();
+    for (var i = 0; i < array.length; i++) {
+        var lines = new Array();
+        var lineLength = 100;
+
+        var logDelimited = array[i].split(/[\s;]+/g);
+        var line = "";
+        for (var j = 0; j < logDelimited.length; j++) {
+            var tempLine = line + logDelimited[j];
+            if (tempLine.length > lineLength) {
+                lines.push(line);
+                line = logDelimited[j];
+            } else if (tempLine.length <= lineLength && j < logDelimited.length - 1) {
+                line = tempLine;
+            } else {
+                lines.push(tempLine);
+            }
+        }
+        logLines.push(lines);
+    }
+
+    for (var i = 0; i < logLines.length; i++) {
+        for (var j = 0; j < logLines[i].length; j++) {
+            if (j > 0) {
+                logs += "&nbsp&nbsp&nbsp&nbsp&nbsp";
+            }
+            logs += logLines[i][j].replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/,/g, ",&nbsp") + "<br/>";
+        }
+        if (i < logLines.length - 1) {
+            logs += "<br/>";
+        }
+    }
+    return logs;
+}
 
 function rowHover(currentHoveredRow)
 {
 
-        var overlayID;
+    var overlayID;
 
-        // this determines if it's the canit or non canit overlay to use
-        if ($(currentHoveredRow).parents('table').hasClass('canit'))
-        {
-            overlayID = "#canitOverlay";
-        }
-        else 
-        {
-            overlayID = "#nonCanitOverlay";
-        }
-        
-        // alert($(this).next().attr("class"));
+    // this determines if it's the canit or non canit overlay to use
+    if ($(currentHoveredRow).parents('table').hasClass('canit'))
+    {
+        overlayID = "#canitOverlay";
+    }
+    else
+    {
+        overlayID = "#nonCanitOverlay";
+    }
+
+    // alert($(this).next().attr("class"));
+    if($(currentHoveredRow).next().hasClass('log'))
+    {
+        $(overlayID + " a.view-logs").text("Close Log");
+    }
+    else
+    {
+        $(overlayID + " a.view-logs").text("View Log");
+    }
+
+    // This hides the "open in canit" if the line has no incident id     TODO
+    if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
+    {
+        $(overlayID + " a.view-in-canit").show();
+
+    }
+    else
+    {
+        $(overlayID + " a.view-in-canit").hide();
+    }
+
+
+    // define useful variables
+    var $rowOverlay = $(overlayID);
+    var rowWidth = $(currentHoveredRow).width() + 2;
+    var rowHeight = $(currentHoveredRow).height() + 2;
+    var rowPos = $(currentHoveredRow).position();
+    var rowTop = rowPos.top - 1;
+    var rowLeft = rowPos.left;
+
+    // This defines the overlay position so it's over the <tr>
+    $rowOverlay.css({
+        display: 'block',
+        position: 'absolute',
+        top: rowTop,
+        left: rowLeft,
+        width: rowWidth,
+        height: rowHeight
+    });
+
+    // Properly define the height of the .external-link-wrap in #divOverlay
+    $rowOverlay.children('.external-link-wrap').css({
+        height: rowHeight - 2
+    });
+
+    // This vertically aligns the <a>s in the #rowOverlay
+    $rowOverlay.find('a').css({
+        'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
+    });
+
+    // This adds the class so you can change the color of the entire row
+    $(currentHoveredRow).addClass('tr-hover-state');
+
+    // unbinds the click function so it doesn't fire tons of log queries
+    $(document).find("a.view-logs").off("click");
+
+    // Binds the click function to the "view logs"
+    $rowOverlay.find("a.view-logs").on("click", function()
+    {
+        // Closes the log if it's currently open
         if($(currentHoveredRow).next().hasClass('log'))
         {
-            $(overlayID + " a.view-logs").text("Close Log");
+            $(currentHoveredRow).next().remove();
+            $(this).text("View Log");
         }
+        // Opens the log if it's not open
         else
         {
-            $(overlayID + " a.view-logs").text("View Log");
+            $(currentHoveredRow).addClass('tr-clicked-state');
+            rowExpander(currentHoveredRow);
+            $(this).text("Close Log");
         }
+    });
 
-        // This hides the "open in canit" if the line has no incident id     TODO
-        if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
-        {
-            $(overlayID + " a.view-in-canit").show();
+    $(document).find("a.view-in-canit").off("click");
 
-        }
-        else
-        {
-            $(overlayID + " a.view-in-canit").hide();
-        }
-
-
-        // define useful variables
-        var $rowOverlay = $(overlayID);
-        var rowWidth = $(currentHoveredRow).width() + 2;
-        var rowHeight = $(currentHoveredRow).height() + 2;
-        var rowPos = $(currentHoveredRow).position();
-        var rowTop = rowPos.top - 1;
-        var rowLeft = rowPos.left;
-
-        // This defines the overlay position so it's over the <tr>
-        $rowOverlay.css({
-            display: 'block',
-            position: 'absolute',
-            top: rowTop,
-            left: rowLeft,
-            width: rowWidth,
-            height: rowHeight
-        });
-
-        // Properly define the height of the .external-link-wrap in #divOverlay
-        $rowOverlay.children('.external-link-wrap').css({
-            height: rowHeight - 2
-        });
-
-        // This vertically aligns the <a>s in the #rowOverlay
-        $rowOverlay.find('a').css({
-            'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
-        });
-
-        // This adds the class so you can change the color of the entire row    
-        $(currentHoveredRow).addClass('tr-hover-state');
-
-        // unbinds the click function so it doesn't fire tons of log queries
-        $(document).find("a.view-logs").off("click");
-
-        // Binds the click function to the "view logs"      
-        $rowOverlay.find("a.view-logs").on("click", function()
-        {
-            // Closes the log if it's currently open
-            if($(currentHoveredRow).next().hasClass('log'))
-            {
-                $(currentHoveredRow).next().remove();
-                $(this).text("View Log");
-            }
-            // Opens the log if it's not open
-            else
-            {
-                $(currentHoveredRow).addClass('tr-clicked-state');
-                rowExpander(currentHoveredRow);
-                $(this).text("Close Log");
-            }
-        });
-
-        $(document).find("a.view-in-canit").off("click");
-
-        $rowOverlay.find("a.view-in-canit").on("click", function()
-        {
-            var realm = currentHoveredRow[0]['cells'][10].innerHTML;
-            var id = currentHoveredRow[0]['cells'][11].innerHTML;
-            var stream = currentHoveredRow[0]['cells'][5].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
-            window.open(url, '_blank');
-        });
+    $rowOverlay.find("a.view-in-canit").on("click", function()
+    {
+        var realm = currentHoveredRow[0]['cells'][10].innerHTML;
+        var id = currentHoveredRow[0]['cells'][11].innerHTML;
+        var stream = currentHoveredRow[0]['cells'][5].innerHTML;
+        var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
+        window.open(url, '_blank');
+    });
 };
 
 $(document).ready(function(realm, stream) {
 
     numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': NUM_RESULTS_INITIAL, 'exchange': NUM_RESULTS_INITIAL}
 
-	// Initialize the datepickers
-	$( "#datepickerStart" ).datepicker({
-	    inline: true,  
-	    showOtherMonths: true,  
-	    dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'], 
-	    showAnim: '', 
-	    defaultDate: 0,
-
-	    // 'setDate', new Date(),
-            onClose: function( selectedDate ) 
-            {
-                $( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
-            }
-	});
-
-	$( "#datepickerEnd" ).datepicker({
-	    inline: true,  
-	    showOtherMonths: true,  
-	    defaultDate: 0,
-	    dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],  
+    // Initialize the datepickers
+    $( "#datepickerStart" ).datepicker({
+        inline: true,
+        showOtherMonths: true,
+        dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
         showAnim: '',
-		onClose: function( selectedDate ) 
-		{
-			$( "#datepickerStart" ).datepicker( "option", "maxDate", selectedDate );
-		}
-	});
+        defaultDate: 0,
 
-	// This is for the button clicks on the server boxes
-	$('div.box-selector').click(function(){
-		if ($(this).hasClass('on')) {
-			$(this).removeClass('on');
-			checkboxHandler($(this).find('h4').text(), false);
-		}
-		else
-		{
-			$(this).addClass('on');
-			checkboxHandler($(this).find('h4').text(), true);
-		}
-		arrowChecker($(this));
-	});
+        // 'setDate', new Date(),
+        onClose: function( selectedDate )
+        {
+            $( "#datepickerEnd" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
+
+    $( "#datepickerEnd" ).datepicker({
+        inline: true,
+        showOtherMonths: true,
+        defaultDate: 0,
+        dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        showAnim: '',
+        onClose: function( selectedDate )
+        {
+            $( "#datepickerStart" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
+
+    // This is for the button clicks on the server boxes
+    $('div.box-selector').click(function(){
+        if ($(this).hasClass('on')) {
+            $(this).removeClass('on');
+            checkboxHandler($(this).find('h4').text(), false);
+        }
+        else
+        {
+            $(this).addClass('on');
+            checkboxHandler($(this).find('h4').text(), true);
+        }
+        arrowChecker($(this));
+    });
 
     // This initially binds the mouseover function to table.results tr
     $('table.results tr').not('.table-information').on('mouseover', function() {
         rowHover($(this));
     });
 
-	// This prevents the click/hover effect from happening when you mouseover the table header
-	$('table.results tr').children('th').mouseover(function(e)
-	{
-		e.stopPropagation();
-	});
+    // This prevents the click/hover effect from happening when you mouseover the table header
+    $('table.results tr').children('th').mouseover(function(e)
+    {
+        e.stopPropagation();
+    });
 
-	// This takes off the hover effect when you move off of the row
+    // This takes off the hover effect when you move off of the row
     $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
         $("#canitOverlay a.view-in-canit").show();
@@ -337,13 +388,13 @@ $(document).ready(function(realm, stream) {
                 data: params,
                 dataType: "json"
             })
-            .done(function(data)
-            {
-                displayMoreCanitResults(data, tableClass);                
-                $('table.results tr').not('.table-information').on('mouseover', function() {
-                    rowHover($(this));
+                .done(function(data)
+                {
+                    displayMoreCanitResults(data, tableClass);
+                    $('table.results tr').not('.table-information').on('mouseover', function() {
+                        rowHover($(this));
+                    });
                 });
-            });
         } else if (tableClass == "routers") {
             $.ajax
             ({
@@ -359,6 +410,8 @@ $(document).ready(function(realm, stream) {
                         rowHover($(this));
                     });
                 });
+        } else if (tableClass == "exchange") {
+
         }
 
         numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
@@ -382,7 +435,7 @@ $(document).ready(function(realm, stream) {
             var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate()) + "/" + dateTime.getFullYear();
             var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
-                           r['sender']+"</span></td><td><span class='canit-recipients'>";
+                r['sender']+"</span></td><td><span class='canit-recipients'>";
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
             }
@@ -433,7 +486,9 @@ $(document).ready(function(realm, stream) {
             for (var j = 0; j < r['Recipients'].length; j++) {
                 inputRow += r['Recipients'][j] + "<br/>";
             }
-            inputRow += "</span></td><td>"+r['Status']+"</td></tr>";
+            inputRow += "</td><td>"+r['Status']+"</td>";
+            inputRow += "</td><td style='display: none'>"+r['Message_ID']+"</td>";
+            inputRow += "</td><td style='display: none'>"+r['Next_ID']+"</td></tr>";
 
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
@@ -472,12 +527,12 @@ $(document).ready(function(realm, stream) {
 
         if (tableClass == "canit") {
             results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-                       sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
-                       start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+                sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+                start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
         } else if (tableClass == "routers") {
             results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-                       sender_contains: senderContains, start_date: startDttm, end_date: endDttm,
-                       max_results: maxResults, offset: offset};
+                sender_contains: senderContains, start_date: startDttm, end_date: endDttm,
+                max_results: maxResults, offset: offset};
         } else {
             results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
                 sender_contains: senderContains, start_date: startDttm, end_date: endDttm, max_results: maxResults,
@@ -486,5 +541,4 @@ $(document).ready(function(realm, stream) {
 
         return results;
     }
-
 });
