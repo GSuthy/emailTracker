@@ -94,19 +94,7 @@ class SearchController extends AppController {
 
         $allLogs = array();
 
-        $currentMessageId = $messageId;
-        while (!is_null($currentMessageId)) {
-            $previousLink = $this->Routers->getPreviousLink($currentMessageId);
-
-            $temp_id = null;
-            foreach ($previousLink as $array) {
-                array_unshift($allLogs, $array);
-                if (!is_null($array['Routers']['message_id'])) {
-                    $temp_id = $array['Routers']['message_id'];
-                }
-            }
-            $currentMessageId = $temp_id;
-        }
+        array_push($allLogs, $this->recursivePreviousLink($messageId));
 
         $currentLog = $this->Routers->getCurrentLog($messageId);
         array_push($allLogs, $currentLog);
@@ -126,6 +114,27 @@ class SearchController extends AppController {
         }
 
         return new CakeResponse(array('body' => json_encode($allLogs), 'type' => 'json'));
+    }
+
+    private function recursivePreviousLink($currentMessageId) {
+        $returnLinks = array();
+        $usedIDs = array();
+
+        $previousLinks = $this->Routers->getPreviousLink($currentMessageId);
+        foreach ($previousLinks as $links) {
+            foreach ($links as $link) {
+                if ($link['Routers']['message_id'] != null && !in_array($link['Routers']['message_id'], $usedIDs)) {
+                    array_push($usedIDs, $link['Routers']['message_id']);
+                    $tempArray = $this->recursivePreviousLink($link['Routers']['message_id']);
+                    foreach ($tempArray as $result) {
+                        array_push($returnLinks, $result);
+                    }
+                }
+            }
+        }
+        array_push($returnLinks, $previousLinks);
+
+        return $returnLinks;
     }
 
     public function unauthorized() {}

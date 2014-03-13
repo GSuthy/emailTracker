@@ -62,7 +62,11 @@ class Routers extends AppModel {
         $conditions = array();
         $conditions['next_id'] = $message_id;
 
-        $results = $this->find('all', array('conditions' => $conditions));
+        $resultsTemp = $this->find('all', array('conditions' => $conditions));
+        $results = array();
+        foreach ($resultsTemp as $resultTemp) {
+            array_push($results, $this->getCurrentLog($resultTemp['Routers']['message_id']));
+        }
 
         return $results;
     }
