@@ -394,6 +394,7 @@ $(document).ready(function(realm, stream) {
                     $('table.results tr').not('.table-information').on('mouseover', function() {
                         rowHover($(this));
                     });
+                    numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
                 });
         } else if (tableClass == "routers") {
             $.ajax
@@ -409,25 +410,25 @@ $(document).ready(function(realm, stream) {
                     $('table.results tr').not('.table-information').on('mouseover', function() {
                         rowHover($(this));
                     });
+                    numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
                 });
         } else if (tableClass == "exchange") {
             $.ajax
             ({
                 type: "POST",
-                url: "Search/routersresults",
+                url: "exchange/viewMoreResults",
                 data: params,
                 dataType: "json"
             })
                 .done(function(data)
                 {
-                    displayMoreRoutersResults(data, tableClass);
+                    displayMoreExchangeResults(data, tableClass);
                     $('table.results tr').not('.table-information').on('mouseover', function() {
                         rowHover($(this));
                     });
+                    numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
                 });
         }
-
-        numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
     });
 
     function displayMoreCanitResults(results, tableClass) {
@@ -523,19 +524,16 @@ $(document).ready(function(realm, stream) {
             is_even = true;
         }
 
-        for (var i = 0; i < results['results'].length; i++)
+        for (var i = 0; i < results.length; i++)
         {
-            var r = results['results'][i];
-            var date = r['Date'];
-            var time = r['Time'];
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
-                r['Sender']+"</span></td><td><span class='exchange-recipients'>";
-            for (var j = 0; j < r['Recipients'].length; j++) {
-                inputRow += r['Recipients'][j] + "<br/>";
-            }
-            inputRow += "</td><td>"+r['Status']+"</td>";
-            inputRow += "</td><td style='display: none'>"+r['Message_ID']+"</td>";
-            inputRow += "</td><td style='display: none'>"+r['Next_ID']+"</td></tr>";
+            var r = results[i];
+            var date = r[0].substring(5, 7) + "/" + r[0].substring(8, 10) + "/" + r[0].substring(0, 4);
+            var time = r[0].substring(11, 19);
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\"><td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
+                r['sender_address']+"</span></td><td><span class='exchange-recipient'>";
+            inputRow += r['recipient_address'] + "<br/></span>";
+            inputRow += "</td><td><span class='exchange-subject'>"+r['message_subject']+"</span></td>";
+            inputRow += "<td style='display: none'>"+r['message_id']+"</td></tr>";
 
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);

@@ -328,7 +328,7 @@ if ($show_table) {
 
         if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
 
-            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results);
+            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
 
             $exchange_table_string = "\n<table class='results exchange'>\n" .
                 "<tbody>" .

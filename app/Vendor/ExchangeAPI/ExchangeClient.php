@@ -8,7 +8,7 @@ class ExchangeClient {
 		return $errorReturn;
 	}
 
-	public static function getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults) {	
+	public static function getExchangeResults($sender, $sender_contains, $recipient, $recipient_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset) {
 		if(empty($sender)) {
 			$sender = null;
 		} else if($sender_contains) {
@@ -39,8 +39,12 @@ class ExchangeClient {
 		}
 		
 		if(is_null($maxResults) || !is_numeric($maxResults)) {
-			$maxResults = 20;
+			$maxResults = 30;
 		}
+
+        if(is_null($offset) || !is_numeric($offset)) {
+            $offset = 0;
+        }
 		
 		$query = "SELECT MIN(logmain.date_time) as date_time, logmain.sender_address, logmain.message_subject, logmain.message_id, messagerecipients.recipient_address \n";
 		$query .= "FROM logmain INNER JOIN messagerecipients ON logmain.id=messagerecipients.log_id \n";
@@ -58,7 +62,8 @@ class ExchangeClient {
 		
 		$query .= "GROUP BY logmain.message_id \n";
 		$query .= "ORDER BY date_time \n";
-                $query .= "LIMIT " . $maxResults;
+                $query .= "LIMIT " . $maxResults . " OFFSET " . $offset;
+
 		
                 //echo $query . "<br>";
 					
