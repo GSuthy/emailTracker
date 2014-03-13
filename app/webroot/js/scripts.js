@@ -411,7 +411,20 @@ $(document).ready(function(realm, stream) {
                     });
                 });
         } else if (tableClass == "exchange") {
-
+            $.ajax
+            ({
+                type: "POST",
+                url: "Search/routersresults",
+                data: params,
+                dataType: "json"
+            })
+                .done(function(data)
+                {
+                    displayMoreRoutersResults(data, tableClass);
+                    $('table.results tr').not('.table-information').on('mouseover', function() {
+                        rowHover($(this));
+                    });
+                });
         }
 
         numResults[tableClass] += ADDITIONAL_RESULTS_CONST;
@@ -496,6 +509,40 @@ $(document).ready(function(realm, stream) {
 
         if (results['count'] == 0) {
             var button = $("a.view-more-results.routers");
+            button.text('No More Results');
+            button.removeClass("view-more-results");
+            button.addClass("no-more-results");
+        }
+    }
+
+    function displayMoreExchangeResults(results, tableClass) {
+        var is_even;
+        if ($("table.exchange tr").last().hasClass('is_even')) {
+            is_even = false;
+        } else {
+            is_even = true;
+        }
+
+        for (var i = 0; i < results['results'].length; i++)
+        {
+            var r = results['results'][i];
+            var date = r['Date'];
+            var time = r['Time'];
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
+                r['Sender']+"</span></td><td><span class='exchange-recipients'>";
+            for (var j = 0; j < r['Recipients'].length; j++) {
+                inputRow += r['Recipients'][j] + "<br/>";
+            }
+            inputRow += "</td><td>"+r['Status']+"</td>";
+            inputRow += "</td><td style='display: none'>"+r['Message_ID']+"</td>";
+            inputRow += "</td><td style='display: none'>"+r['Next_ID']+"</td></tr>";
+
+            is_even = !is_even;
+            $("table." + tableClass + " tr").last().after(inputRow);
+        }
+
+        if (results['count'] == 0) {
+            var button = $("a.view-more-results.exchange");
             button.text('No More Results');
             button.removeClass("view-more-results");
             button.addClass("no-more-results");

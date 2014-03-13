@@ -4,7 +4,10 @@ App::import('Vendor', 'ExchangeAPI/ExchangeClient');
 
 class ExchangeController extends AppController {
     
-	
+	public function viewMoreResults() {
+        
+    }
+
 	public function getAdditionalLogs() {            
             $maxResults = $this->request->data("max_results");
             
