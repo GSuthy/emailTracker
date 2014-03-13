@@ -471,6 +471,14 @@ span.canit-sender, span.canit-recipients, span.routers-sender, span.routers-reci
 	max-width: 200px;
 }
 
+span.routers-sender, span.routers-recipients {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 350px;
+}
+
 table tr.log.even-row:hover
 {
 	background: #EFF6FC;
