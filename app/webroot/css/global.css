@@ -463,7 +463,7 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
-span.canit-sender, span.canit-recipients, span.routers-sender, span.routers-recipients {
+span.canit-sender, span.canit-recipients {
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -477,6 +477,14 @@ span.routers-sender, span.routers-recipients {
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 350px;
+}
+
+span.exchange-sender, span.exchange-recipients, span.exchange-subject {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 270px;
 }
 
 table tr.log.even-row:hover

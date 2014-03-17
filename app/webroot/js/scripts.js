@@ -530,7 +530,7 @@ $(document).ready(function(realm, stream) {
             var date = r[0].substring(5, 7) + "/" + r[0].substring(8, 10) + "/" + r[0].substring(0, 4);
             var time = r[0].substring(11, 19);
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\"><td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
-                r['sender_address']+"</span></td><td><span class='exchange-recipient'>";
+                r['sender_address']+"</span></td><td><span class='exchange-recipients'>";
             inputRow += r['recipient_address'] + "<br/></span>";
             inputRow += "</td><td><span class='exchange-subject'>"+r['message_subject']+"</span></td>";
             inputRow += "<td style='display: none'>"+r['message_id']+"</td></tr>";
@@ -539,7 +539,7 @@ $(document).ready(function(realm, stream) {
             $("table." + tableClass + " tr").last().after(inputRow);
         }
 
-        if (results['count'] == 0) {
+        if (results.length < 20) {
             var button = $("a.view-more-results.exchange");
             button.text('No More Results');
             button.removeClass("view-more-results");

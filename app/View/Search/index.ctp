@@ -354,9 +354,9 @@ if ($show_table) {
                     $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
                         "<td>" . date('m/d/Y', strtotime($row['date_time'])) . "</td>" .
                         "<td>" . date('H:i:s', strtotime($row['date_time'])) . "</td>" .
-                        "<td>" . $row['sender_address'] . "</td>" .
-                        "<td>" . $row['recipient_address'] . "</td>" .
-                        "<td>" . $row['message_subject'] . "</td>" .
+                        "<td><span class='exchange-sender'>" . $row['sender_address'] . "</span></td>" .
+                        "<td><span class='exchange-recipients'>" . $row['recipient_address'] . "</span></td>" .
+                        "<td><span class='exchange-subject'>" . $row['message_subject'] . "</span></td>" .
                         "<td hidden>" . htmlentities($row['message_id']) . "</td>" .
                         "</tr>\n";
                     $is_even = !$is_even;
