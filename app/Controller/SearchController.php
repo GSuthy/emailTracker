@@ -49,11 +49,12 @@ class SearchController extends AppController {
         $offset = $_REQUEST['offset'];
 
         $results = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
-        $json = json_encode($results);
 
-        $this->set('moreResults', $json);
+        return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
+
+        /*$this->set('moreResults', $json);
         $this->layout = null;
-        $this->render('canitresults');
+        $this->render('canitresults');*/
     }
 
     public function routersresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
@@ -81,11 +82,12 @@ class SearchController extends AppController {
         $queue_id = $_REQUEST['queue_id'];
         $reporting_host = $_REQUEST["reporting_host"];
         $logs = CanItClient::getLogs($queue_id, $reporting_host);
-        $json = json_encode($logs);
 
-        $this->set('logs', $json);
+        return new CakeResponse(array('body' => json_encode($logs), 'type' => 'json'));
+
+        /*$this->set('logs', $json);
         $this->layout = null;
-        $this->render('canitlogs');
+        $this->render('canitlogs');*/
     }
 
     public function routerslogs($messageId = null, $nextId = null) {

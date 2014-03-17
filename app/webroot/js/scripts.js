@@ -98,7 +98,7 @@ function rowExpander(currentHoveredRow)
         $.ajax
         ({
             type: "POST",
-            url: "Search/canitlogs",
+            url: "search/canitlogs",
             data: {queue_id: queueId, reporting_host: reportingHost},
             dataType: "json"
         })
@@ -118,7 +118,7 @@ function rowExpander(currentHoveredRow)
         $.ajax
         ({
             type: "POST",
-            url: "Search/routerslogs",
+            url: "search/routerslogs",
             data: {message_id: message_id,
                 next_id: next_id},
             dataType: "json"
@@ -384,7 +384,7 @@ $(document).ready(function(realm, stream) {
             $.ajax
             ({
                 type: "POST",
-                url: "Search/canitresults",
+                url: "search/canitresults",
                 data: params,
                 dataType: "json"
             })
@@ -400,7 +400,7 @@ $(document).ready(function(realm, stream) {
             $.ajax
             ({
                 type: "POST",
-                url: "Search/routersresults",
+                url: "search/routersresults",
                 data: params,
                 dataType: "json"
             })
@@ -453,7 +453,7 @@ $(document).ready(function(realm, stream) {
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
             }
-            inputRow += "</span></td><td>"+(r['subject'] ? r['subject'] : "")+"</td>"+
+            inputRow += "</span></td><td><span class='exchange-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
                 "<td>"+(r['stream'] ? r['stream'] : "")+"</td>" +
                 "<td>"+(r['what'] ? r['what'] : "")+"</td>";
 
@@ -558,14 +558,14 @@ $(document).ready(function(realm, stream) {
         var table = document.getElementById("paramsTable");
         var row = table.rows[0];
 
-        var recipient = row.cells[0].innerText;
-        var recipientContains = row.cells[1].innerText;
-        var sender = row.cells[2].innerText;
-        var senderContains = row.cells[3].innerText;
-        var subject = row.cells[4].innerText;
-        var subjectContains = row.cells[5].innerText;
-        var startDttm = row.cells[6].innerText;
-        var endDttm = row.cells[7].innerText;
+        var recipient = row.cells[0].innerHTML;
+        var recipientContains = row.cells[1].innerHTML;
+        var sender = row.cells[2].innerHTML;
+        var senderContains = row.cells[3].innerHTML;
+        var subject = row.cells[4].innerHTML;
+        var subjectContains = row.cells[5].innerHTML;
+        var startDttm = row.cells[6].innerHTML;
+        var endDttm = row.cells[7].innerHTML;
         var maxResults = 20;
         var offset = numResults[tableClass];
         var results;
