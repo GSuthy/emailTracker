@@ -453,7 +453,7 @@ $(document).ready(function(realm, stream) {
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
             }
-            inputRow += "</span></td><td><span class='exchange-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
+            inputRow += "</span></td><td><span class='canit-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
                 "<td>"+(r['stream'] ? r['stream'] : "")+"</td>" +
                 "<td>"+(r['what'] ? r['what'] : "")+"</td>";
 

@@ -41,7 +41,9 @@ class CanItClient {
         $start_date = substr($startDttm, 0, 10);
         $end_date = substr($endDttm, 0, 10);
 
-        $subject = preg_replace('/ /', '+', $subject);
+        $recipient = urlencode($recipient);
+        $sender = urlencode($sender);
+        $subject = urlencode($subject);
 
         $search_string = 'log/search/'.$offset.'/'.$maxResults.'?sender='.$sender.'&recipients='.$recipient.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
 
