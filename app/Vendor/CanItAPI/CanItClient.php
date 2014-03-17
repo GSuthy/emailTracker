@@ -48,7 +48,7 @@ class CanItClient {
         $search_string = 'log/search/'.$offset.'/'.$maxResults.'?sender='.$sender.'&recipients='.$recipient.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
 
         if (!$startDttm) {
-            return CanItClient::canitError("Must specify a start date"); //TODO: better fail message
+            return CanItClient::canitError("Must specify a start date");
         }
 
         if ($sender_contains)

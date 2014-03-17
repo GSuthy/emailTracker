@@ -234,7 +234,6 @@ function rowHover(currentHoveredRow)
         $(overlayID + " a.view-logs").text("View Log");
     }
 
-    // This hides the "open in canit" if the line has no incident id     TODO
     if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
     {
         $(overlayID + " a.view-in-canit").show();
@@ -468,8 +467,8 @@ $(document).ready(function(realm, stream) {
             inputRow += "<td hidden>" + r['queue_id'] + "</td>";
             inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
             inputRow += "<td hidden>" + r['realm'] + "</td>";
-            var incidentIdClass = (r['incident_id'] ? "has-incident" : "")                  //TODO
-            inputRow += "<td class=\""+incidentIdClass+"\" hidden>" + r['incident_id'] + "</td></tr>";
+            var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
+            inputRow += "<td " + incidentIdClass + "hidden>" + r['incident_id'] + "</td></tr>";
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
         }
