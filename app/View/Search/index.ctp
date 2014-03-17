@@ -207,10 +207,6 @@ if ($show_table) {
 
     if (!$hasErrors) {
         if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
-
-            $canitResults = CanItClient::getCanitResults($recipient, $recipientContains, $sender, $senderContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
-
-            $scoreThresholds = CanItClient::getThresholds();
             $warning_level_spam_score = $scoreThresholds['hold_threshold'];
             $auto_reject_spam_score = $scoreThresholds['auto_reject'];
 
