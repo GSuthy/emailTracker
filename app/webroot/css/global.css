@@ -463,7 +463,7 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
-span.canit-sender, span.canit-recipients {
+span.canit-sender, span.canit-recipients, span.canit-subject {
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;

@@ -258,7 +258,7 @@ if ($show_table) {
                 else { $canit_spam_score_string = "spam-score-rejected"; }
 
                 $canit_table_string .= "</span></td>" .
-                    "<td>" . $canit_row['subject'] . "</td>" .
+                    "<td><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
                     "<td>" . $canit_row['stream'] . "</td>" .
                     "<td>" . $canit_row['what'] . "</td>" .
                     "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
