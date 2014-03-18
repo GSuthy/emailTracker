@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller', 'Routers');
 
 class SearchController extends AppController {
-    public $uses = array('Routers');
+    public $uses = array('Routers', 'Exchange');
 
 	public function index() {
         App::import('Vendor', 'CanItAPI/CanItClient');
@@ -26,7 +26,7 @@ class SearchController extends AppController {
             if (isset($this->request['data']['canitSelect'])) {
                 $scoreThresholds = CanItClient::getThresholds();
                 $this->set('scoreThresholds', $scoreThresholds);
-                $canitResults = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);;
+                $canitResults = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('canitResults', $canitResults);
             }
             if (isset($this->request['data']['routerSelect'])) {
@@ -35,7 +35,8 @@ class SearchController extends AppController {
                 $this->set('routerResults', $routerResults['results']);
             }
             if (isset($this->request['data']['exchangeSelect'])) {
-
+                $exchangeResults = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
+                $this->set('exchangeResults', $exchangeResults);
             }
         }
     }
@@ -77,6 +78,24 @@ class SearchController extends AppController {
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
     }
 
+    public function exchangeresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $subject = null,
+                                    $subject_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
+        $sender = $_REQUEST['sender'];
+        $sender_contains = $_REQUEST['sender_contains'];
+        $recipient = $_REQUEST['recipient'];
+        $recipient_contains = $_REQUEST['recipient_contains'];
+        $subject = $_REQUEST['subject'];
+        $subject_contains = $_REQUEST['subject_contains'];
+        $start_date = $_REQUEST['start_date'];
+        $end_date = $_REQUEST['end_date'];
+        $max_results = $_REQUEST['max_results'];
+        $offset = $_REQUEST['offset'];
+
+        $results = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $start_date, $end_date, $max_results, $offset);
+
+        return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
+    }
+
     public function canitlogs($queue_id = null, $reporting_host = null) {
         App::import('Vendor', 'CanItAPI/CanItClient');
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
@@ -112,6 +131,26 @@ class SearchController extends AppController {
                 }
             }
             $currentNextId = $temp_id;
+        }
+
+        return new CakeResponse(array('body' => json_encode($allLogs), 'type' => 'json'));
+    }
+
+    public function exchangelogs() {
+        $maxResults = $_REQUEST['max_results'];
+
+        $messageId = html_entity_decode($_REQUEST['message_id']);
+        $messageId = preg_replace('/<\/.*>/',"",$messageId);
+
+        if(!empty($messageId)) {
+            $allLogs = $this->Exchange->getLogs($messageId, $maxResults);
+        } else {
+            //these 3 vars are only used if messageId is empty
+            $utcMilliseconds = $_REQUEST['utc_milliseconds'];
+            $sender = $_REQUEST['sender_address'];
+            $subject = $_REQUEST['message_subject'];
+
+            $allLogs = $this->Exchange->getLogs($messageId, $maxResults, $sender, $subject, $utcMilliseconds);
         }
 
         return new CakeResponse(array('body' => json_encode($allLogs), 'type' => 'json'));

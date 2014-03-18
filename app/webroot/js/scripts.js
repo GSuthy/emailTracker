@@ -47,7 +47,7 @@ function rowExpander(currentHoveredRow)
         $.ajax
         ({
             type: "POST",
-            url: "exchange/getAdditionalLogs",
+            url: "search/exchangelogs",
             data: {
                 message_id: messageId,
                 max_results: maxResults,

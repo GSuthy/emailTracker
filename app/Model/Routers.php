@@ -12,7 +12,8 @@ class Routers extends AppModel {
 
         $options = array();
         $options['joins'] = array(
-            array('table' => 'emailevents',
+            array(
+                'table' => 'emailevents',
                 'alias' => 'Table2',
                 'type' => 'INNER',
                 'conditions' => array(
