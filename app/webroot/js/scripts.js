@@ -415,7 +415,7 @@ $(document).ready(function(realm, stream) {
             $.ajax
             ({
                 type: "POST",
-                url: "exchange/viewMoreResults",
+                url: "search/exchangeresults",
                 data: params,
                 dataType: "json"
             })
@@ -526,13 +526,13 @@ $(document).ready(function(realm, stream) {
         for (var i = 0; i < results.length; i++)
         {
             var r = results[i];
-            var date = r[0].substring(5, 7) + "/" + r[0].substring(8, 10) + "/" + r[0].substring(0, 4);
-            var time = r[0].substring(11, 19);
+            var date = r['Date'];
+            var time = r['Time'];
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\"><td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
-                r['sender_address']+"</span></td><td><span class='exchange-recipients'>";
-            inputRow += r['recipient_address'] + "<br/></span>";
-            inputRow += "</td><td><span class='exchange-subject'>"+r['message_subject']+"</span></td>";
-            inputRow += "<td style='display: none'>"+r['message_id']+"</td></tr>";
+                r['Sender']+"</span></td><td><span class='exchange-recipients'>";
+            inputRow += r['Recipient'] + "<br/></span>";
+            inputRow += "</td><td><span class='exchange-subject'>"+r['Subject']+"</span></td>";
+            inputRow += "<td style='display: none'>"+r['ID']+"</td></tr>";
 
             is_even = !is_even;
             $("table." + tableClass + " tr").last().after(inputRow);
@@ -569,18 +569,14 @@ $(document).ready(function(realm, stream) {
         var offset = numResults[tableClass];
         var results;
 
-        if (tableClass == "canit") {
-            results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-                sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
-                start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
-        } else if (tableClass == "routers") {
+        if (tableClass == "routers") {
             results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
                 sender_contains: senderContains, start_date: startDttm, end_date: endDttm,
                 max_results: maxResults, offset: offset};
         } else {
             results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-                sender_contains: senderContains, start_date: startDttm, end_date: endDttm, max_results: maxResults,
-                offset: offset};
+                sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+                start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
         }
 
         return results;
