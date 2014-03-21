@@ -294,6 +294,7 @@ if ($show_table) {
                 "</tr>";
 
             $is_even = true;
+            if ($numRouterResultsLeft != -1) {
             foreach($routerResults as $row) {
                 $router_table_string .= "<tr class='" . ($is_even ? "even-row" : "odd-row") . " routers'>" .
                     "<td>" . $row['Date'] . "</td>" .
@@ -310,6 +311,9 @@ if ($show_table) {
                     "</tr>";
                 $is_even = !$is_even;
             }
+            } else {
+                $router_table_string .= "<tr class='no-hover even-row'><td colspan='5'>No results are displayed when you search the routers logs only for a subject</td></tr>";
+            }
 
             $router_table_string .= "</tbody></table>";
             $router_table_string .= ($numRouterResultsLeft > 0 ? "<a class='view-more-results routers'>View More Results</a>" : "<a class='no-more-results routers'>No More Results</a>");
@@ -323,8 +327,6 @@ if ($show_table) {
          */
 
         if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
-
-//            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
 
             $exchange_table_string = "\n<table class='results exchange'>\n" .
                 "<tbody>" .

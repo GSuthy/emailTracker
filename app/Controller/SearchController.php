@@ -30,9 +30,14 @@ class SearchController extends AppController {
                 $this->set('canitResults', $canitResults);
             }
             if (isset($this->request['data']['routerSelect'])) {
-                $routerResults = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
-                $this->set('numRouterResultsLeft', $routerResults['count']);
-                $this->set('routerResults', $routerResults['results']);
+                if (empty($subject) || !empty($recipient) || !empty($sender)) {
+                    $routerResults = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
+                    $this->set('numRouterResultsLeft', $routerResults['count']);
+                    $this->set('routerResults', $routerResults['results']);
+                } else {
+                    $this->set('numRouterResultsLeft', -1);
+                    $this->set('routerResults', array());
+                }
             }
             if (isset($this->request['data']['exchangeSelect'])) {
                 $exchangeResults = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
