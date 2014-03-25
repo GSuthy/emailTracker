@@ -26,7 +26,7 @@ class SearchController extends AppController {
             $offset = 0;
 
             if (isset($this->request['data']['canitSelect'])) {
-                $scoreThresholds = CanItClient::getThresholds();
+                  $scoreThresholds = CanItClient::getThresholds();
                 $this->set('scoreThresholds', $scoreThresholds);
                 $canitResults = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('canitResults', $canitResults);
@@ -36,10 +36,10 @@ class SearchController extends AppController {
                 $this->set('numRouterResultsLeft', $routerResults['count']);
                 $this->set('routerResults', $routerResults['results']);
             }*/
-            if (isset($this->request['data']['exchangeSelect'])) {
+           /* if (isset($this->request['data']['exchangeSelect'])) {
                 $exchangeResults = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('exchangeResults', $exchangeResults);
-            }
+            }*/
         }
     }
 
@@ -82,16 +82,17 @@ class SearchController extends AppController {
 
     public function exchangeresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $subject = null,
                                     $subject_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
-        $sender = $_REQUEST['sender'];
-        $sender_contains = $_REQUEST['sender_contains'];
-        $recipient = $_REQUEST['recipient'];
-        $recipient_contains = $_REQUEST['recipient_contains'];
-        $subject = $_REQUEST['subject'];
-        $subject_contains = $_REQUEST['subject_contains'];
-        $start_date = $_REQUEST['start_date'];
-        $end_date = $_REQUEST['end_date'];
-        $max_results = $_REQUEST['max_results'];
-        $offset = $_REQUEST['offset'];
+
+        $sender = $this->request->data("sender");
+        $sender_contains = $this->request->data("sender_contains");
+        $recipient = $this->request->data("recipient");
+        $recipient_contains = $this->request->data("recipient_contains");
+        $subject = $this->request->data("subject");
+        $subject_contains = $this->request->data("subject_contains");
+        $start_date = $this->request->data("start_date");
+        $end_date = $this->request->data("end_date");
+        $max_results = $this->request->data("max_results");
+        $offset = $this->request->data("offset");
 
         $results = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $start_date, $end_date, $max_results, $offset);
 

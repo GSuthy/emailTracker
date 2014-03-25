@@ -311,7 +311,7 @@ function rowHover(currentHoveredRow)
 
 $(document).ready(function(realm, stream) {
 
-    numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': NUM_RESULTS_INITIAL, 'exchange': NUM_RESULTS_INITIAL}
+    numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': 0, 'exchange': 0};
 
     $('#tabs').tabs({
         beforeLoad: function( event, ui ) {
@@ -320,7 +320,49 @@ $(document).ready(function(realm, stream) {
                     "Couldn't load this tab. We'll try to fix this as soon as possible.");
             });
         }
-    })
+    });
+
+    var routersChecked = $('[name="routerSelect"]').is(':checked');
+    if(routersChecked) {
+        var params = getRoutersInitialParameters();
+        $.ajax
+        ({
+            type: "POST",
+            url: "search/routersresults",
+            data: params,
+            dataType: "json"
+        })
+            .done(function(data)
+            {
+                displayMoreRoutersResults(data, "routers");
+                $('table.results tr').not('.table-information').on('mouseover', function() {
+                    rowHover($(this));
+                });
+                numResults["routers"] += 30;
+            });
+    }
+
+    var exchangeChecked = $('[name="exchangeSelect"]').is(':checked');
+    if(exchangeChecked) {
+        var params = getExchangeInitialParameters();
+        $.ajax
+        ({
+            type: "POST",
+            url: "search/exchangeresults",
+            data: params,
+            dataType: "json"
+        })
+            .done(function(data)
+            {
+                displayMoreExchangeResults(data, "exchange");
+                $('table.results tr').not('.table-information').on('mouseover', function() {
+                    rowHover($(this));
+                });
+                numResults["exchange"] += 30;
+            });
+    }
+
+
 
     // Initialize the datepickers
     $( "#datepickerStart" ).datepicker({
@@ -590,4 +632,47 @@ $(document).ready(function(realm, stream) {
 
         return results;
     }
+
+    function getRoutersInitialParameters() {
+        var table = document.getElementById("paramsTable");
+        var row = table.rows[0];
+
+        var recipient = row.cells[0].innerHTML;
+        var recipientContains = row.cells[1].innerHTML;
+        var sender = row.cells[2].innerHTML;
+        var senderContains = row.cells[3].innerHTML;
+        var startDttm = row.cells[6].innerHTML;
+        var endDttm = row.cells[7].innerHTML;
+        var maxResults = 30;
+        var offset = 0;
+        var results;
+
+        results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+            sender_contains: senderContains, start_date: startDttm, end_date: endDttm,
+            max_results: maxResults, offset: offset};
+        return results;
+    }
+
+    function getExchangeInitialParameters() {
+        var table = document.getElementById("paramsTable");
+        var row = table.rows[0];
+
+        var recipient = row.cells[0].innerHTML;
+        var recipientContains = row.cells[1].innerHTML;
+        var sender = row.cells[2].innerHTML;
+        var senderContains = row.cells[3].innerHTML;
+        var subject = row.cells[4].innerHTML;
+        var subjectContains = row.cells[5].innerHTML;
+        var startDttm = row.cells[6].innerHTML;
+        var endDttm = row.cells[7].innerHTML;
+        var maxResults = 30;
+        var offset = 0;
+        var results;
+
+        results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+            sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+            start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+        return results;
+    }
+
 });
