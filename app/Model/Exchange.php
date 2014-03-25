@@ -73,7 +73,7 @@ class Exchange extends AppModel {
             $conditions['Recipients.recipient_address LIKE'] = $recipient;
         }
         if(!is_null($subject)) {
-            $conditions['Exchange.message_subject LIKE'] = $subject;
+            $conditions['Exchange.message_subject'] = $subject;
         }
         $conditions['Recipients.recipient_address NOT LIKE'] = '%@ad.byu.edu';
 

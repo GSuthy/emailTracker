@@ -15,20 +15,26 @@
 
     <meta name="format-detection" content="telephone=no">
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="css/global.css" />
-    <link type="text/css" rel="stylesheet" href="css/mobile.css" />
-    <link type="text/css" rel="stylesheet" href="css/datepicker.css" />
+    <?php
+        echo $this->Html->css(array(
+            'cupertino/jquery-ui-1.10.4.custom.min',
+            'global',
+            'mobile',
+            'datepicker'
+        ));
 
+        echo $this->Html->script(array(
+            'jquery-ui-1.10.4.custom.min',
+            'scripts'
+        ));
+    ?>
 
     <!-- these are for fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-
-    <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
-    <script type="text/javascript" src="js/scripts.js"></script>
 
 </head>
 <body>
@@ -155,58 +161,22 @@ if (!$authorized) {
 </form>
 <!-- End Search Box -->
 
-<!-- Start Results Table -->
-<br/>
-<?php
-if ($show_table) {
-    $start_date_error = "";
-    $startDttm = $endDttm = "";
-
-    $recipient = strtolower($_POST['recipient']);
-    $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
-    $sender = strtolower($_POST['sender']);
-    $senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
-    $subject = strtolower($_POST['subject']);
-    $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
-
-    if (empty($_POST['start_date']) || (!empty($_POST['start_date']) && $_POST['start_date'] == "")) {
-        $start_date_error = "Start date required";
-    } else {
-        $date = $_POST['start_date'];
-        $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
-    }
-
-    if (empty($_POST['end_date'])) {
-        $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
-        $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
-    } else {
-        $date = $_POST['end_date'];
-        $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
-        $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
-    }
-
-    $paramsTable = "<table id=\"paramsTable\" style=\"display: none\"><tr>".
-        "<td>".$recipient."</td>".
-        "<td>".$recipientContains."</td>".
-        "<td>".$sender."</td>".
-        "<td>".$senderContains."</td>".
-        "<td>".$subject."</td>".
-        "<td>".$subjectContains."</td>".
-        "<td>".$startDttm."</td>".
-        "<td>".$endDttm."</td>".
-        "</tr></table>";
-    echo $paramsTable;
-
-    $max_results = 30;
-
-    $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
-
-    /*
-     *              Prints the CanIt table if the checkbox was selected
-     */
-
-    if (!$hasErrors) {
-        if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
+<div id="tabs">
+    <ul>
+        <?php if (!empty($_POST['canitSelect'])): ?>
+            <li><a href="#canit-results">CanIt</a></li>
+        <?php endif;
+        if (!empty($_POST['routerSelect'])): ?>
+            <li><a href="search/routersresults">Routers</a></li>
+        <?php endif;
+        if (!empty($_POST['exchangeSelect'])): ?>
+            <li><a href="search/exchangeresults">Exchange</a></li>
+        <?php endif; ?>
+    </ul>
+    <?php if (!empty($_POST['canitSelect'])): ?>
+        <div id="canit-results">
+            <?php
+            $max_results = 30;
             $warning_level_spam_score = $scoreThresholds['hold_threshold'];
             $auto_reject_spam_score = $scoreThresholds['auto_reject'];
 
@@ -271,13 +241,135 @@ if ($show_table) {
             $canit_table_string .= "<br/>";
 
             echo $canit_table_string;
-        }
+            ?>
+        </div>
+    <?php endif; ?>
+
+</div>
+
+<!-- Start Results Table -->
+<br/>
+<?php
+if ($show_table) {
+    $start_date_error = "";
+    $startDttm = $endDttm = "";
+
+    $recipient = strtolower($_POST['recipient']);
+    $recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
+    $sender = strtolower($_POST['sender']);
+    $senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
+    $subject = strtolower($_POST['subject']);
+    $subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
+
+    if (empty($_POST['start_date']) || (!empty($_POST['start_date']) && $_POST['start_date'] == "")) {
+        $start_date_error = "Start date required";
+    } else {
+        $date = $_POST['start_date'];
+        $startDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) . "-" . substr($date, 3, 2) . "T00:00:00.000";
+    }
+
+    if (empty($_POST['end_date'])) {
+        $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
+        $endDttm = date('Y') . "-" . date('m') . "-" . date('d') . "T" . date('H') . ":" . date('m') . ":" . date('i') . "000";
+    } else {
+        $date = $_POST['end_date'];
+        $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
+        $endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
+    }
+
+    $paramsTable = "<table id=\"paramsTable\" style=\"display: none\"><tr>".
+        "<td>".$recipient."</td>".
+        "<td>".$recipientContains."</td>".
+        "<td>".$sender."</td>".
+        "<td>".$senderContains."</td>".
+        "<td>".$subject."</td>".
+        "<td>".$subjectContains."</td>".
+        "<td>".$startDttm."</td>".
+        "<td>".$endDttm."</td>".
+        "</tr></table>";
+    echo $paramsTable;
+
+    $max_results = 30;
+
+    $hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
+
+    /*
+     *              Prints the CanIt table if the checkbox was selected
+     */
+
+    if (!$hasErrors) { //TODO - make this global and apply it to the printing of the tabs etc.
+        /*if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
+            $warning_level_spam_score = $scoreThresholds['hold_threshold'];
+            $auto_reject_spam_score = $scoreThresholds['auto_reject'];
+
+            $warningDiv = "<div id=\"warningDiv\" hidden>".$warning_level_spam_score."</div>";
+            $rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
+            echo $warningDiv;
+            echo $rejectDiv;
+
+            $canit_table_string = "<table class='results canit'>" .
+                "<tbody>" .
+                "<tr class='table-information'>" .
+                "<td colspan='8'>CanIt Results</td>" .
+                "<tr>" .
+                "<th>Date</th>" .
+                "<th>Time</th>" .
+                "<th>Sender</th>" .
+                "<th>Recipients</th>" .
+                "<th>Subject</th>" .
+                "<th>Stream</th>" .
+                "<th>Status</th>" .
+                "<th>Score</th>" .
+                "<th hidden>Queue ID</th>" .
+                "<th hidden>Reporting Host</th>" .
+                "<th hidden>Realm</th>" .
+                "<th hidden>Incident ID</th>" .
+                "</tr>";
+
+            $is_even = true;
+
+            foreach($canitResults as $canit_row){
+                $canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
+                    "<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
+                    "<td>" . date('h:i', $canit_row['ts']) . "</td>" .
+                    "<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
+                    "<td><span class='canit-recipients'>";
+                foreach ($canit_row['recipients'] as $recip) {
+                    $canit_table_string .= $recip . "<br/>";
+                }
+
+                $canit_spam_score_string = "";
+                $canit_spam_score = $canit_row['score'];
+                if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
+                else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
+                else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
+                else { $canit_spam_score_string = "spam-score-rejected"; }
+
+                $canit_table_string .= "</span></td>" .
+                    "<td><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
+                    "<td>" . $canit_row['stream'] . "</td>" .
+                    "<td>" . $canit_row['what'] . "</td>" .
+                    "<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
+                $canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
+                $incidentIdClass = (empty($canit_row['incident_id']) ?  "" : "has-incident");
+                $canit_table_string .= "<td class='".$incidentIdClass."' hidden>" . $canit_row['incident_id'] . "</td>";
+                $is_even = !$is_even;
+            }
+
+            $canit_table_string .= "</tbody></table>";
+            $canit_table_string .= (count($canitResults) == $max_results ? "<a class='view-more-results canit'>View More Results</a>" : "<a class='no-more-results canit'>No More Results</a>");
+            $canit_table_string .= "<br/>";
+
+            echo $canit_table_string;
+        }*/
 
         /*
          *              Prints the Router table if the checkbox was selected
          */
 
-        if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
+        /*if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
 
             $router_table_string = "<table class='results routers'>" .
                 "<tbody>" .
@@ -294,7 +386,6 @@ if ($show_table) {
                 "</tr>";
 
             $is_even = true;
-            if ($numRouterResultsLeft != -1) {
             foreach($routerResults as $row) {
                 $router_table_string .= "<tr class='" . ($is_even ? "even-row" : "odd-row") . " routers'>" .
                     "<td>" . $row['Date'] . "</td>" .
@@ -311,22 +402,21 @@ if ($show_table) {
                     "</tr>";
                 $is_even = !$is_even;
             }
-            } else {
-                $router_table_string .= "<tr class='no-hover even-row'><td colspan='5'>No results are displayed when you search the routers logs only for a subject</td></tr>";
-            }
 
             $router_table_string .= "</tbody></table>";
             $router_table_string .= ($numRouterResultsLeft > 0 ? "<a class='view-more-results routers'>View More Results</a>" : "<a class='no-more-results routers'>No More Results</a>");
             $router_table_string .= "<br/>";
 
             echo $router_table_string;
-        }
+        }*/
 
         /*
          *	Prints the Exchange table if the checkbox was selected
          */
 
         if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
+
+//            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
 
             $exchange_table_string = "\n<table class='results exchange'>\n" .
                 "<tbody>" .

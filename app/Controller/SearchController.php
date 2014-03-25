@@ -10,6 +10,8 @@ class SearchController extends AppController {
 		App::import('Vendor', 'ExchangeAPI/ExchangeClient');
 		App::import('Vendor', 'settings');
 
+        $easterEggOn = Configure::read('easterEggOn');
+
         if ($this->request->is('post')) {
 
             $recipient = $this->request['data']['recipient'];
@@ -29,16 +31,11 @@ class SearchController extends AppController {
                 $canitResults = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('canitResults', $canitResults);
             }
-            if (isset($this->request['data']['routerSelect'])) {
-                if (empty($subject) || !empty($recipient) || !empty($sender)) {
-                    $routerResults = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
-                    $this->set('numRouterResultsLeft', $routerResults['count']);
-                    $this->set('routerResults', $routerResults['results']);
-                } else {
-                    $this->set('numRouterResultsLeft', -1);
-                    $this->set('routerResults', array());
-                }
-            }
+            /*if (isset($this->request['data']['routerSelect'])) {
+                $routerResults = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
+                $this->set('numRouterResultsLeft', $routerResults['count']);
+                $this->set('routerResults', $routerResults['results']);
+            }*/
             if (isset($this->request['data']['exchangeSelect'])) {
                 $exchangeResults = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('exchangeResults', $exchangeResults);
@@ -69,14 +66,14 @@ class SearchController extends AppController {
     }
 
     public function routersresults($recipient = null, $recipient_contains = null, $sender = null, $sender_contains = null, $startDttm = null, $endDttm = null, $maxResults = null, $offset = null) {
-        $recipient = $_REQUEST['recipient'];
-        $recipient_contains = $_REQUEST["recipient_contains"];
-        $sender = $_REQUEST['sender'];
-        $sender_contains = $_REQUEST["sender_contains"];
-        $startDttm = $_REQUEST['start_date'];
-        $endDttm = $_REQUEST['end_date'];
-        $maxResults = $_REQUEST['max_results'];
-        $offset = $_REQUEST['offset'];
+        $recipient = $this->request->data("recipient");
+        $recipient_contains = $this->request->data("recipient_contains");
+        $sender = $this->request->data("sender");
+        $sender_contains = $this->request->data("sender_contains");
+        $startDttm = $this->request->data("start_date");
+        $endDttm = $this->request->data("end_date");
+        $maxResults = $this->request->data("max_results");
+        $offset = $this->request->data("offset");
 
         $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
 

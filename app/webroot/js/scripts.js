@@ -211,108 +211,116 @@ function doIndent(array) {
 
 function rowHover(currentHoveredRow)
 {
-    if (!$(currentHoveredRow).hasClass("no-hover")) {
-        var overlayID;
 
-        // this determines if it's the canit or non canit overlay to use
-        if ($(currentHoveredRow).parents('table').hasClass('canit'))
-        {
-            overlayID = "#canitOverlay";
-        }
-        else
-        {
-            overlayID = "#nonCanitOverlay";
-        }
+    var overlayID;
 
-        // alert($(this).next().attr("class"));
+    // this determines if it's the canit or non canit overlay to use
+    if ($(currentHoveredRow).parents('table').hasClass('canit'))
+    {
+        overlayID = "#canitOverlay";
+    }
+    else
+    {
+        overlayID = "#nonCanitOverlay";
+    }
+
+    // alert($(this).next().attr("class"));
+    if($(currentHoveredRow).next().hasClass('log'))
+    {
+        $(overlayID + " a.view-logs").text("Close Log");
+    }
+    else
+    {
+        $(overlayID + " a.view-logs").text("View Log");
+    }
+
+    if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
+    {
+        $(overlayID + " a.view-in-canit").show();
+
+    }
+    else
+    {
+        $(overlayID + " a.view-in-canit").hide();
+    }
+
+
+    // define useful variables
+    var $rowOverlay = $(overlayID);
+    var rowWidth = $(currentHoveredRow).width() + 2;
+    var rowHeight = $(currentHoveredRow).height() + 2;
+    var rowPos = $(currentHoveredRow).position();
+    var rowTop = rowPos.top - 1;
+    var rowLeft = rowPos.left;
+
+    // This defines the overlay position so it's over the <tr>
+    $rowOverlay.css({
+        display: 'block',
+        position: 'absolute',
+        top: rowTop,
+        left: rowLeft,
+        width: rowWidth,
+        height: rowHeight
+    });
+
+    // Properly define the height of the .external-link-wrap in #divOverlay
+    $rowOverlay.children('.external-link-wrap').css({
+        height: rowHeight - 2
+    });
+
+    // This vertically aligns the <a>s in the #rowOverlay
+    $rowOverlay.find('a').css({
+        'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
+    });
+
+    // This adds the class so you can change the color of the entire row
+    $(currentHoveredRow).addClass('tr-hover-state');
+
+    // unbinds the click function so it doesn't fire tons of log queries
+    $(document).find("a.view-logs").off("click");
+
+    // Binds the click function to the "view logs"
+    $rowOverlay.find("a.view-logs").on("click", function()
+    {
+        // Closes the log if it's currently open
         if($(currentHoveredRow).next().hasClass('log'))
         {
-            $(overlayID + " a.view-logs").text("Close Log");
+            $(currentHoveredRow).next().remove();
+            $(this).text("View Log");
         }
+        // Opens the log if it's not open
         else
         {
-            $(overlayID + " a.view-logs").text("View Log");
+            $(currentHoveredRow).addClass('tr-clicked-state');
+            rowExpander(currentHoveredRow);
+            $(this).text("Close Log");
         }
+    });
 
-        if ($(currentHoveredRow).find("td").hasClass("has-incident") == true)
-        {
-            $(overlayID + " a.view-in-canit").show();
+    $(document).find("a.view-in-canit").off("click");
 
-        }
-        else
-        {
-            $(overlayID + " a.view-in-canit").hide();
-        }
-
-
-        // define useful variables
-        var $rowOverlay = $(overlayID);
-        var rowWidth = $(currentHoveredRow).width() + 2;
-        var rowHeight = $(currentHoveredRow).height() + 2;
-        var rowPos = $(currentHoveredRow).position();
-        var rowTop = rowPos.top - 1;
-        var rowLeft = rowPos.left;
-
-        // This defines the overlay position so it's over the <tr>
-        $rowOverlay.css({
-            display: 'block',
-            position: 'absolute',
-            top: rowTop,
-            left: rowLeft,
-            width: rowWidth,
-            height: rowHeight
-        });
-
-        // Properly define the height of the .external-link-wrap in #divOverlay
-        $rowOverlay.children('.external-link-wrap').css({
-            height: rowHeight - 2
-        });
-
-        // This vertically aligns the <a>s in the #rowOverlay
-        $rowOverlay.find('a').css({
-            'margin-top': ($rowOverlay.children('.external-link-wrap').height() - $rowOverlay.children('.external-link-wrap').children('a').innerHeight()) / 2
-        });
-
-        // This adds the class so you can change the color of the entire row
-        $(currentHoveredRow).addClass('tr-hover-state');
-
-        // unbinds the click function so it doesn't fire tons of log queries
-        $(document).find("a.view-logs").off("click");
-
-        // Binds the click function to the "view logs"
-        $rowOverlay.find("a.view-logs").on("click", function()
-        {
-            // Closes the log if it's currently open
-            if($(currentHoveredRow).next().hasClass('log'))
-            {
-                $(currentHoveredRow).next().remove();
-                $(this).text("View Log");
-            }
-            // Opens the log if it's not open
-            else
-            {
-                $(currentHoveredRow).addClass('tr-clicked-state');
-                rowExpander(currentHoveredRow);
-                $(this).text("Close Log");
-            }
-        });
-
-        $(document).find("a.view-in-canit").off("click");
-
-        $rowOverlay.find("a.view-in-canit").on("click", function()
-        {
-            var realm = currentHoveredRow[0]['cells'][10].innerHTML;
-            var id = currentHoveredRow[0]['cells'][11].innerHTML;
-            var stream = currentHoveredRow[0]['cells'][5].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
-            window.open(url, '_blank');
-        });
-    }
+    $rowOverlay.find("a.view-in-canit").on("click", function()
+    {
+        var realm = currentHoveredRow[0]['cells'][10].innerHTML;
+        var id = currentHoveredRow[0]['cells'][11].innerHTML;
+        var stream = currentHoveredRow[0]['cells'][5].innerHTML;
+        var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
+        window.open(url, '_blank');
+    });
 };
 
 $(document).ready(function(realm, stream) {
 
     numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': NUM_RESULTS_INITIAL, 'exchange': NUM_RESULTS_INITIAL}
+
+    $('#tabs').tabs({
+        beforeLoad: function( event, ui ) {
+            ui.jqXHR.error(function() {
+                ui.panel.html(
+                    "Couldn't load this tab. We'll try to fix this as soon as possible.");
+            });
+        }
+    })
 
     // Initialize the datepickers
     $( "#datepickerStart" ).datepicker({
