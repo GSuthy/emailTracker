@@ -516,15 +516,15 @@ $(document).ready(function(realm, stream) {
             var dateTime = new Date(r['ts'] * 1000);
             var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate())/* + "/" + dateTime.getFullYear()*/;
             var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\" onclick='openLog(this)'>" +
-                "<td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
-                r['sender']+"</span></td><td><span class='canit-recipients'>";
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"'>" +
+                "<td class='open-log'>"+date+"</td><td class='open-log'>"+time+"</td><td class='open-log'><span class='canit-sender'>"+
+                r['sender']+"</span></td><td class='open-log'><span class='canit-recipients'>";
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
             }
-            inputRow += "</span></td><td><span class='canit-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
-                "<td>"+(r['stream'] ? r['stream'] : "")+"</td>" +
-                "<td>"+(r['what'] ? r['what'] : "")+"</td>";
+            inputRow += "</span></td><td class='open-log'><span class='canit-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
+                "<td class='open-log'>"+(r['stream'] ? r['stream'] : "")+"</td>" +
+                "<td class='open-log'>"+(r['what'] ? r['what'] : "")+"</td>";
 
             var canit_spam_score_string = "";
             var canit_spam_score = r['score'];
@@ -550,6 +550,17 @@ $(document).ready(function(realm, stream) {
         }
 
         $("table.results td span.has-incident").off('click');
+        $("table.results td span.has-incident").on("click", function(){
+            var clickedRow = $(this).parent().parent();
+
+            var realm = clickedRow[0]['cells'][10].innerHTML;
+            var id = clickedRow[0]['cells'][11].innerHTML;
+            var stream = clickedRow[0]['cells'][5].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
+            window.open(url, '_blank');
+        });
+
+        $("table.results td span.has-incident").off();
         $("table.results td span.has-incident").on("click", function(){
             var clickedRow = $(this).parent().parent();
 
