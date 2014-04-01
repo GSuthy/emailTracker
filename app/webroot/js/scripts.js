@@ -496,7 +496,7 @@ $(document).ready(function(realm, stream) {
         {
             var r = results[i];
             var dateTime = new Date(r['ts'] * 1000);
-            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate()) + "/" + dateTime.getFullYear();
+            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate())/* + "/" + dateTime.getFullYear()*/;
             var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
                 r['sender']+"</span></td><td><span class='canit-recipients'>";
