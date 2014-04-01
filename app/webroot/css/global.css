@@ -399,7 +399,7 @@ table.results, table.results * {
 
 table.results {
 	width: 100%;
-	font-size: 0.9375em;
+	font-size: .91em;
 	font-weight: normal;
 }
 
@@ -412,6 +412,7 @@ table.results th {
 table.results tr {
 	/*border:1px solid #759bb8;*/
     border: none;
+    cursor: default;
 }
 
 table.results tr:last-child {

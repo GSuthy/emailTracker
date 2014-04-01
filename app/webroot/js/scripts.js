@@ -306,6 +306,10 @@ function rowHover(currentHoveredRow)
         var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
         window.open(url, '_blank');
     });
+
+
+
+
 };
 
 $(document).ready(function(realm, stream) {
@@ -495,7 +499,7 @@ $(document).ready(function(realm, stream) {
         {
             var r = results[i];
             var dateTime = new Date(r['ts'] * 1000);
-            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate()) + "/" + dateTime.getFullYear();
+            var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate())/* + "/" + dateTime.getFullYear()*/;
             var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
                 r['sender']+"</span></td><td><span class='canit-recipients'>";
@@ -549,6 +553,7 @@ $(document).ready(function(realm, stream) {
         {
             var r = results['results'][i];
             var date = r['Date'];
+            date = date.substr(0, 5);
             var time = r['Time'];
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
                 r['Sender']+"</span></td><td><span class='routers-recipients'>";
@@ -583,6 +588,7 @@ $(document).ready(function(realm, stream) {
         {
             var r = results[i];
             var date = r['Date'];
+            date = date.substr(0, 5);
             var time = r['Time'];
             var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\"><td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
                 r['Sender']+"</span></td><td><span class='exchange-recipients'>";
