@@ -29,21 +29,20 @@ function checkboxHandler(name, onOrOff) {
     $(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
-function rowExpander(currentHoveredRow)
+function rowExpander(clickedRow)
 {
-//    alert("creating log " + currentHoveredRow.rowIndex);
-    if(currentHoveredRow.hasClass("exchange")) {
-        var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
+    if(clickedRow.hasClass("exchange")) {
+        var messageId = clickedRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
 
-        var date = currentHoveredRow[0]['cells'][0].innerHTML;
-        var time = currentHoveredRow[0]['cells'][1].innerHTML;
+        var date = clickedRow[0]['cells'][0].innerHTML;
+        var time = clickedRow[0]['cells'][1].innerHTML;
         var timestamp = new Date(date + " " + time);
         var utcMilliseconds = timestamp.getTime();
 
-        var sender = currentHoveredRow[0]['cells'][2].innerHTML;
+        var sender = clickedRow[0]['cells'][2].innerHTML;
 
-        var subject = currentHoveredRow[0]['cells'][4].innerHTML;
+        var subject = clickedRow[0]['cells'][4].innerHTML;
 
         $.ajax
         ({
@@ -60,13 +59,14 @@ function rowExpander(currentHoveredRow)
         })
             .done(function(data)
             {
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent">';
+                var insertionText = '<tr class="log ' + clickedRow.attr("class") + '"><td colspan="6"><div class="indent">';
 
                 if(data.hasOwnProperty('error')) {
                     insertionText += '<p>error: ' + data['error'] + '</p>';
                     insertionText += '</div></td></tr>';
 
-                    $(insertionText).insertAfter(currentHoveredRow);
+                    $(insertionText).insertAfter(clickedRow);
+                    clickedRow.removeClass('log-opening');
                     $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
                     return;
                 }
@@ -83,19 +83,20 @@ function rowExpander(currentHoveredRow)
                 }
                 insertionText += '</p>';
                 insertionText += '</div></td></tr>';
-                $(insertionText).insertAfter(currentHoveredRow);
+                $(insertionText).insertAfter(clickedRow);
+                clickedRow.removeClass('log-opening');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             })
             .fail(function(data) {
                 console.log(document.URL);
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="6"><div class="indent"><p>An error occurred</p></td></tr>';
-                $(insertionText).insertAfter(currentHoveredRow);
+                var insertionText = '<tr class="log ' + clickedRow.attr("class") + '"><td colspan="6"><div class="indent"><p>An error occurred</p></td></tr>';
+                $(insertionText).insertAfter(clickedRow);
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
-    } else if (currentHoveredRow.hasClass("canit")) {
+    } else if (clickedRow.hasClass("canit")) {
 
-        var queueId = currentHoveredRow[0]['cells'][8].innerHTML;
-        var reportingHost = currentHoveredRow[0]['cells'][9].innerHTML;
+        var queueId = clickedRow[0]['cells'][8].innerHTML;
+        var reportingHost = clickedRow[0]['cells'][9].innerHTML;
 
         $.ajax
         ({
@@ -108,15 +109,16 @@ function rowExpander(currentHoveredRow)
 
                 var logs = doIndent(data);
 
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="8"><p>' + logs + '</p></td></tr>';
+                var insertionText = '<tr class="log ' + clickedRow.attr("class") + '"><td colspan="8"><p>' + logs + '</p></td></tr>';
 
-                $(insertionText).insertAfter(currentHoveredRow);
+                $(insertionText).insertAfter(clickedRow);
+                clickedRow.removeClass('log-opening');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
 
-    } else if (currentHoveredRow.hasClass("routers")) {
-        var message_id = currentHoveredRow[0]['cells'][5].innerHTML;
-        var next_id = currentHoveredRow[0]['cells'][6].innerHTML;
+    } else if (clickedRow.hasClass("routers")) {
+        var message_id = clickedRow[0]['cells'][5].innerHTML;
+        var next_id = clickedRow[0]['cells'][6].innerHTML;
         $.ajax
         ({
             type: "POST",
@@ -130,19 +132,21 @@ function rowExpander(currentHoveredRow)
                 var rawLogs = simplifyArray(data);
                 var logs = doIndent(rawLogs);
 
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7">';
+                var insertionText = '<tr class="log ' + clickedRow.attr("class") + '"><td colspan="7">';
 
                 insertionText += '<p>';
                 insertionText += logs;
                 insertionText += '</p>';
                 insertionText += '</td></tr>';
-                $(insertionText).insertAfter(currentHoveredRow);
+                $(insertionText).insertAfter(clickedRow);
+                clickedRow.removeClass('log-opening');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             })
             .fail(function(data) {
                 console.log(document.URL);
-                var insertionText = '<tr class="log ' + currentHoveredRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
-                $(insertionText).insertAfter(currentHoveredRow);
+                var insertionText = '<tr class="log ' + clickedRow.attr("class") + '"><td colspan="7"><div class="indent"><p>An error occurred</p></td></tr>';
+                $(insertionText).insertAfter(clickedRow);
+                clickedRow.removeClass('log-opening');
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
     }
@@ -298,6 +302,17 @@ function rowHover(currentHoveredRow)
             $(this).text("Close Log");
         }
     });
+};
+
+$(document).ready(function(realm, stream) {
+
+    numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': 0, 'exchange': 0};
+
+    $('#tabs').tabs();
+
+    $("table tr.canit td.open-log").click(function() {
+        openLog($(this).parent());
+    });
 
     $("table.results td span.has-incident").on("click", function(){
         var clickedRow = $(this).parent().parent();
@@ -307,21 +322,6 @@ function rowHover(currentHoveredRow)
         var stream = clickedRow[0]['cells'][5].innerHTML;
         var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
         window.open(url, '_blank');
-    });
-
-};
-
-$(document).ready(function(realm, stream) {
-
-    numResults = {'canit': NUM_RESULTS_INITIAL, 'routers': 0, 'exchange': 0};
-
-    $('#tabs').tabs({
-        beforeLoad: function( event, ui ) {
-            ui.jqXHR.error(function() {
-                ui.panel.html(
-                    "Couldn't load this tab. We'll try to fix this as soon as possible.");
-            });
-        }
     });
 
     var routersChecked = $('[name="routerSelect"]').is(':checked');
@@ -336,11 +336,19 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
+                $("tr.waiting-for-results.routers").remove();
                 displayMoreRoutersResults(data, "routers");
                 $('table.results tr').not('.table-information').on('mouseover', function() {
                     rowHover($(this));
                 });
-                numResults["routers"] += 30;
+                numResults["routers"] += data.length;
+
+                if (data.length == 30) {
+                    var button = $("a.no-more-results.routers");
+                    button.text('View More Results');
+                    button.removeClass("no-more-results");
+                    button.addClass("view-more-results");
+                }
             });
     }
 
@@ -356,11 +364,19 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
+                $("tr.waiting-for-results.exchange").remove();
                 displayMoreExchangeResults(data, "exchange");
                 $('table.results tr').not('.table-information').on('mouseover', function() {
                     rowHover($(this));
                 });
-                numResults["exchange"] += 30;
+                numResults["exchange"] += data.length;
+
+                if (data.length == 30) {
+                    var button = $("a.no-more-results.exchange");
+                    button.text('View More Results');
+                    button.removeClass("no-more-results");
+                    button.addClass("view-more-results");
+                }
             });
     }
 
@@ -500,7 +516,8 @@ $(document).ready(function(realm, stream) {
             var dateTime = new Date(r['ts'] * 1000);
             var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate())/* + "/" + dateTime.getFullYear()*/;
             var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"><td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\" onclick='openLog(this)'>" +
+                "<td>"+date+"</td><td>"+time+"</td><td><span class='canit-sender'>"+
                 r['sender']+"</span></td><td><span class='canit-recipients'>";
             for (var j = 0; j < r['recipients'].length; j++) {
                 inputRow += r['recipients'][j] + "<br/>";
@@ -532,6 +549,17 @@ $(document).ready(function(realm, stream) {
             $("table." + tableClass + " tr").last().after(inputRow);
         }
 
+        $("table.results td span.has-incident").off('click');
+        $("table.results td span.has-incident").on("click", function(){
+            var clickedRow = $(this).parent().parent();
+
+            var realm = clickedRow[0]['cells'][10].innerHTML;
+            var id = clickedRow[0]['cells'][11].innerHTML;
+            var stream = clickedRow[0]['cells'][5].innerHTML;
+            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
+            window.open(url, '_blank');
+        });
+
         if (results.length < 20) {
             var button = $("a.view-more-results.canit");
             button.text('No More Results');
@@ -548,13 +576,14 @@ $(document).ready(function(realm, stream) {
             is_even = true;
         }
 
-        for (var i = 0; i < results['results'].length; i++)
+        for (var i = 0; i < results.length; i++)
         {
-            var r = results['results'][i];
+            var r = results[i];
             var date = r['Date'];
             date = date.substr(0, 5);
             var time = r['Time'];
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\"><td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\" onclick='openLog(this)'>" +
+                "<td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
                 r['Sender']+"</span></td><td><span class='routers-recipients'>";
             for (var j = 0; j < r['Recipients'].length; j++) {
                 inputRow += r['Recipients'][j] + "<br/>";
@@ -567,7 +596,7 @@ $(document).ready(function(realm, stream) {
             $("table." + tableClass + " tr").last().after(inputRow);
         }
 
-        if (results['count'] == 0) {
+        if (results.length < 20) {
             var button = $("a.view-more-results.routers");
             button.text('No More Results');
             button.removeClass("view-more-results");
@@ -589,7 +618,8 @@ $(document).ready(function(realm, stream) {
             var date = r['Date'];
             date = date.substr(0, 5);
             var time = r['Time'];
-            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\"><td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
+            var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\" onclick='openLog(this)'>" +
+                "<td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
                 r['Sender']+"</span></td><td><span class='exchange-recipients'>";
             inputRow += r['Recipient'] + "<br/></span>";
             inputRow += "</td><td><span class='exchange-subject'>"+r['Subject']+"</span></td>";
@@ -689,18 +719,14 @@ $(document).ready(function(realm, stream) {
 
 
 function openLog(row) {
-    alert(row.rowIndex);
-    /*if($(row).next().hasClass('log'))
+    if($(row).next().hasClass('log'))
     {
         $(row).next().remove();
-        $(this).text("View Log");
     }
     // Opens the log if it's not open
-    else
+    else if (!$(row).hasClass('log-opening'))
     {
-        alert("opening log");
-//        $(row).addClass('tr-clicked-state');
-        rowExpander(row);
-        $(this).text("Close Log");
-    }*/
+        $(row).addClass('log-opening');
+        rowExpander($(row));
+    }
 }

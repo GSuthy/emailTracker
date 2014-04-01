@@ -31,15 +31,6 @@ class SearchController extends AppController {
                 $canitResults = CanItClient::getCanitResults($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
                 $this->set('canitResults', $canitResults);
             }
-            /*if (isset($this->request['data']['routerSelect'])) {
-                $routerResults = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
-                $this->set('numRouterResultsLeft', $routerResults['count']);
-                $this->set('routerResults', $routerResults['results']);
-            }*/
-           /* if (isset($this->request['data']['exchangeSelect'])) {
-                $exchangeResults = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset);
-                $this->set('exchangeResults', $exchangeResults);
-            }*/
         }
     }
 

@@ -40,22 +40,10 @@ class Routers extends AppModel {
         $options['conditions'] = $conditions;
         $options['fields'] = array('Routers.message_id', 'Routers.received_at', 'Routers.sender_receiver', 'Table2.next_id', 'Table2.sender_receiver', 'Table2.stat');
         $options['offset'] = $offset;
-
-        $count = $this->find('count', $options);
-
         $options['limit'] = $maxResults;
+
         $temp_results = $this->find('all', $options);
-
-        $results = array(
-            'count' => $count,
-            'results' => array()
-        );
-
-        if (!empty($temp_results)) {
-            $results['results'] = $this->formatOutput($temp_results);
-            $results['count'] -= ($offset + count($results['results']));
-        }
-
+        $results = $this->formatOutput($temp_results);
         return $results;
     }
 

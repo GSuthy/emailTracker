@@ -207,11 +207,12 @@ if (!$authorized) {
 		$is_even = true;
 
 		foreach($canitResults as $canit_row){
-			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit' onclick='openLog(this)'>".
-				"<td>" . date('m/d', $canit_row['ts']) . "</td>" .
-				"<td>" . date('h:i', $canit_row['ts']) . "</td>" .
-				"<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
-				"<td><span class='canit-recipients'>";
+//			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit' onclick='openLog(this)'>".
+			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
+				"<td class='open-log'>" . date('m/d', $canit_row['ts']) . "</td>" .
+				"<td class='open-log'>" . date('h:i', $canit_row['ts']) . "</td>" .
+				"<td class='open-log'><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
+				"<td class='open-log'><span class='canit-recipients'>";
 			foreach ($canit_row['recipients'] as $recip) {
 				$canit_table_string .= $recip . "<br/>";
 			}
@@ -230,9 +231,9 @@ if (!$authorized) {
 			else { $canit_spam_score_string .= "spam-score-rejected"; }
 
 			$canit_table_string .= "</span></td>" .
-				"<td><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
-				"<td>" . $canit_row['stream'] . "</td>" .
-				"<td>" . $canit_row['what'] . "</td>" .
+				"<td class='open-log'><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
+				"<td class='open-log'>" . $canit_row['stream'] . "</td>" .
+				"<td class='open-log'>" . $canit_row['what'] . "</td>" .
 				"<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
 			$canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
 			$canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
@@ -256,9 +257,6 @@ if (!$authorized) {
 
 		$router_table_string = "<table class='results routers'>" .
 			"<tbody>" .
-			/*"<tr class='table-information'>" .
-			"<td colspan='6'>Router Results</td>" .
-			"<tr>" .*/
 			"<th>Date</th>" .
 			"<th>Time</th>" .
 			"<th>Sender</th>" .
@@ -267,7 +265,7 @@ if (!$authorized) {
 			"<th style='display: none'>Current ID</th>" .
 			"<th style='display: none'>Next ID</th>" .
 			"</tr>";
-
+        $router_table_string .= "<tr class='waiting-for-results routers even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
 		$router_table_string .= "</tbody></table>";
 		$router_table_string .= ("<a class='view-more-results routers'>View More Results</a>");
 		$router_table_string .= "<br/>";
@@ -282,9 +280,6 @@ if (!$authorized) {
 
 	$exchange_table_string = "\n<table class='results exchange'>\n" .
 		"<tbody>" .
-		/*"<tr class='table-information'>" .
-		"<td colspan='6'>Exchange Results</td>" .
-		"<tr>" .*/
 		"<th>Date</th>" .
 		"<th>Time</th>" .
 		"<th>Sender</th>" .
@@ -292,8 +287,7 @@ if (!$authorized) {
 		"<th>Subject</th>" .
 		"<th hidden>Message ID</th>" .
 		"</tr>\n";
-
-
+    $exchange_table_string .= "<tr class='waiting-for-results exchange even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
 	$exchange_table_string .= "</tbody></table>";
 	$exchange_table_string .= ("<a class='view-more-results exchange'>View More Results</a>");
 	$exchange_table_string .= "<br/>";
@@ -351,193 +345,6 @@ if ($show_table) {
 	$hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
 }
 ?>
-
-<?php //TODO
-/*
- *              Prints the CanIt table if the checkbox was selected
- */
-
-//    if (!$hasErrors) {
-/*if (isset($_POST['canitSelect']) && $_POST['canitSelect'] == true) {
-	$warning_level_spam_score = $scoreThresholds['hold_threshold'];
-	$auto_reject_spam_score = $scoreThresholds['auto_reject'];
-
-	$warningDiv = "<div id=\"warningDiv\" hidden>".$warning_level_spam_score."</div>";
-	$rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
-	echo $warningDiv;
-	echo $rejectDiv;
-
-	$canit_table_string = "<table class='results canit'>" .
-		"<tbody>" .
-		"<tr class='table-information'>" .
-		"<td colspan='8'>CanIt Results</td>" .
-		"<tr>" .
-		"<th>Date</th>" .
-		"<th>Time</th>" .
-		"<th>Sender</th>" .
-		"<th>Recipients</th>" .
-		"<th>Subject</th>" .
-		"<th>Stream</th>" .
-		"<th>Status</th>" .
-		"<th>Score</th>" .
-		"<th hidden>Queue ID</th>" .
-		"<th hidden>Reporting Host</th>" .
-		"<th hidden>Realm</th>" .
-		"<th hidden>Incident ID</th>" .
-		"</tr>";
-
-	$is_even = true;
-
-	foreach($canitResults as $canit_row){
-		$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
-			"<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
-			"<td>" . date('h:i', $canit_row['ts']) . "</td>" .
-			"<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
-			"<td><span class='canit-recipients'>";
-		foreach ($canit_row['recipients'] as $recip) {
-			$canit_table_string .= $recip . "<br/>";
-		}
-
-		$canit_spam_score_string = "";
-		$canit_spam_score = $canit_row['score'];
-		if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
-		else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
-		else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
-		else { $canit_spam_score_string = "spam-score-rejected"; }
-
-		$canit_table_string .= "</span></td>" .
-			"<td><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
-			"<td>" . $canit_row['stream'] . "</td>" .
-			"<td>" . $canit_row['what'] . "</td>" .
-			"<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
-		$canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
-		$canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
-		$canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
-		$incidentIdClass = (empty($canit_row['incident_id']) ?  "" : "has-incident");
-		$canit_table_string .= "<td class='".$incidentIdClass."' hidden>" . $canit_row['incident_id'] . "</td>";
-		$is_even = !$is_even;
-	}
-
-	$canit_table_string .= "</tbody></table>";
-	$canit_table_string .= (count($canitResults) == $max_results ? "<a class='view-more-results canit'>View More Results</a>" : "<a class='no-more-results canit'>No More Results</a>");
-	$canit_table_string .= "<br/>";
-
-	echo $canit_table_string;
-}*/
-
-/*
- *              Prints the Router table if the checkbox was selected
- */
-
-
-
-
-/*if (isset($_POST['routerSelect']) && $_POST['routerSelect'] == true) {
-
-	$router_table_string = "<table class='results routers'>" .
-		"<tbody>" .
-		"<tr class='table-information'>" .
-		"<td colspan='6'>Router Results</td>" .
-		"<tr>" .
-		"<th>Date</th>" .
-		"<th>Time</th>" .
-		"<th>Sender</th>" .
-		"<th>Recipients</th>" .
-		"<th>Status</th>" .
-		"<th style='display: none'>Current ID</th>" .
-		"<th style='display: none'>Next ID</th>" .
-		"</tr>";
-
-	$is_even = true;
-	foreach($routerResults as $row) {
-		$router_table_string .= "<tr class='" . ($is_even ? "even-row" : "odd-row") . " routers'>" .
-			"<td>" . $row['Date'] . "</td>" .
-			"<td>" . $row['Time'] . "</td>" .
-			"<td><span class='routers-sender'>" . $row['Sender'] . "</span></td>" .
-			"<td><span class='routers-recipients'>";
-		foreach ($row['Recipients'] as $recip) {
-			$router_table_string .= $recip . "<br/>";
-		}
-		$router_table_string .= "</span></td>" .
-			"<td>" . $row['Status'] . "</td>" .
-			"<td style='display: none'>" . $row['Message_ID'] . "</td>" .
-			"<td style='display: none'>" . $row['Next_ID'] . "</td>" .
-			"</tr>";
-		$is_even = !$is_even;
-	}
-
-	$router_table_string .= "</tbody></table>";
-	$router_table_string .= ($numRouterResultsLeft > 0 ? "<a class='view-more-results routers'>View More Results</a>" : "<a class='no-more-results routers'>No More Results</a>");
-	$router_table_string .= "<br/>";
-
-	echo $router_table_string;
-}*/
-
-/*
- *	Prints the Exchange table if the checkbox was selected
- */
-
-//        if (isset($_POST['exchangeSelect']) && $_POST['exchangeSelect'] == true) {
-
-//            $exchangeResults = ExchangeClient::getExchangeResults($sender, $senderContains, $recipient, $recipientContains, $subject, $subjectContains, $startDttm, $endDttm, $max_results, 0);
-
-//            $exchange_table_string = "\n<table class='results exchange'>\n" .
-//                "<tbody>" .
-//                "<tr class='table-information'>" .
-//                "<td colspan='6'>Exchange Results</td>" .
-//                "<tr>" .
-//                "<th>Date</th>" .
-//                "<th>Time</th>" .
-//                "<th>Sender</th>" .
-//                "<th>Recipient</th>" .
-//                "<th>Subject</th>" .
-//		        "<th hidden>Message ID</th>" .
-//                "</tr>\n";
-//
-//            if(isset($exchangeResults['error'])) {
-//                $exchange_table_string = $exchange_table_string . "<tr class='odd-row exchange'>" .
-//                    "<td colspan='6'><p>error: " . $exchangeResults['error'] . "</p></td>" .
-//                    "</tr>\n";
-//            } else {
-//                $is_even = true;
-//                foreach($exchangeResults as $row) {
-//
-//                    $exchange_table_string = $exchange_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " exchange'>" .
-//                        "<td>" . date('m/d/Y', strtotime($row['Date'])) . "</td>" .
-//                        "<td>" . date('H:i:s', strtotime($row['Time'])) . "</td>" .
-//                        "<td><span class='exchange-sender'>" . $row['Sender'] . "</span></td>" .
-//                        "<td><span class='exchange-recipients'>" . $row['Recipient'] . "</span></td>" .
-//                        "<td><span class='exchange-subject'>" . $row['Subject'] . "</span></td>" .
-//                        "<td hidden>" . htmlentities($row['ID']) . "</td>" .
-//                        "</tr>\n";
-//                    $is_even = !$is_even;
-//                }
-//            }
-//
-//            $exchange_table_string .= "</tbody></table>";
-//            $exchange_table_string .= (count($exchangeResults) == $max_results ? "<a class='view-more-results exchange'>View More Results</a>" : "<a class='no-more-results exchange'>No More Results</a>");
-//            $exchange_table_string .= "<br/>";
-//
-//            echo $exchange_table_string;
-//        }
-//    }
-//}
-?>
-
-<!--</div>-->
-
-<!--<div id="canitOverlay" style="" class="rowOverlay">
-    <span class="external-link-wrap">
-    <a class="view-logs">View Logs</a>
-    <a class="view-in-canit">Open in CanIt</a>
-    </span>
-</div>-->
-
-<!--<div id="nonCanitOverlay" style="" class="rowOverlay">
-    <span class="external-link-wrap">
-    <a class="view-logs">View Logs</a>
-    </span>
-</div>-->
 
 <script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
