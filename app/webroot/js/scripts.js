@@ -31,6 +31,7 @@ function checkboxHandler(name, onOrOff) {
 
 function rowExpander(currentHoveredRow)
 {
+//    alert("creating log " + currentHoveredRow.rowIndex);
     if(currentHoveredRow.hasClass("exchange")) {
         var messageId = currentHoveredRow[0]['cells'][5].innerHTML;
         var maxResults = 1000;
@@ -92,6 +93,7 @@ function rowExpander(currentHoveredRow)
                 $('table.results tr.tr-clicked-state').removeClass('tr-clicked-state');
             });
     } else if (currentHoveredRow.hasClass("canit")) {
+
         var queueId = currentHoveredRow[0]['cells'][8].innerHTML;
         var reportingHost = currentHoveredRow[0]['cells'][9].innerHTML;
 
@@ -684,3 +686,21 @@ $(document).ready(function(realm, stream) {
     }
 
 });
+
+
+function openLog(row) {
+    alert(row.rowIndex);
+    /*if($(row).next().hasClass('log'))
+    {
+        $(row).next().remove();
+        $(this).text("View Log");
+    }
+    // Opens the log if it's not open
+    else
+    {
+        alert("opening log");
+//        $(row).addClass('tr-clicked-state');
+        rowExpander(row);
+        $(this).text("Close Log");
+    }*/
+}
