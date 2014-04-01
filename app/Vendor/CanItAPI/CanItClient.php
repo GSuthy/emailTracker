@@ -38,8 +38,14 @@ class CanItClient {
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
 
-        $start_date = substr($startDttm, 0, 10);
-        $end_date = substr($endDttm, 0, 10);
+        $startDttm = new DateTime($startDttm);
+        $start_date = $startDttm->format('Y-m-d');
+
+        $endDttm = new DateTime($endDttm);
+        $end_date = $endDttm->format('Y-m-d');
+
+        $start_date = urlencode($start_date);
+        $end_date = urlencode($end_date);
 
         $recipient = urlencode($recipient);
         $sender = urlencode($sender);

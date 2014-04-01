@@ -216,12 +216,18 @@ if (!$authorized) {
 				$canit_table_string .= $recip . "<br/>";
 			}
 
+            $incident_id = $canit_row['incident_id'];
 			$canit_spam_score_string = "";
 			$canit_spam_score = $canit_row['score'];
-			if (empty($canit_spam_score)){ $canit_spam_score_string = "spam-score-empty"; }
-			else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string = "spam-score-good"; }
-			else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string = "spam-score-quarantined"; }
-			else { $canit_spam_score_string = "spam-score-rejected"; }
+
+            if (!empty($incident_id)) {
+                $canit_spam_score_string = "has-incident ";
+            }
+
+			if (empty($canit_spam_score)){ $canit_spam_score_string .= "spam-score-empty"; }
+			else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string .= "spam-score-good"; }
+			else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string .= "spam-score-quarantined"; }
+			else { $canit_spam_score_string .= "spam-score-rejected"; }
 
 			$canit_table_string .= "</span></td>" .
 				"<td><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
