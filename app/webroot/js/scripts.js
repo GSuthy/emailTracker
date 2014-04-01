@@ -560,15 +560,9 @@ $(document).ready(function(realm, stream) {
             window.open(url, '_blank');
         });
 
-        $("table.results td span.has-incident").off();
-        $("table.results td span.has-incident").on("click", function(){
-            var clickedRow = $(this).parent().parent();
-
-            var realm = clickedRow[0]['cells'][10].innerHTML;
-            var id = clickedRow[0]['cells'][11].innerHTML;
-            var stream = clickedRow[0]['cells'][5].innerHTML;
-            var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
-            window.open(url, '_blank');
+        $("table tr.canit td.open-log").off();
+        $("table tr.canit td.open-log").on("click", function(){
+            openLog($(this).parent());
         });
 
         if (results.length < 20) {
