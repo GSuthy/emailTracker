@@ -412,6 +412,7 @@ table.results th {
 table.results tr {
 	/*border:1px solid #759bb8;*/
     border: none;
+    cursor: default;
 }
 
 table.results tr:last-child {
