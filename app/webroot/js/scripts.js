@@ -307,9 +307,6 @@ function rowHover(currentHoveredRow)
         window.open(url, '_blank');
     });
 
-
-
-
 };
 
 $(document).ready(function(realm, stream) {

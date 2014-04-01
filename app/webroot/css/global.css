@@ -516,6 +516,7 @@ table.results td span.spam-score-rejected
 	background: #cbe7d3;
 	padding: 2px;
 	border-radius: 4px;
+    cursor: default;
 }
 
 table.results td span.has-incident {
