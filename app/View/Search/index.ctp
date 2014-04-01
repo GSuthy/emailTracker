@@ -208,7 +208,7 @@ if (!$authorized) {
 
 		foreach($canitResults as $canit_row){
 			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
-				"<td>" . date('m/d/Y', $canit_row['ts']) . "</td>" .
+				"<td>" . date('m/d', $canit_row['ts']) . "</td>" .
 				"<td>" . date('h:i', $canit_row['ts']) . "</td>" .
 				"<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
 				"<td><span class='canit-recipients'>";
@@ -520,12 +520,12 @@ if ($show_table) {
 
 <!--</div>-->
 
-<div id="canitOverlay" style="" class="rowOverlay">
+<!--<div id="canitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a class="view-logs">View Logs</a>
     <a class="view-in-canit">Open in CanIt</a>
     </span>
-</div>
+</div>-->
 
 <div id="nonCanitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">

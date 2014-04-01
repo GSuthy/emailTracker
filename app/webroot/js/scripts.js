@@ -274,7 +274,7 @@ function rowHover(currentHoveredRow)
     });
 
     // This adds the class so you can change the color of the entire row
-    $(currentHoveredRow).addClass('tr-hover-state');
+//    $(currentHoveredRow).addClass('tr-hover-state');
 
     // unbinds the click function so it doesn't fire tons of log queries
     $(document).find("a.view-logs").off("click");
@@ -297,9 +297,9 @@ function rowHover(currentHoveredRow)
         }
     });
 
-    $(document).find("a.view-in-canit").off("click");
+    $(document).find("span.spam-score-quarantined").off("click");
 
-    $rowOverlay.find("a.view-in-canit").on("click", function()
+    $(document).find("span.spam-score-quarantined").on("click", function()
     {
         var realm = currentHoveredRow[0]['cells'][10].innerHTML;
         var id = currentHoveredRow[0]['cells'][11].innerHTML;
@@ -420,7 +420,7 @@ $(document).ready(function(realm, stream) {
     $('div.rowOverlay').mouseleave(function() {
         $(this).hide();
         $("#canitOverlay a.view-in-canit").show();
-        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
+//        $('table.results tr.tr-hover-state').removeClass('tr-hover-state');
     });
 
     $("a.view-more-results").click(function() {

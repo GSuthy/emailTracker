@@ -497,6 +497,9 @@ table tr.log.odd-row:hover
 	background: white;
 }
 
+table.results tr:hover {
+    background-color: #4477aa;
+}
 
 table.results tr.log p {
 	font-size: .875em;
@@ -600,7 +603,11 @@ a.no-more-results {
     cursor: default;
 }
 
+span.spam-score-quarantined {
+    cursor: pointer;
+}
 
 .hidden {
     display: none;
 }
+
