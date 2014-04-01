@@ -527,11 +527,11 @@ if ($show_table) {
     </span>
 </div>-->
 
-<div id="nonCanitOverlay" style="" class="rowOverlay">
+<!--<div id="nonCanitOverlay" style="" class="rowOverlay">
     <span class="external-link-wrap">
     <a class="view-logs">View Logs</a>
     </span>
-</div>
+</div>-->
 
 <script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

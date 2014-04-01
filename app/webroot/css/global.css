@@ -209,16 +209,16 @@ form.search select {
 	color: white;
 	margin: 0 -4px 0 0;
 	border-radius: 3px 0 0 3px;
-	-webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 0.01px;
-    text-overflow: '';
+	/*-webkit-appearance: none;*/
+    /*-moz-appearance: none;*/
+    /*text-indent: 0.01px;*/
+    /*text-overflow: '';*/
 }
 
 /* Browser Hack to get rid of dropdown - MSIE */
-form.search select::-ms-expand {
-    display: none;
-}
+/*form.search select::-ms-expand {*/
+    /*display: none;*/
+/*}*/
 
 /* Browser hack to get rid of dropdown - FF for Mac (Fix doesn't work on Windows) */
 /*@-moz-document url-prefix() {
@@ -297,12 +297,12 @@ div.server-select div.box-selector {
 	position: relative; /* necessary for status-indicator positioning */
 
 	/* Get rid of annoying accidental selection */
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+	/*-webkit-touch-callout: none;*/
+	/*-webkit-user-select: none;*/
+	/*-khtml-user-select: none;*/
+	/*-moz-user-select: none;*/
+	/*-ms-user-select: none;*/
+	/*user-select: none;*/
 }
 
 div.server-select div.box-selector p {
@@ -375,9 +375,9 @@ form.search input[type="submit"], form.search input[type="submit"]:active  {
 	color: white;
 	margin: 1px 1.04167% 16px 0;
 	border-radius: 3px;
-	-webkit-appearance: none;
+	/*-webkit-appearance: none;*/
 	width: 47.6%;
-	box-shadow:0px 2px 0px #003b65;
+	box-shadow:0 2px 0 #003b65;
 }
 
 form.search input[type="submit"]:hover {
@@ -387,7 +387,7 @@ form.search input[type="submit"]:hover {
 
 form.search input[type="submit"]:active {
 	background-color: #1E79BA;
-	box-shadow:0px 1px 0px #003b65;
+	box-shadow:0 1px 0 #003b65;
 	margin: 2px 1.04167% 15px 0;
 }
 
@@ -410,8 +410,8 @@ table.results th {
 }
 
 table.results tr {
-	border:1px solid #759bb8;
-	border-width: 0 1px;
+	/*border:1px solid #759bb8;*/
+    border: none;
 }
 
 table.results tr:last-child {
@@ -498,7 +498,7 @@ table tr.log.odd-row:hover
 }
 
 table.results tr:hover {
-    background-color: #4477aa;
+    background-color: #77aacc;
 }
 
 table.results tr.log p {
@@ -552,7 +552,7 @@ div.rowOverlay .external-link-wrap a {
 	font-size: .75em;
 	padding: 3px;
 	border-radius: 4px;
-	color: white;
+	/*color: white;*/
 	background: #196499;
 }
 
@@ -575,7 +575,7 @@ a.view-more-results {
 	border: 1px solid #003b65;
 	border-radius: 3px;
 	font-size:.875em;
-	box-shadow:0px 2px 0px #003b65;
+	box-shadow:0 2px 0 #003b65;
 }
 
 a.view-more-results:hover {
@@ -585,7 +585,7 @@ a.view-more-results:hover {
 
 a.view-more-results:active {
 	background-color: #1E79BA;
-	box-shadow:0px 1px 0px #003b65;
+	box-shadow:0 1px 0 #003b65;
 	margin:9px 0 -1px;
 }
 
@@ -599,7 +599,7 @@ a.no-more-results {
     border: 1px solid #003b65;
     border-radius: 3px;
     font-size:.875em;
-    box-shadow:0px 2px 0px #003b65;
+    box-shadow:0 2px 0 #003b65;
     cursor: default;
 }
 
