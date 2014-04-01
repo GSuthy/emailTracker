@@ -207,7 +207,7 @@ if (!$authorized) {
 		$is_even = true;
 
 		foreach($canitResults as $canit_row){
-			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
+			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit' onclick='openLog(this)'>".
 				"<td>" . date('m/d', $canit_row['ts']) . "</td>" .
 				"<td>" . date('h:i', $canit_row['ts']) . "</td>" .
 				"<td><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
