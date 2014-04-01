@@ -297,13 +297,12 @@ function rowHover(currentHoveredRow)
         }
     });
 
-    $(document).find("span.spam-score-quarantined").off("click");
+    $("table.results td span.has-incident").on("click", function(){
+        var clickedRow = $(this).parent().parent();
 
-    $(document).find("span.spam-score-quarantined").on("click", function()
-    {
-        var realm = currentHoveredRow[0]['cells'][10].innerHTML;
-        var id = currentHoveredRow[0]['cells'][11].innerHTML;
-        var stream = currentHoveredRow[0]['cells'][5].innerHTML;
+        var realm = clickedRow[0]['cells'][10].innerHTML;
+        var id = clickedRow[0]['cells'][11].innerHTML;
+        var stream = clickedRow[0]['cells'][5].innerHTML;
         var url = "https://emailfilter.byu.edu/canit/showincident.php?&id=" + id + "&rlm=" + realm + "&s=" + stream;
         window.open(url, '_blank');
     });
@@ -509,10 +508,16 @@ $(document).ready(function(realm, stream) {
 
             var canit_spam_score_string = "";
             var canit_spam_score = r['score'];
-            if (!canit_spam_score){ canit_spam_score_string = "spam-score-empty"; }
-            else if (canit_spam_score < warning_level_spam_score){ canit_spam_score_string = "spam-score-good"; }
-            else if (canit_spam_score < auto_reject_spam_score){ canit_spam_score_string = "spam-score-quarantined"; }
-            else { canit_spam_score_string = "spam-score-rejected"; }
+            var incident_id = r['incident_id'];
+
+            if (incident_id) {
+                canit_spam_score_string = "has-incident ";
+            }
+
+            if (!canit_spam_score){ canit_spam_score_string += "spam-score-empty"; }
+            else if (canit_spam_score < warning_level_spam_score){ canit_spam_score_string += "spam-score-good"; }
+            else if (canit_spam_score < auto_reject_spam_score){ canit_spam_score_string += "spam-score-quarantined"; }
+            else { canit_spam_score_string += "spam-score-rejected"; }
 
             inputRow += "<td><span class=\""+canit_spam_score_string+"\">"+(r['score'] ? r['score'] : "")+"</span></td>";
             inputRow += "<td hidden>" + r['queue_id'] + "</td>";

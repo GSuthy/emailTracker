@@ -517,6 +517,24 @@ table.results td span.spam-score-rejected
 	border-radius: 4px;
 }
 
+table.results td span.has-incident {
+    cursor: pointer;
+}
+
+table.results td span.has-incident span.spam-score-good:hover {
+    background: #DEFFE7;
+}
+
+table.results td span.has-incident span.spam-score-quarantined:hover {
+    background: #EEAA00;
+    color: white;
+}
+
+table.results td span.has-incident span.spam-score-rejected:hover {
+    background: #FF7D7D;
+    color: white;
+}
+
 table.results td span.spam-score-quarantined {
     background: #EE8800;
     color: white;
@@ -526,7 +544,6 @@ table.results td span.spam-score-rejected {
     background: #990011;
     color: white;
 }
-
 
 div.rowOverlay {
 	font-size: inherit;
@@ -601,10 +618,6 @@ a.no-more-results {
     font-size:.875em;
     box-shadow:0 2px 0 #003b65;
     cursor: default;
-}
-
-span.spam-score-quarantined {
-    cursor: pointer;
 }
 
 .hidden {
