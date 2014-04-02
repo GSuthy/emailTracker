@@ -90,7 +90,7 @@ $(document).ready(function(realm, stream) {
         $.ajax
         ({
             type: "POST",
-            url: "search/routersresults",
+            url: "routers/routersResults",
             data: params,
             dataType: "json"
         })
@@ -112,39 +112,38 @@ $(document).ready(function(realm, stream) {
                         buttonClicked("routers");
                     });
                 }
-
-                if($('[name="exchangeSelect"]').is(':checked')) {
-                    var params = getExchangeInitialParameters();
-                    $.ajax
-                    ({
-                        type: "POST",
-                        url: "search/exchangeresults",
-                        data: params,
-                        dataType: "json"
-                    })
-                        .done(function(data)
-                        {
-                            $("tr.waiting-for-results.exchange").remove();
-                            displayMoreExchangeResults(data, "exchange");
-                            $('table.results tr').not('.table-information').on('mouseover', function() {
-                                rowHover($(this));
-                            });
-                            numResults["exchange"] += data.length;
-
-                            if (data.length == 30) {
-                                var button = $("a.no-more-results.exchange");
-                                button.text('View More Results');
-                                button.removeClass("no-more-results");
-                                button.addClass("view-more-results");
-                                $("a.view-more-results.exchange").on("click", function(){
-                                    buttonClicked("exchange");
-                                });
-                            }
-                        });
-                }
             });
     }
 
+    if($('[name="exchangeSelect"]').is(':checked')) {
+        var params = getExchangeInitialParameters();
+        $.ajax
+        ({
+            type: "POST",
+            url: "exchange/exchangeResults",
+            data: params,
+            dataType: "json"
+        })
+            .done(function(data)
+            {
+                $("tr.waiting-for-results.exchange").remove();
+                displayMoreExchangeResults(data, "exchange");
+                $('table.results tr').not('.table-information').on('mouseover', function() {
+                    rowHover($(this));
+                });
+                numResults["exchange"] += data.length;
+
+                if (data.length == 30) {
+                    var button = $("a.no-more-results.exchange");
+                    button.text('View More Results');
+                    button.removeClass("no-more-results");
+                    button.addClass("view-more-results");
+                    $("a.view-more-results.exchange").on("click", function(){
+                        buttonClicked("exchange");
+                    });
+                }
+            });
+    }
 });
 
 function arrowChecker(currentBox) {
@@ -192,7 +191,7 @@ function rowExpander(clickedRow)
         $.ajax
         ({
             type: "POST",
-            url: "search/exchangelogs",
+            url: "exchange/exchangeLogs",
             data: {
                 message_id: messageId,
                 max_results: maxResults,
@@ -246,7 +245,7 @@ function rowExpander(clickedRow)
         $.ajax
         ({
             type: "POST",
-            url: "search/canitlogs",
+            url: "canit/canitLogs",
             data: {queue_id: queueId, reporting_host: reportingHost},
             dataType: "json"
         })
@@ -267,7 +266,7 @@ function rowExpander(clickedRow)
         $.ajax
         ({
             type: "POST",
-            url: "search/routerslogs",
+            url: "routers/routersLogs",
             data: {message_id: message_id,
                 next_id: next_id},
             dataType: "json"
@@ -458,7 +457,7 @@ function buttonClicked(tableClass) {
         $.ajax
         ({
             type: "POST",
-            url: "search/canitresults",
+            url: "canit/canitResults",
             data: params,
             dataType: "json"
         })
@@ -474,7 +473,7 @@ function buttonClicked(tableClass) {
         $.ajax
         ({
             type: "POST",
-            url: "search/routersresults",
+            url: "routers/routersResults",
             data: params,
             dataType: "json"
         })
@@ -490,7 +489,7 @@ function buttonClicked(tableClass) {
         $.ajax
         ({
             type: "POST",
-            url: "search/exchangeresults",
+            url: "exchange/exchangeResults",
             data: params,
             dataType: "json"
         })
