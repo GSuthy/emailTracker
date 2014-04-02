@@ -267,7 +267,7 @@ if (!$authorized) {
 			"</tr>";
         $router_table_string .= "<tr class='waiting-for-results routers even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
 		$router_table_string .= "</tbody></table>";
-		$router_table_string .= ("<a class='view-more-results routers'>View More Results</a>");
+		$router_table_string .= ("<a class='no-more-results routers'>No More Results</a>");
 		$router_table_string .= "<br/>";
 		echo $router_table_string;
 		?>
@@ -289,7 +289,7 @@ if (!$authorized) {
 		"</tr>\n";
     $exchange_table_string .= "<tr class='waiting-for-results exchange even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
 	$exchange_table_string .= "</tbody></table>";
-	$exchange_table_string .= ("<a class='view-more-results exchange'>View More Results</a>");
+	$exchange_table_string .= ("<a class='no-more-results exchange'>No More Results</a>");
 	$exchange_table_string .= "<br/>";
 
 	echo $exchange_table_string;
