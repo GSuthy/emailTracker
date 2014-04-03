@@ -523,16 +523,16 @@ table.results td span.has-incident {
     cursor: pointer;
 }
 
-table.results td span.has-incident span.spam-score-good:hover {
+table.results td span.has-incident.spam-score-good:hover {
     background: #DEFFE7;
 }
 
-table.results td span.has-incident span.spam-score-quarantined:hover {
+table.results td span.has-incident.spam-score-quarantined:hover {
     background: #EEAA00;
     color: white;
 }
 
-table.results td span.has-incident span.spam-score-rejected:hover {
+table.results td span.has-incident.spam-score-rejected:hover {
     background: #FF7D7D;
     color: white;
 }
