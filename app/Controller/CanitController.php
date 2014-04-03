@@ -11,6 +11,7 @@ App::uses('AppController', 'Controller');
 class CanitController extends AppController {
 
     public function canitResults() {
+        session_write_close();
         App::import('Vendor', 'CanItAPI/CanItClient');
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'settings');
@@ -32,6 +33,7 @@ class CanitController extends AppController {
     }
 
     public function canitLogs() {
+        session_write_close();
         App::import('Vendor', 'CanItAPI/CanItClient');
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'settings');

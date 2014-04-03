@@ -25,17 +25,6 @@ class ExchangeController extends AppController {
         $max_results = $this->request->data("max_results");
         $offset = $this->request->data("offset");
 
-        /*$sender = "";
-        $sender_contains = 1;
-        $recipient = "";
-        $recipient_contains = 1;
-        $subject = "";
-        $subject_contains = 1;
-        $start_date = "2014-04-02T00:00:00";
-        $end_date = "2014-04-02T00:00:00";
-        $max_results = 30;
-        $offset = 0;*/
-
         $results = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $start_date, $end_date, $max_results, $offset);
 
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));

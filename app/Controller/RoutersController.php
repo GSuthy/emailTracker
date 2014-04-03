@@ -23,6 +23,7 @@ class RoutersController extends AppController {
         $maxResults = $this->request->data("max_results");
         $offset = $this->request->data("offset");
 
+
         $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
 
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));

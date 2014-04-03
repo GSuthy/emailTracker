@@ -265,7 +265,7 @@ if (!$authorized) {
 			"<th style='display: none'>Current ID</th>" .
 			"<th style='display: none'>Next ID</th>" .
 			"</tr>";
-        $router_table_string .= "<tr class='waiting-for-results routers even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
+        $router_table_string .= "<tr class='waiting-for-results routers even-row'><td colspan=5>Your results are loading - this may take a minute</td></tr>";
 		$router_table_string .= "</tbody></table>";
 		$router_table_string .= ("<a class='no-more-results routers'>No More Results</a>");
 		$router_table_string .= "<br/>";
@@ -287,7 +287,7 @@ if (!$authorized) {
 		"<th>Subject</th>" .
 		"<th hidden>Message ID</th>" .
 		"</tr>\n";
-    $exchange_table_string .= "<tr class='waiting-for-results exchange even-row'><td colspan=5>Please wait - your results are loading</td></tr>";
+    $exchange_table_string .= "<tr class='waiting-for-results exchange even-row'><td colspan=5>Your results are loading - this may take a minute</td></tr>";
 	$exchange_table_string .= "</tbody></table>";
 	$exchange_table_string .= ("<a class='no-more-results exchange'>No More Results</a>");
 	$exchange_table_string .= "<br/>";
