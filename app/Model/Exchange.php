@@ -81,8 +81,8 @@ class Exchange extends AppModel {
             'conditions' => $conditions,
             'joins' => $joins,
             'fields' => $fields,
-            'group' => array('Exchange.message_id'),
-            'order' => array('Exchange.date_time'),
+            'group' => 'Exchange.message_id',
+            'order' => 'Exchange.date_time DESC',
             'offset' => $offset,
             'limit' => $limit
         );

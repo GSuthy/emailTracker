@@ -38,6 +38,7 @@ class Routers extends AppModel {
         $conditions['Routers.received_at BETWEEN ? AND ?'] = array($startDttm->format("Y-m-d H:i:s"), $endDttm->format("Y-m-d H:i:s"));
 
         $options['conditions'] = $conditions;
+        $options['order'] = 'Routers.received_at DESC';
         $options['fields'] = array('Routers.message_id', 'Routers.received_at', 'Routers.sender_receiver', 'Table2.next_id', 'Table2.sender_receiver', 'Table2.stat');
         $options['offset'] = $offset;
         $options['limit'] = $maxResults;
