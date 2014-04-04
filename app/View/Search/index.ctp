@@ -176,7 +176,6 @@ if (!$authorized) {
 <?php if (!empty($_POST['canitSelect'])): ?>
 	<div id="canit-results">
 		<?php
-		$max_results = 30;
 		$warning_level_spam_score = $scoreThresholds['hold_threshold'];
 		$auto_reject_spam_score = $scoreThresholds['auto_reject'];
 
@@ -187,9 +186,6 @@ if (!$authorized) {
 
 		$canit_table_string = "<table class='results canit'>" .
 			"<tbody>" .
-			/*"<tr class='table-information'>" .
-			"<td colspan='8'>CanIt Results</td>" .
-			"<tr>" .*/
 			"<th>Date</th>" .
 			"<th>Time</th>" .
 			"<th>Sender</th>" .
@@ -203,50 +199,9 @@ if (!$authorized) {
 			"<th hidden>Realm</th>" .
 			"<th hidden>Incident ID</th>" .
 			"</tr>";
-
-		$is_even = true;
-
-		foreach($canitResults as $canit_row){
-//			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit' onclick='openLog(this)'>".
-			$canit_table_string = $canit_table_string . "<tr class='" . ($is_even ? "even-row" : "odd-row") . " canit'>".
-				"<td class='open-log'>" . date('m/d', $canit_row['ts']) . "</td>" .
-				"<td class='open-log'>" . date('h:i', $canit_row['ts']) . "</td>" .
-				"<td class='open-log'><span class='canit-sender'>" . $canit_row['sender'] . "</span></td>".
-				"<td class='open-log'><span class='canit-recipients'>";
-			foreach ($canit_row['recipients'] as $recip) {
-				$canit_table_string .= $recip . "<br/>";
-			}
-
-            $incident_id = $canit_row['incident_id'];
-			$canit_spam_score_string = "";
-			$canit_spam_score = $canit_row['score'];
-
-            if (!empty($incident_id)) {
-                $canit_spam_score_string = "has-incident ";
-            }
-
-			if (empty($canit_spam_score)){ $canit_spam_score_string .= "spam-score-empty"; }
-			else if ($canit_spam_score < $warning_level_spam_score){ $canit_spam_score_string .= "spam-score-good"; }
-			else if ($canit_spam_score < $auto_reject_spam_score){ $canit_spam_score_string .= "spam-score-quarantined"; }
-			else { $canit_spam_score_string .= "spam-score-rejected"; }
-
-			$canit_table_string .= "</span></td>" .
-				"<td class='open-log'><span class='canit-subject'>" . $canit_row['subject'] . "</span></td>" .
-				"<td class='open-log'>" . $canit_row['stream'] . "</td>" .
-				"<td class='open-log'>" . $canit_row['what'] . "</td>" .
-				"<td><span class=\"" . $canit_spam_score_string . "\">" . $canit_row['score'] . "</span></td>";
-			$canit_table_string .= "<td hidden>" . $canit_row['queue_id'] . "</td>";
-			$canit_table_string .= "<td hidden>" . $canit_row['reporting_host'] . "</td>";
-			$canit_table_string .= "<td hidden>" . $canit_row['realm'] . "</td>";
-			$incidentIdClass = (empty($canit_row['incident_id']) ?  "" : "has-incident");
-			$canit_table_string .= "<td class='".$incidentIdClass."' hidden>" . $canit_row['incident_id'] . "</td>";
-			$is_even = !$is_even;
-		}
-
 		$canit_table_string .= "</tbody></table>";
-		$canit_table_string .= (count($canitResults) == $max_results ? "<a class='view-more-results canit'>View More Results</a>" : "<a class='no-more-results canit'>No More Results</a>");
+		$canit_table_string .= "<a class='results loading-more canit'>Loading Results</a>";
 		$canit_table_string .= "<br/>";
-
 		echo $canit_table_string;
 		?>
 	</div>
@@ -265,9 +220,8 @@ if (!$authorized) {
 			"<th style='display: none'>Current ID</th>" .
 			"<th style='display: none'>Next ID</th>" .
 			"</tr>";
-        $router_table_string .= "<tr class='waiting-for-results routers even-row'><td colspan=5>Your results are loading - this may take a minute</td></tr>";
 		$router_table_string .= "</tbody></table>";
-		$router_table_string .= ("<a class='no-more-results routers'>No More Results</a>");
+		$router_table_string .= "<a class='results loading-more routers'>Loading Results</a>";
 		$router_table_string .= "<br/>";
 		echo $router_table_string;
 		?>
@@ -276,7 +230,6 @@ if (!$authorized) {
 <?php if(!empty($_POST['exchangeSelect'])) : ?>
 <div id="exchange-results" class="hidden">
 	<?php
-
 
 	$exchange_table_string = "\n<table class='results exchange'>\n" .
 		"<tbody>" .
@@ -287,9 +240,8 @@ if (!$authorized) {
 		"<th>Subject</th>" .
 		"<th hidden>Message ID</th>" .
 		"</tr>\n";
-    $exchange_table_string .= "<tr class='waiting-for-results exchange even-row'><td colspan=5>Your results are loading - this may take a minute</td></tr>";
 	$exchange_table_string .= "</tbody></table>";
-	$exchange_table_string .= ("<a class='no-more-results exchange'>No More Results</a>");
+	$exchange_table_string .= ("<a class='results loading-more exchange'>Loading Results</a>");
 	$exchange_table_string .= "<br/>";
 
 	echo $exchange_table_string;
