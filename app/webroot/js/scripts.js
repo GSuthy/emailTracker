@@ -63,7 +63,6 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                $("tr.waiting-for-results.canit").remove();
                 displayMoreCanItResults(data, params["max_results"]);
                 numResults[CANIT_CLASS] += data.length;
             });
@@ -80,7 +79,6 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                $("tr.waiting-for-results.routers").remove();
                 displayMoreRoutersResults(data, params["max_results"]);
                 numResults[ROUTERS_CLASS] += data.length;
             });
@@ -97,7 +95,6 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                $("tr.waiting-for-results.exchange").remove();
                 displayMoreExchangeResults(data, params["max_results"]);
                 numResults[EXCHANGE_CLASS] += data.length;
             });
