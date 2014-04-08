@@ -1,3 +1,4 @@
+var MAX_CANIT_SPAN_SIZE = 200;
 var NUM_INIT_RESULTS = 30;
 var NUM_MORE_RESULTS = 20;
 var CANIT_CLASS = "canit";
@@ -429,21 +430,44 @@ function displayMoreCanItResults(results, expectedNumResults) {
     var warning_level_spam_score = parseInt($("#warningDiv").text());
     var auto_reject_spam_score = parseInt($("#rejectDiv").text());
 
+    var rowNumber = numResults[CANIT_CLASS];
     for (var i = 0; i < results.length; i++)
     {
+        rowNumber++;
         var r = results[i];
+
+        var even_odd_class = (is_even ? "even-row" : "odd-row");
         var dateTime = new Date(r['ts'] * 1000);
         var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate());
         var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
-        var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " canit\"'>" +
-            "<td class='open-log'>"+date+"</td><td class='open-log'>"+time+"</td><td class='open-log'><span class='canit-sender'>"+
-            r['sender']+"</span></td><td class='open-log'><span class='canit-recipients'>";
-        for (var j = 0; j < r['recipients'].length; j++) {
-            inputRow += r['recipients'][j] + "<br/>";
-        }
-        inputRow += "</span></td><td class='open-log'><span class='canit-subject'>"+(r['subject'] ? r['subject'] : "")+"</span></td>"+
-            "<td class='open-log'>"+(r['stream'] ? r['stream'] : "")+"</td>" +
-            "<td class='open-log'>"+(r['what'] ? r['what'] : "")+"</td>";
+        var sender = r['sender'];
+        var recipients = printAddressesArray(r['recipients']);
+        var subject = (r['subject'] ? r['subject'] : "");
+        var stream = (r['stream'] ? r['stream'] : "");
+        var what = (r['what'] ? r['what'] : "");
+
+        var senderClass = "canit-sender tooltip" + rowNumber;
+        var recipientClass = "canit-recipients tooltip" + rowNumber;
+        var subjectClass = "canit-subject tooltip" + rowNumber;
+
+        var senderLength = pixelLengthOfString(sender);
+        var subjectLength = pixelLengthOfString(subject);
+
+        var inputRow =
+            "<tr class=\"" + even_odd_class + " canit\"'>" +
+                "<td class='open-log'>"+date+"</td>" +
+                "<td class='open-log'>"+time+"</td>" +
+                "<td class='open-log'>" +
+                    "<span title class='"+senderClass+"'>"+sender+"</span>" +
+                "</td>" +
+                "<td class='open-log'>" +
+                    "<span title class='"+recipientClass+"'>"+recipients+"</span>" +
+                "</td>" +
+                "<td class='open-log'>" +
+                    "<span title class='"+subjectClass+"'>"+subject+"</span>" +
+                "</td>"+
+                "<td class='open-log'>"+stream+"</td>" +
+                "<td class='open-log'>"+what+"</td>";
 
         var canit_spam_score_string = "";
         var canit_spam_score = r['score'];
@@ -466,6 +490,16 @@ function displayMoreCanItResults(results, expectedNumResults) {
         inputRow += "<td " + incidentIdClass + "hidden>" + r['incident_id'] + "</td></tr>";
         is_even = !is_even;
         $("table.canit tr").last().after(inputRow);
+
+        if (senderLength > MAX_CANIT_SPAN_SIZE) {
+            $("table.canit tr td span.canit-sender.tooltip" + rowNumber).tooltip({content: sender});
+        }
+        if (true) {
+            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({content: recipients});
+        }
+        if (subjectLength > MAX_CANIT_SPAN_SIZE) {
+            $("table.canit tr td span.canit-subject.tooltip" + rowNumber).tooltip({content: subject});
+        }
     }
 
     $("table.results td span.has-incident").off('click');
@@ -588,10 +622,33 @@ function displayMoreExchangeResults(results, expectedNumResults) {
     }
 }
 
+function printAddressesArray(addresses) {
+    var addressString = "";
+    for (var i = 0; i < addresses.length; i++) {
+        addressString += addresses[i] + "<br/>";
+    }
+    return addressString;
+}
+
+function pixelLengthOfString(string) {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext("2d");
+    var span = document.getElementById("canitSample");
+    var font = css(span, 'font-family');
+    ctx.font = font;
+    var length = ctx.measureText(string).width;
+    return length;
+}
+
 // Used to make sure all month and day strings have two digits
 function padToTwo(number) {
     if (number <= 9) {
         number = ("0" + number).slice(-2);
     }
     return number;
+}
+
+function css( element, property ) {
+    var container = window.getComputedStyle( element, null ).getPropertyValue( property );
+    return container;
 }

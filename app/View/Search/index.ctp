@@ -19,8 +19,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	<?php
 	echo $this->Html->css(array(
-		'cupertino/jquery-ui-1.10.4.custom.min',
-		'global',
+//        'tooltips',
+        'cupertino/jquery-ui-1.10.4.custom.min',
+        'global',
 		'mobile',
 		'datepicker'
 	));
@@ -183,6 +184,8 @@ if (!$authorized) {
 		$rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
 		echo $warningDiv;
 		echo $rejectDiv;
+
+        echo "<span id='canitSample' class='canit-sender hidden'></span>";
 
 		$canit_table_string = "<table class='results canit'>" .
 			"<tbody>" .
