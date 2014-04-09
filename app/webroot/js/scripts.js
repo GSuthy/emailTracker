@@ -440,8 +440,10 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var dateTime = new Date(r['ts'] * 1000);
         var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate());
         var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
-        var sender = r['sender'];
-        var recipients = printAddressesArray(r['recipients']);
+        var sender = (r['sender'] ? r['sender'] : "");
+        var recipients = r['recipients']
+        var recipientsFormatted = printAddressesArray(recipients);
+        var recipientToShow = findMatchingRecipient(recipients);
         var subject = (r['subject'] ? r['subject'] : "");
         var stream = (r['stream'] ? r['stream'] : "");
         var what = (r['what'] ? r['what'] : "");
@@ -449,9 +451,6 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var senderClass = "canit-sender tooltip" + rowNumber;
         var recipientClass = "canit-recipients tooltip" + rowNumber;
         var subjectClass = "canit-subject tooltip" + rowNumber;
-
-        var senderLength = pixelLengthOfString(sender);
-        var subjectLength = pixelLengthOfString(subject);
 
         var inputRow =
             "<tr class=\"" + even_odd_class + " canit\"'>" +
@@ -461,7 +460,7 @@ function displayMoreCanItResults(results, expectedNumResults) {
                     "<span title class='"+senderClass+"'>"+sender+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
-                    "<span title class='"+recipientClass+"'>"+recipients+"</span>" +
+                    "<span title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
                     "<span title class='"+subjectClass+"'>"+subject+"</span>" +
@@ -491,13 +490,16 @@ function displayMoreCanItResults(results, expectedNumResults) {
         is_even = !is_even;
         $("table.canit tr").last().after(inputRow);
 
-        if (senderLength > MAX_CANIT_SPAN_SIZE) {
+        var senderOverflows = spanOverflows($('span.canit-sender.tooltip' + rowNumber), $('div.canit-cell-test'), sender);
+        var subjectOverflows = spanOverflows($('span.canit-subject.tooltip' + rowNumber), $('div.canit-cell-test'), subject);
+
+        if (senderOverflows) {
             $("table.canit tr td span.canit-sender.tooltip" + rowNumber).tooltip({content: sender});
         }
-        if (true) {
-            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({content: recipients});
+        if (recipients.length > 1) {
+            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({content: recipientsFormatted});
         }
-        if (subjectLength > MAX_CANIT_SPAN_SIZE) {
+        if (subjectOverflows) {
             $("table.canit tr td span.canit-subject.tooltip" + rowNumber).tooltip({content: subject});
         }
     }
@@ -630,14 +632,62 @@ function printAddressesArray(addresses) {
     return addressString;
 }
 
-function pixelLengthOfString(string) {
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext("2d");
-    var span = document.getElementById("canitSample");
-    var font = css(span, 'font-family');
-    ctx.font = font;
-    var length = ctx.measureText(string).width;
-    return length;
+function findMatchingRecipient(recipients) {
+    var table = document.getElementById("paramsTable");
+    var row = table.rows[0];
+    var recipient = row.cells[0].innerHTML;
+    var recipientContains = row.cells[1].innerHTML;
+
+    var selectedRecipient = "";
+
+    if (recipients.length == 1) {
+        selectedRecipient = recipients[0];
+    } else if (recipientContains) {
+        for (var i = 0; i < recipients.length; i++) {
+            if (recipients[i].indexOf(recipient) != -1) {
+                selectedRecipient = recipients[i] + "...";
+                break;
+            }
+        }
+    } else {
+        for (var i = 0; i < recipients.length; i++) {
+            if (recipients[i] == recipient) {
+                selectedRecipient = recipients[i] + "...";
+                break;
+            }
+        }
+    }
+    return selectedRecipient;
+}
+
+$.fn.textWidth = function(text, font) {
+    if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
+    $.fn.textWidth.fakeEl.html(text || this.val() || this.text()).css('font', font || this.css('font'));
+    return $.fn.textWidth.fakeEl.width();
+};
+
+function spanOverflows(actualSpan, testDiv, string) {
+
+    $.fn.textWidth = function(){
+        var self = $(this),
+            children = self.children(),
+            calculator = $('<span style="display: inline-block;" />'),
+            width;
+
+        children.wrap(calculator);
+        width = children.parent().width(); // parent = the calculator wrapper
+        children.unwrap();
+        return width;
+    };
+
+    testDiv.text(string);
+    var actualTd = actualSpan.parent();
+    var padding = 10;
+    var actualWidth = actualTd.width();
+    var testWidth = testDiv.width();
+    testDiv.text("");
+    var stringLength = $.fn.textWidth(string, "Lucida Sans");
+    return stringLength > actualWidth;
 }
 
 // Used to make sure all month and day strings have two digits
@@ -646,9 +696,4 @@ function padToTwo(number) {
         number = ("0" + number).slice(-2);
     }
     return number;
-}
-
-function css( element, property ) {
-    var container = window.getComputedStyle( element, null ).getPropertyValue( property );
-    return container;
 }

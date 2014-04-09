@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 	));
 
 	echo $this->Html->script(array(
-		'jquery-ui-1.10.4.custom.min',
+        'jquery-ui-1.10.4.custom.min',
 		'scripts'
 	));
 	?>
@@ -174,6 +174,7 @@ if (!$authorized) {
 		<li><a href="#exchange-results">Exchange</a></li>
 	<?php endif; ?>
 </ul>
+
 <?php if (!empty($_POST['canitSelect'])): ?>
 	<div id="canit-results">
 		<?php
@@ -184,8 +185,6 @@ if (!$authorized) {
 		$rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
 		echo $warningDiv;
 		echo $rejectDiv;
-
-        echo "<span id='canitSample' class='canit-sender hidden'></span>";
 
 		$canit_table_string = "<table class='results canit'>" .
 			"<tbody>" .
@@ -250,8 +249,9 @@ if (!$authorized) {
 	echo $exchange_table_string;
 	?>
 </div>
-	<?php endif; ?>
+<?php endif; ?>
 
+    <div id="canitCellTest" class="canit-cell-test"></div>
 
 <!-- Start Results Table -->
 <br/>

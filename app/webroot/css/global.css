@@ -448,7 +448,8 @@ table.results td, table.results th {
 table.results tr td:nth-child(1), 
 table.results tr td:nth-child(2), 
 table.results tr td:nth-child(6), 
-table.results tr td:nth-child(7) {
+table.results tr td:nth-child(7),
+table.results tr td:nth-child(8) {
 	text-align: center;
 }
 
@@ -464,12 +465,20 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
+table.results tr td.canit-sender,
+table.results tr td.canit-recipients,
+table.results tr td.canit-subject {
+    width: 200px;
+}
+
 span.canit-sender, span.canit-recipients, span.canit-subject {
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	max-width: 200px;
+	/*max-width: 200px;*/
+	width: 200px;
+    height: inherit;
 }
 
 span.routers-sender, span.routers-recipients {
@@ -486,6 +495,14 @@ span.exchange-sender, span.exchange-recipients, span.exchange-subject {
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 270px;
+}
+
+span.canit-cell-test {
+    display: inline-block;
+    white-space: nowrap;
+    /*text-overflow: ellipsis;*/
+    overflow: visible;
+    width: auto;
 }
 
 table tr.log.even-row:hover
@@ -570,6 +587,20 @@ a.results.view-more:active {
 	background-color: #1E79BA;
 	box-shadow:0 1px 0 #003b65;
 	margin:9px 0 -1px;
+}
+
+div.canit-cell-test {
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}
+
+div.ui-tooltip {
+    max-width: 400px;
+
+    border: solid 1px #1B6DA8;
+    text-align: center;
 }
 
 .hidden {
