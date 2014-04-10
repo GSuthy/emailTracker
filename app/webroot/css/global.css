@@ -582,13 +582,14 @@ a.results.view-more:active {
 }
 
 div.ui-tooltip {
-    max-width: 500px;
-    /*display: block;*/
+    max-width: 400px;
+    display: block;
     display: table-cell;
-    word-wrap: break-word;
+    word-break: break-all;
     border: solid 2px #1B6DA8;
-    padding: 3px 6px 3px,6px;
-    text-align: center;
+    padding: 3px 6px 3px 41px;
+    text-indent: -35px;
+    /*text-align: center;*/
 }
 
 .hidden {
