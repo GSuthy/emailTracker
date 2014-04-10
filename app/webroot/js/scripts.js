@@ -457,13 +457,13 @@ function displayMoreCanItResults(results, expectedNumResults) {
                 "<td class='open-log'>"+date+"</td>" +
                 "<td class='open-log'>"+time+"</td>" +
                 "<td class='open-log'>" +
-                    "<span title class='"+senderClass+"'>"+sender+"</span>" +
+                    "<span id='canitSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
-                    "<span title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
+                    "<span id='canitRecipients"+rowNumber+"' title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
-                    "<span title class='"+subjectClass+"'>"+subject+"</span>" +
+                    "<span id='canitSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subject+"</span>" +
                 "</td>"+
                 "<td class='open-log'>"+stream+"</td>" +
                 "<td class='open-log'>"+what+"</td>";
@@ -490,17 +490,36 @@ function displayMoreCanItResults(results, expectedNumResults) {
         is_even = !is_even;
         $("table.canit tr").last().after(inputRow);
 
-        var senderOverflows = spanOverflows($('span.canit-sender.tooltip' + rowNumber), $('div.canit-cell-test'), sender);
-        var subjectOverflows = spanOverflows($('span.canit-subject.tooltip' + rowNumber), $('div.canit-cell-test'), subject);
+        var senderOverflows = checkOverflow(document.getElementById("canitSender" + rowNumber));
+        var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("canitRecipients" + rowNumber)));
+        var subjectOverflows = checkOverflow(document.getElementById("canitSubject" + rowNumber));
 
         if (senderOverflows) {
-            $("table.canit tr td span.canit-sender.tooltip" + rowNumber).tooltip({content: sender});
+            $("table.canit tr td span.canit-sender.tooltip" + rowNumber).tooltip({
+                    content: sender,
+                    track: true,
+                    show: {
+                        delay: 500
+                    }
+                });
         }
-        if (recipients.length > 1) {
-            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({content: recipientsFormatted});
+        if (recipientOverflows) {
+            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({
+                content: recipientsFormatted,
+                track: true,
+                show: {
+                    delay: 500
+                }
+            });
         }
         if (subjectOverflows) {
-            $("table.canit tr td span.canit-subject.tooltip" + rowNumber).tooltip({content: subject});
+            $("table.canit tr td span.canit-subject.tooltip" + rowNumber).tooltip({
+                content: subject,
+                track: true,
+                show: {
+                    delay: 500
+                }
+            });
         }
     }
 
@@ -660,34 +679,18 @@ function findMatchingRecipient(recipients) {
     return selectedRecipient;
 }
 
-$.fn.textWidth = function(text, font) {
-    if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
-    $.fn.textWidth.fakeEl.html(text || this.val() || this.text()).css('font', font || this.css('font'));
-    return $.fn.textWidth.fakeEl.width();
-};
+function checkOverflow(span)
+{
+    var curOverflow = span.style.overflow;
+    if ( !curOverflow || curOverflow === "visible" ) {
+        span.style.overflow = "hidden";
+    }
 
-function spanOverflows(actualSpan, testDiv, string) {
+    var isOverflowing = ((span.clientWidth < span.scrollWidth) || (span.clientHeight < span.scrollHeight));
 
-    $.fn.textWidth = function(){
-        var self = $(this),
-            children = self.children(),
-            calculator = $('<span style="display: inline-block;" />'),
-            width;
+    span.style.overflow = curOverflow;
 
-        children.wrap(calculator);
-        width = children.parent().width(); // parent = the calculator wrapper
-        children.unwrap();
-        return width;
-    };
-
-    testDiv.text(string);
-    var actualTd = actualSpan.parent();
-    var padding = 10;
-    var actualWidth = actualTd.width();
-    var testWidth = testDiv.width();
-    testDiv.text("");
-    var stringLength = $.fn.textWidth(string, "Lucida Sans");
-    return stringLength > actualWidth;
+    return isOverflowing;
 }
 
 // Used to make sure all month and day strings have two digits

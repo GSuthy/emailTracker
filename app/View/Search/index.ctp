@@ -251,8 +251,6 @@ if (!$authorized) {
 </div>
 <?php endif; ?>
 
-    <div id="canitCellTest" class="canit-cell-test"></div>
-
 <!-- Start Results Table -->
 <br/>
 <?php

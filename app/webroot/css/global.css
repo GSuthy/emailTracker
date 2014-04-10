@@ -497,14 +497,6 @@ span.exchange-sender, span.exchange-recipients, span.exchange-subject {
     max-width: 270px;
 }
 
-span.canit-cell-test {
-    display: inline-block;
-    white-space: nowrap;
-    /*text-overflow: ellipsis;*/
-    overflow: visible;
-    width: auto;
-}
-
 table tr.log.even-row:hover
 {
 	background: #EFF6FC;
@@ -550,7 +542,7 @@ table.results td span.has-incident.spam-score-quarantined:hover {
 }
 
 table.results td span.has-incident.spam-score-rejected:hover {
-    background: #FF7D7D;
+    background: #E81919;
     color: white;
 }
 
@@ -589,17 +581,13 @@ a.results.view-more:active {
 	margin:9px 0 -1px;
 }
 
-div.canit-cell-test {
-    position: absolute;
-    visibility: hidden;
-    height: auto;
-    width: auto;
-}
-
 div.ui-tooltip {
-    max-width: 400px;
-
-    border: solid 1px #1B6DA8;
+    max-width: 500px;
+    /*display: block;*/
+    display: table-cell;
+    word-wrap: break-word;
+    border: solid 2px #1B6DA8;
+    padding: 3px 6px 3px,6px;
     text-align: center;
 }
 
