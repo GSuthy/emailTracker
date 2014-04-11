@@ -33,7 +33,7 @@ class CanItClient {
         }
     }
 
-    public static function getCanitResults ($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset) {
+    public static function getCanitResults ($recipients, $recipients_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset) {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
@@ -47,28 +47,48 @@ class CanItClient {
         $start_date = urlencode($start_date);
         $end_date = urlencode($end_date);
 
-        $recipient = urlencode($recipient);
+        $recipients = urlencode($recipients);
         $sender = urlencode($sender);
         $subject = urlencode($subject);
 
-        $search_string = 'log/search/'.$offset.'/'.$maxResults.'?sender='.$sender.'&recipients='.$recipient.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
+//        $search_string = 'log/search/'.$offset.'/'.$maxResults.'?sender='.$sender.'&recipients='.$recipients.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
 
-        if (!$startDttm) {
+        $search_string =  'log/search/'.$offset.'/'.$maxResults.'?start_date='.$start_date.'&end_date='.$end_date;
+
+        if (!empty($sender)) {
+            $search_string .= '&sender='.$sender;
+            if ($sender_contains) {
+                $search_string .= '&rel_sender=contains';
+            }
+        }
+
+        if (!empty($recipients)) {
+            $search_string .= '&recipients='.$recipients;
+            if ($recipients_contains) {
+                $search_string .= '&rel_recipients=contains';
+            }
+        }
+
+        if (!empty($subject)) {
+            $search_string .= '&subject='.$subject;
+            if ($subject_contains) {
+                $search_string .= '&rel_subject=contains';
+            }
+        }
+
+        /*if (!$startDttm) {
             return CanItClient::canitError("Must specify a start date");
-        }
+        }*/
 
-        if ($sender_contains)
-        {
-            $search_string = $search_string . '&rel_sender=contains';
-        }
-        if ($recipient_contains)
-        {
-            $search_string = $search_string . '&rel_recipients=contains';
-        }
-        if ($subject_contains)
-        {
-            $search_string = $search_string . '&rel_subject=contains';
-        }
+        /*if ($sender_contains) {
+            $search_string .= '&rel_sender=contains';
+        }*/
+        /*if ($recipients_contains) {
+            $search_string .= '&rel_recipients=contains';
+        }*/
+        /*if ($subject_contains) {
+            $search_string .= '&rel_subject=contains';
+        }*/
 
         $results = $api->do_get($search_string);
 

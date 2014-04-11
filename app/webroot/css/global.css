@@ -465,12 +465,6 @@ table.results tr.table-information td {
 	font-size: 1.25em;
 }
 
-table.results tr td.canit-sender,
-table.results tr td.canit-recipients,
-table.results tr td.canit-subject {
-    width: 200px;
-}
-
 span.canit-sender, span.canit-recipients, span.canit-subject {
 	display: block;
 	white-space: nowrap;
@@ -581,16 +575,61 @@ a.results.view-more:active {
 	margin:9px 0 -1px;
 }
 
-div.ui-tooltip {
+.sender-tooltip {
+    font-size: 15px;
     max-width: 400px;
     display: block;
     display: table-cell;
     word-break: break-all;
     border: solid 2px #1B6DA8;
-    padding: 3px 6px 3px 41px;
-    text-indent: -35px;
-    /*text-align: center;*/
+    padding: 3px 6px;
+    text-align: center;
+    opacity: .95;
+    position: fixed!important;
 }
+
+.recipients-tooltip {
+    font-size: 15px;
+    display: table;
+    display: block;
+    word-break: keep-all;
+    border: solid 2px #1B6DA8;
+    padding: 3px 6px 3px 6px;
+    opacity: .95;
+    position: fixed!important;
+}
+
+.subject-tooltip {
+    font-size: 15px;
+    max-width: 400px;
+    /*display: block;*/
+    display: table-cell;
+    word-break: keep-all;
+    border: solid 2px #1B6DA8;
+    padding: 3px 6px;
+    text-align: center;
+    opacity: .95;
+
+    position: fixed!important;
+}
+
+/*ul.tooltip-list {
+    list-style: none;
+    *//*counter-reset: foo;*//*
+    display: table;
+}
+
+li.tooltip-list-item {
+    *//*counter-increment: foo;*//*
+    display: table-row;
+}
+
+li.tooltip-list-item::before {
+    *//*content: counter(foo) ".";*//*
+    display: table-cell;
+    text-align: left;
+}*/
+
 
 .hidden {
     display: none;

@@ -1,9 +1,18 @@
-var MAX_CANIT_SPAN_SIZE = 200;
+var TOOLTIP_DELAY = 350;
+
 var NUM_INIT_RESULTS = 30;
 var NUM_MORE_RESULTS = 20;
+
 var CANIT_CLASS = "canit";
 var ROUTERS_CLASS = "routers";
 var EXCHANGE_CLASS = "exchange";
+
+var SENDER_COL = "sender";
+var RECIPIENTS_COL = "recipients";
+var SUBJECT_COL = "subject";
+
+var TOOLTIP = "tooltip";
+
 var numResults;
 
 $(document).ready(function(realm, stream) {
@@ -104,20 +113,24 @@ $(document).ready(function(realm, stream) {
 
 function getSearchParams(maxResults, offset) {
     var table = document.getElementById("paramsTable");
-    var row = table.rows[0];
+    var results;
 
-    var recipient = row.cells[0].innerHTML;
-    var recipientContains = row.cells[1].innerHTML;
-    var sender = row.cells[2].innerHTML;
-    var senderContains = row.cells[3].innerHTML;
-    var subject = row.cells[4].innerHTML;
-    var subjectContains = row.cells[5].innerHTML;
-    var startDttm = row.cells[6].innerHTML;
-    var endDttm = row.cells[7].innerHTML;
+    if (table != null) {
+        var row = table.rows[0];
 
-    var results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-        sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
-        start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+        var recipient = row.cells[0].innerHTML;
+        var recipientContains = row.cells[1].innerHTML;
+        var sender = row.cells[2].innerHTML;
+        var senderContains = row.cells[3].innerHTML;
+        var subject = row.cells[4].innerHTML;
+        var subjectContains = row.cells[5].innerHTML;
+        var startDttm = row.cells[6].innerHTML;
+        var endDttm = row.cells[7].innerHTML;
+
+        results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
+            sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
+            start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+    }
 
     return results;
 }
@@ -430,10 +443,9 @@ function displayMoreCanItResults(results, expectedNumResults) {
     var warning_level_spam_score = parseInt($("#warningDiv").text());
     var auto_reject_spam_score = parseInt($("#rejectDiv").text());
 
-    var rowNumber = numResults[CANIT_CLASS];
+    var rowNumber = numResults[CANIT_CLASS] + 1;
     for (var i = 0; i < results.length; i++)
     {
-        rowNumber++;
         var r = results[i];
 
         var even_odd_class = (is_even ? "even-row" : "odd-row");
@@ -442,8 +454,8 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
         var sender = (r['sender'] ? r['sender'] : "");
         var recipients = r['recipients']
-        var recipientsFormatted = printAddressesArray(recipients);
         var recipientToShow = findMatchingRecipient(recipients);
+        var recipientsFormatted = printAddressesArray(recipients);
         var subject = (r['subject'] ? r['subject'] : "");
         var stream = (r['stream'] ? r['stream'] : "");
         var what = (r['what'] ? r['what'] : "");
@@ -468,26 +480,25 @@ function displayMoreCanItResults(results, expectedNumResults) {
                 "<td class='open-log'>"+stream+"</td>" +
                 "<td class='open-log'>"+what+"</td>";
 
-        var canit_spam_score_string = "";
-        var canit_spam_score = r['score'];
-        var incident_id = r['incident_id'];
+        var score_string = "";
+        var score = formatSpamScore(r['score']);
+        var incidentId = r['incident_id'];
 
-        if (incident_id) {
-            canit_spam_score_string = "has-incident ";
+        if (incidentId) {
+            score_string = "has-incident ";
         }
 
-        if (!canit_spam_score){ canit_spam_score_string += "spam-score-empty"; }
-        else if (canit_spam_score < warning_level_spam_score){ canit_spam_score_string += "spam-score-good"; }
-        else if (canit_spam_score < auto_reject_spam_score){ canit_spam_score_string += "spam-score-quarantined"; }
-        else { canit_spam_score_string += "spam-score-rejected"; }
+        if (!score){ score_string += "spam-score-empty"; }
+        else if (score < warning_level_spam_score){ score_string += "spam-score-good"; }
+        else if (score < auto_reject_spam_score){ score_string += "spam-score-quarantined"; }
+        else { score_string += "spam-score-rejected"; }
 
-        inputRow += "<td><span class=\""+canit_spam_score_string+"\">"+(r['score'] ? r['score'] : "")+"</span></td>";
+        inputRow += "<td><span class=\""+score_string+"\">"+score+"</span></td>";
         inputRow += "<td hidden>" + r['queue_id'] + "</td>";
         inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
         inputRow += "<td hidden>" + r['realm'] + "</td>";
         var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
         inputRow += "<td " + incidentIdClass + "hidden>" + r['incident_id'] + "</td></tr>";
-        is_even = !is_even;
         $("table.canit tr").last().after(inputRow);
 
         var senderOverflows = checkOverflow(document.getElementById("canitSender" + rowNumber));
@@ -495,32 +506,17 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var subjectOverflows = checkOverflow(document.getElementById("canitSubject" + rowNumber));
 
         if (senderOverflows) {
-            $("table.canit tr td span.canit-sender.tooltip" + rowNumber).tooltip({
-                    content: sender,
-                    track: true,
-                    show: {
-                        delay: 500
-                    }
-                });
+            addTooltip(CANIT_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
         }
         if (recipientOverflows) {
-            $("table.canit tr td span.canit-recipients.tooltip" + rowNumber).tooltip({
-                content: recipientsFormatted,
-                track: true,
-                show: {
-                    delay: 500
-                }
-            });
+            addTooltip(CANIT_CLASS, rowNumber, recipientsFormatted, RECIPIENTS_COL, TOOLTIP_DELAY);
         }
         if (subjectOverflows) {
-            $("table.canit tr td span.canit-subject.tooltip" + rowNumber).tooltip({
-                content: subject,
-                track: true,
-                show: {
-                    delay: 500
-                }
-            });
+            addTooltip(CANIT_CLASS, rowNumber, subject, SUBJECT_COL, TOOLTIP_DELAY);
         }
+
+        is_even = !is_even;
+        rowNumber++;
     }
 
     $("table.results td span.has-incident").off('click');
@@ -564,24 +560,54 @@ function displayMoreRoutersResults(results, expectedNumResults) {
         is_even = true;
     }
 
+    var rowNumber = numResults[ROUTERS_CLASS] + 1;
     for (var i = 0; i < results.length; i++)
     {
         var r = results[i];
-        var date = r['Date'];
-        date = date.substr(0, 5);
+
+        var date = r['Date'].substr(0, 5);
         var time = r['Time'];
-        var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " routers\" onclick='openLog(this)'>" +
-            "<td>"+date+"</td><td>"+time+"</td><td><span class='routers-sender'>" +
-            r['Sender']+"</span></td><td><span class='routers-recipients'>";
-        for (var j = 0; j < r['Recipients'].length; j++) {
-            inputRow += r['Recipients'][j] + "<br/>";
+        var even_odd_class = (is_even ? "even-row" : "odd-row");
+        var sender = r['Sender'];
+        var recipients = r['Recipients'];
+        var recipientToShow = findMatchingRecipient(recipients);
+        var recipientsFormatted = printAddressesArray(recipients);
+        var status = r['Status'];
+        var messageId = r['Message_ID'];
+        var nextId = r['Next_ID'];
+
+        var senderClass = "routers-sender tooltip" + rowNumber;
+        var recipientClass = "routers-recipients tooltip" + rowNumber;
+
+        var inputRow =
+            "<tr class=\"" + even_odd_class + " routers\"' onclick='openLog(this)'>" +
+                "<td>"+date+"</td>" +
+                "<td>"+time+"</td>" +
+                "<td>" +
+                    "<span id='routersSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>" +
+                "</td>" +
+                "<td>" +
+                    "<span id='routersRecipients"+rowNumber+"' title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
+                "</td>" +
+                "<td>"+status+"</td>" +
+                "<td class='hidden'>"+messageId+"</td>"+
+                "<td class='hidden'>"+nextId+"</td>"+
+            "</tr>";
+
+        $("table.routers tr").last().after(inputRow);
+
+        var senderOverflows = checkOverflow(document.getElementById("routersSender" + rowNumber));
+        var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("routersRecipients" + rowNumber)));
+
+        if (senderOverflows) {
+            addTooltip(ROUTERS_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
         }
-        inputRow += "</td><td>"+r['Status']+"</td>";
-        inputRow += "</td><td style='display: none'>"+r['Message_ID']+"</td>";
-        inputRow += "</td><td style='display: none'>"+r['Next_ID']+"</td></tr>";
+        if (recipientOverflows) {
+            addTooltip(ROUTERS_CLASS, rowNumber, recipientsFormatted, RECIPIENTS_COL, TOOLTIP_DELAY);
+        }
 
         is_even = !is_even;
-        $("table.routers tr").last().after(inputRow);
+        rowNumber++;
     }
 
     // Set appropriate button
@@ -644,10 +670,27 @@ function displayMoreExchangeResults(results, expectedNumResults) {
 }
 
 function printAddressesArray(addresses) {
-    var addressString = "";
-    for (var i = 0; i < addresses.length; i++) {
-        addressString += addresses[i] + "<br/>";
+    var size = addresses.length;
+    var numRows = 10;
+    var numColumns = Math.floor(size / numRows) + Math.ceil((size % numRows) / numRows);
+
+    var index = 0;
+    var addressString = "<table class='tooltip-table'>";
+    for (var i = 0; i < numRows; i++) {
+        if (index < size) {
+            addressString += "<tr>";
+            for (var j = 0; j < numColumns; j++) {
+                if (index < size) {
+                    addressString += "<td>"+addresses[index++]+"</td>";
+                } else {
+                    addressString += "<td></td>";
+                }
+            }
+            addressString += "</tr>";
+        }
     }
+    addressString += "</table>";
+
     return addressString;
 }
 
@@ -693,10 +736,30 @@ function checkOverflow(span)
     return isOverflowing;
 }
 
-// Used to make sure all month and day strings have two digits
+function addTooltip(tableClass, rowNumber, data, colType, delay) {
+    $("table."+tableClass+" tr td span."+tableClass+"-"+colType+".tooltip" + rowNumber).tooltip({
+        content: data,
+        track: true,
+        tooltipClass: colType+"-"+TOOLTIP,
+        show: {
+            delay: delay
+        }
+    });
+}
+
 function padToTwo(number) {
     if (number <= 9) {
         number = ("0" + number).slice(-2);
     }
     return number;
+}
+
+function formatSpamScore(number) {
+    var score;
+    if (number == null) {
+        score = "";
+    } else if (!isNaN(number)) {
+        score = parseFloat(number).toFixed(2);
+    }
+    return score;
 }
