@@ -635,21 +635,57 @@ function displayMoreExchangeResults(results, expectedNumResults) {
         is_even = true;
     }
 
+    var rowNumber = numResults[EXCHANGE_CLASS] + 1;
     for (var i = 0; i < results.length; i++)
     {
         var r = results[i];
-        var date = r['Date'];
-        date = date.substr(0, 5);
-        var time = r['Time'];
-        var inputRow = "<tr class=\"" + (is_even ? "even-row" : "odd-row") + " exchange\" onclick='openLog(this)'>" +
-            "<td>"+date+"</td><td>"+time+"</td><td><span class='exchange-sender'>" +
-            r['Sender']+"</span></td><td><span class='exchange-recipients'>";
-        inputRow += r['Recipient'] + "<br/></span>";
-        inputRow += "</td><td><span class='exchange-subject'>"+r['Subject']+"</span></td>";
-        inputRow += "<td style='display: none'>"+r['ID']+"</td></tr>";
+
+        var date = r['Date'].substr(0, 5);
+        var time = r['Time'].substr(0, 5);
+        var even_odd_class = (is_even ? "even-row" : "odd-row");
+        var sender = r['Sender'];
+        var recipient = r['Recipient'];
+        var subject = r['Subject'];
+        var id = r['ID'];
+
+        var senderClass = "exchange-sender tooltip" + rowNumber;
+        var recipientClass = "exchange-recipients tooltip" + rowNumber;
+        var subjectClass = "exchange-subject tooltip" + rowNumber;
+
+        var inputRow =
+            "<tr class=\"" + even_odd_class + " exchange\" onclick='openLog(this)'>"+
+                "<td>"+date+"</td>"+
+                "<td>"+time+"</td>"+
+                "<td>"+
+                    "<span id='exchangeSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>"+
+                "</td>"+
+                "<td>"+
+                    "<span id='exchangeRecipient"+rowNumber+"' title class='"+recipientClass+"'>"+recipient+"<br/></span>"+
+                "</td>"+
+                "<td>"+
+                    "<span id='exchangeSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subject+"</span>"+
+                "</td>"+
+                "<td class='hidden'>"+id+"</td>"+
+            "</tr>";
+
+        $("table.exchange tr").last().after(inputRow);
+
+        var senderOverflows = checkOverflow(document.getElementById("exchangeSender" + rowNumber));
+        var recipientOverflows = checkOverflow(document.getElementById("exchangeRecipient" + rowNumber));
+        var subjectOverflows = checkOverflow(document.getElementById("exchangeSubject" + rowNumber));
+
+        if (senderOverflows) {
+            addTooltip(EXCHANGE_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
+        }
+        if (recipientOverflows) {
+            addTooltip(EXCHANGE_CLASS, rowNumber, recipient, RECIPIENTS_COL, TOOLTIP_DELAY);
+        }
+        if (subjectOverflows) {
+            addTooltip(EXCHANGE_CLASS, rowNumber, subject, SUBJECT_COL, TOOLTIP_DELAY);
+        }
 
         is_even = !is_even;
-        $("table.exchange tr").last().after(inputRow);
+        rowNumber++;
     }
 
     // Set appropriate button
@@ -729,7 +765,7 @@ function checkOverflow(span)
         span.style.overflow = "hidden";
     }
 
-    var isOverflowing = ((span.clientWidth < span.scrollWidth) || (span.clientHeight < span.scrollHeight));
+    var isOverflowing = (span.clientWidth < span.scrollWidth);
 
     span.style.overflow = curOverflow;
 
