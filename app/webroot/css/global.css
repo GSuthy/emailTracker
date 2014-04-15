@@ -480,9 +480,10 @@ span.routers-sender, span.routers-recipients {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 394px;
-    max-width: 394;
-    /*min-width: 300px;*/
+    /*max-width: 394;*/
+    /*width: 401px;*/
+    /*max-width: 394;*/
+    width: 401px;
 }
 
 span.exchange-sender, span.exchange-recipients, span.exchange-subject {
@@ -490,7 +491,9 @@ span.exchange-sender, span.exchange-recipients, span.exchange-subject {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 279px;
+    /*max-width: 290px;
+    /*width: 280px;*/
+    width: 279px;
 }
 
 table tr.log.even-row:hover
