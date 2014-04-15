@@ -407,11 +407,13 @@ table.results th {
 	background: #236597;
 	color: white;
 	font-weight: normal;
+    /*width: 289px!important;*/
 }
 
 table.results tr {
 	/*border:1px solid #759bb8;*/
     border: none;
+    width: 289px!important;
     cursor: default;
 }
 
@@ -447,7 +449,7 @@ table.results td, table.results th {
 
 table.results tr td:nth-child(1), 
 table.results tr td:nth-child(2), 
-table.results tr td:nth-child(6), 
+table.results tr td:nth-child(6),
 table.results tr td:nth-child(7),
 table.results tr td:nth-child(8) {
 	text-align: center;
@@ -470,7 +472,6 @@ span.canit-sender, span.canit-recipients, span.canit-subject {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	/*max-width: 200px;*/
 	width: 200px;
     height: inherit;
 }
@@ -480,10 +481,8 @@ span.routers-sender, span.routers-recipients {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    /*max-width: 394;*/
-    /*width: 401px;*/
-    /*max-width: 394;*/
-    width: 401px;
+    width: 397px;
+    height: inherit;
 }
 
 span.exchange-sender, span.exchange-recipients, span.exchange-subject {
@@ -491,9 +490,8 @@ span.exchange-sender, span.exchange-recipients, span.exchange-subject {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    /*max-width: 290px;
-    /*width: 280px;*/
     width: 279px;
+    height: inherit;
 }
 
 table tr.log.even-row:hover
@@ -607,7 +605,6 @@ a.results.view-more:active {
 .subject-tooltip {
     font-size: 15px;
     max-width: 400px;
-    /*display: block;*/
     display: table-cell;
     word-break: keep-all;
     border: solid 2px #1B6DA8;
@@ -617,24 +614,6 @@ a.results.view-more:active {
 
     position: fixed!important;
 }
-
-/*ul.tooltip-list {
-    list-style: none;
-    *//*counter-reset: foo;*//*
-    display: table;
-}
-
-li.tooltip-list-item {
-    *//*counter-increment: foo;*//*
-    display: table-row;
-}
-
-li.tooltip-list-item::before {
-    *//*content: counter(foo) ".";*//*
-    display: table-cell;
-    text-align: left;
-}*/
-
 
 .hidden {
     display: none;

@@ -196,10 +196,10 @@ if (!$authorized) {
 			"<th>Stream</th>" .
 			"<th>Status</th>" .
 			"<th>Score</th>" .
-			"<th hidden>Queue ID</th>" .
-			"<th hidden>Reporting Host</th>" .
-			"<th hidden>Realm</th>" .
-			"<th hidden>Incident ID</th>" .
+			"<th class='hidden'>Queue ID</th>" .
+			"<th class='hidden'>Reporting Host</th>" .
+			"<th class='hidden'>Realm</th>" .
+			"<th class='hidden'>Incident ID</th>" .
 			"</tr>";
 		$canit_table_string .= "</tbody></table>";
 		$canit_table_string .= "<a class='results loading-more canit'>Loading Results</a>";
@@ -219,8 +219,8 @@ if (!$authorized) {
 			"<th>Sender</th>" .
 			"<th>Recipients</th>" .
 			"<th>Status</th>" .
-			"<th style='display: none'>Current ID</th>" .
-			"<th style='display: none'>Next ID</th>" .
+			"<th class='hidden'>Current ID</th>" .
+			"<th class='hidden'>Next ID</th>" .
 			"</tr>";
 		$router_table_string .= "</tbody></table>";
 		$router_table_string .= "<a class='results loading-more routers'>Loading Results</a>";
@@ -240,7 +240,7 @@ if (!$authorized) {
 		"<th>Sender</th>" .
 		"<th>Recipient</th>" .
 		"<th>Subject</th>" .
-		"<th hidden>Message ID</th>" .
+		"<th class='hidden'>Message ID</th>" .
 		"</tr>\n";
 	$exchange_table_string .= "</tbody></table>";
 	$exchange_table_string .= ("<a class='results loading-more exchange'>Loading Results</a>");

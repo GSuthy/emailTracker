@@ -76,6 +76,8 @@ $(document).ready(function(realm, stream) {
                 displayMoreCanItResults(data, params["max_results"]);
                 numResults[CANIT_CLASS] += data.length;
             });
+    } else {
+        canitRendering = false;
     }
 
     if($('[name="routerSelect"]').is(':checked')) {
@@ -92,6 +94,8 @@ $(document).ready(function(realm, stream) {
                 displayMoreRoutersResults(data, params["max_results"]);
                 numResults[ROUTERS_CLASS] += data.length;
             });
+    } else {
+        routersRendering = false;
     }
 
     if($('[name="exchangeSelect"]').is(':checked')) {
@@ -108,6 +112,8 @@ $(document).ready(function(realm, stream) {
                 displayMoreExchangeResults(data, params["max_results"]);
                 numResults[EXCHANGE_CLASS] += data.length;
             });
+    } else {
+        exchangeRendering = false;
     }
 });
 
@@ -459,10 +465,17 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var subject = (r['subject'] ? r['subject'] : "");
         var stream = (r['stream'] ? r['stream'] : "");
         var what = (r['what'] ? r['what'] : "");
+        var score = formatSpamScore(r['score']);
+        var incidentId = r['incident_id'];
+        var queueId = r['queue_id'];
+        var reportingHost = r['reporting_host'];
+        var realm = r['realm'];
 
         var senderClass = "canit-sender tooltip" + rowNumber;
         var recipientClass = "canit-recipients tooltip" + rowNumber;
         var subjectClass = "canit-subject tooltip" + rowNumber;
+        var scoreClass = getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_reject_spam_score);
+        var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
 
         var inputRow =
             "<tr class=\"" + even_odd_class + " canit\"'>" +
@@ -478,30 +491,19 @@ function displayMoreCanItResults(results, expectedNumResults) {
                     "<span id='canitSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subject+"</span>" +
                 "</td>"+
                 "<td class='open-log'>"+stream+"</td>" +
-                "<td class='open-log'>"+what+"</td>";
+                "<td class='open-log'>"+what+"</td>" +
+                "<td>" +
+                    "<span class='"+scoreClass+"'>"+score+"</span>" +
+                "</td>" +
+                "<td class='hidden'>"+queueId+"</td>" +
+                "<td class='hidden'>"+reportingHost+"</td>" +
+                "<td class='hidden'>"+realm+"</td>" +
+                "<td class='"+incidentIdClass+"hidden>"+incidentId+"</td>" +
+            "</tr>";
 
-        var score_string = "";
-        var score = formatSpamScore(r['score']);
-        var incidentId = r['incident_id'];
-
-        if (incidentId) {
-            score_string = "has-incident ";
-        }
-
-        if (!score){ score_string += "spam-score-empty"; }
-        else if (score < warning_level_spam_score){ score_string += "spam-score-good"; }
-        else if (score < auto_reject_spam_score){ score_string += "spam-score-quarantined"; }
-        else { score_string += "spam-score-rejected"; }
-
-        inputRow += "<td><span class=\""+score_string+"\">"+score+"</span></td>";
-        inputRow += "<td hidden>" + r['queue_id'] + "</td>";
-        inputRow += "<td hidden>" + r['reporting_host'] + "</td>";
-        inputRow += "<td hidden>" + r['realm'] + "</td>";
-        var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
-        inputRow += "<td " + incidentIdClass + "hidden>" + r['incident_id'] + "</td></tr>";
         $("table.canit tr").last().after(inputRow);
 
-        var senderOverflows = checkOverflow(document.getElementById("canitSender" + rowNumber));
+        var senderOverflows = checkOverflow(document.getElementById("canitSender"+rowNumber));
         var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("canitRecipients" + rowNumber)));
         var subjectOverflows = checkOverflow(document.getElementById("canitSubject" + rowNumber));
 
@@ -595,6 +597,9 @@ function displayMoreRoutersResults(results, expectedNumResults) {
             "</tr>";
 
         $("table.routers tr").last().after(inputRow);
+
+        var senderSpan = $("#routersSender" + rowNumber);
+        var recipientSpan = $("#routersRecipients" + rowNumber);
 
         var senderOverflows = checkOverflow(document.getElementById("routersSender" + rowNumber));
         var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("routersRecipients" + rowNumber)));
@@ -798,4 +803,18 @@ function formatSpamScore(number) {
         score = parseFloat(number).toFixed(2);
     }
     return score;
+}
+
+function getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_reject_spam_score) {
+    var scoreClass = (incidentId ? "has-incident" : "");
+    if (!score) {
+        scoreClass += "spam-score-empty";
+    } else if (score < warning_level_spam_score) {
+        scoreClass += "spam-score-good";
+    } else if (score < auto_reject_spam_score) {
+        scoreClass += "spam-score-quarantined";
+    } else {
+        scoreClass += "spam-score-rejected";
+    }
+    return scoreClass;
 }
