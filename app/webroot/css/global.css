@@ -448,10 +448,11 @@ table.results td, table.results th {
 }
 
 table.results tr td:nth-child(1), 
-table.results tr td:nth-child(2), 
-table.results tr td:nth-child(6),
-table.results tr td:nth-child(7),
-table.results tr td:nth-child(8) {
+table.results tr td:nth-child(2),
+table.results tr.routers td:nth-child(5),
+table.results tr.canit td:nth-child(6),
+table.results tr.canit td:nth-child(7),
+table.results tr.canit td:nth-child(8) {
 	text-align: center;
 }
 
@@ -481,7 +482,7 @@ span.routers-sender, span.routers-recipients {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 397px;
+    width: 389px;
     height: inherit;
 }
 
@@ -490,8 +491,14 @@ span.exchange-sender, span.exchange-recipients, span.exchange-subject {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 279px;
+    width: 270px;
     height: inherit;
+}
+
+td.status-col {
+    width: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 table tr.log.even-row:hover

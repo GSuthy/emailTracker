@@ -76,8 +76,6 @@ $(document).ready(function(realm, stream) {
                 displayMoreCanItResults(data, params["max_results"]);
                 numResults[CANIT_CLASS] += data.length;
             });
-    } else {
-        canitRendering = false;
     }
 
     if($('[name="routerSelect"]').is(':checked')) {
@@ -94,8 +92,6 @@ $(document).ready(function(realm, stream) {
                 displayMoreRoutersResults(data, params["max_results"]);
                 numResults[ROUTERS_CLASS] += data.length;
             });
-    } else {
-        routersRendering = false;
     }
 
     if($('[name="exchangeSelect"]').is(':checked')) {
@@ -112,8 +108,6 @@ $(document).ready(function(realm, stream) {
                 displayMoreExchangeResults(data, params["max_results"]);
                 numResults[EXCHANGE_CLASS] += data.length;
             });
-    } else {
-        exchangeRendering = false;
     }
 });
 
@@ -459,10 +453,12 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var date = padToTwo(dateTime.getMonth() + 1) + "/" + padToTwo(dateTime.getDate());
         var time = padToTwo(dateTime.getHours()) + ":" + padToTwo(dateTime.getMinutes());
         var sender = (r['sender'] ? r['sender'] : "");
+        var senderToShow = sender;
         var recipients = r['recipients']
         var recipientToShow = findMatchingRecipient(recipients);
         var recipientsFormatted = printAddressesArray(recipients);
         var subject = (r['subject'] ? r['subject'] : "");
+        var subjectToShow = subject;
         var stream = (r['stream'] ? r['stream'] : "");
         var what = (r['what'] ? r['what'] : "");
         var score = formatSpamScore(r['score']);
@@ -470,6 +466,26 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var queueId = r['queue_id'];
         var reportingHost = r['reporting_host'];
         var realm = r['realm'];
+
+        var senderOverflows = false;
+        if (sender.length > 17) {
+            senderToShow = senderToShow.substr(0, 17) + "...";
+            senderOverflows = true;
+        }
+
+        var recipientOverflows = false;
+        if (recipientToShow.length > 17) {
+            recipientToShow = recipientToShow.substr(0, 17) + "...";
+            recipientOverflows = true;
+        } else if (recipients.length > 1) {
+            recipientOverflows = true;
+        }
+
+        var subjectOverflows = false;
+        if (subject.length > 17) {
+            subjectToShow = subjectToShow.substr(0, 17) + "...";
+            subjectOverflows = true;
+        }
 
         var senderClass = "canit-sender tooltip" + rowNumber;
         var recipientClass = "canit-recipients tooltip" + rowNumber;
@@ -502,10 +518,6 @@ function displayMoreCanItResults(results, expectedNumResults) {
             "</tr>";
 
         $("table.canit tr").last().after(inputRow);
-
-        var senderOverflows = checkOverflow(document.getElementById("canitSender"+rowNumber));
-        var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("canitRecipients" + rowNumber)));
-        var subjectOverflows = checkOverflow(document.getElementById("canitSubject" + rowNumber));
 
         if (senderOverflows) {
             addTooltip(CANIT_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
@@ -571,12 +583,27 @@ function displayMoreRoutersResults(results, expectedNumResults) {
         var time = r['Time'];
         var even_odd_class = (is_even ? "even-row" : "odd-row");
         var sender = r['Sender'];
+        var senderToShow = sender;
         var recipients = r['Recipients'];
         var recipientToShow = findMatchingRecipient(recipients);
         var recipientsFormatted = printAddressesArray(recipients);
         var status = r['Status'];
         var messageId = r['Message_ID'];
         var nextId = r['Next_ID'];
+
+        var senderOverflows = false;
+        if (sender.length > 27) {
+            senderToShow = senderToShow.substr(0, 27) + "...";
+            senderOverflows = true;
+        }
+
+        var recipientOverflows = false;
+        if (recipientToShow.length > 27) {
+            recipientToShow = recipientToShow.substr(0, 27) + "...";
+            recipientOverflows = true;
+        } else if (recipients.length > 1) {
+            recipientOverflows = true;
+        }
 
         var senderClass = "routers-sender tooltip" + rowNumber;
         var recipientClass = "routers-recipients tooltip" + rowNumber;
@@ -586,23 +613,17 @@ function displayMoreRoutersResults(results, expectedNumResults) {
                 "<td>"+date+"</td>" +
                 "<td>"+time+"</td>" +
                 "<td>" +
-                    "<span id='routersSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>" +
+                    "<span id='routersSender"+rowNumber+"' title class='"+senderClass+"'>"+senderToShow+"</span>" +
                 "</td>" +
                 "<td>" +
                     "<span id='routersRecipients"+rowNumber+"' title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
                 "</td>" +
-                "<td>"+status+"</td>" +
+                "<td class='status-col'>"+status+"</td>" +
                 "<td class='hidden'>"+messageId+"</td>"+
                 "<td class='hidden'>"+nextId+"</td>"+
             "</tr>";
 
         $("table.routers tr").last().after(inputRow);
-
-        var senderSpan = $("#routersSender" + rowNumber);
-        var recipientSpan = $("#routersRecipients" + rowNumber);
-
-        var senderOverflows = checkOverflow(document.getElementById("routersSender" + rowNumber));
-        var recipientOverflows = (recipients.length > 1 ? true : checkOverflow(document.getElementById("routersRecipients" + rowNumber)));
 
         if (senderOverflows) {
             addTooltip(ROUTERS_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
@@ -649,9 +670,30 @@ function displayMoreExchangeResults(results, expectedNumResults) {
         var time = r['Time'].substr(0, 5);
         var even_odd_class = (is_even ? "even-row" : "odd-row");
         var sender = r['Sender'];
+        var senderToShow = sender;
         var recipient = r['Recipient'];
+        var recipientToShow = recipient;
         var subject = r['Subject'];
+        var subjectToShow = subject;
         var id = r['ID'];
+
+        var senderOverflows = false;
+        if (sender && sender.length > 23) {
+            senderToShow = senderToShow.substr(0, 23) + "...";
+            senderOverflows = true;
+        }
+
+        var recipientOverflows = false;
+        if (recipient && recipient.length > 23) {
+            recipientToShow = recipientToShow.substr(0, 23) + "...";
+            recipientOverflows = true;
+        }
+
+        var subjectOverflows = false;
+        if (subject && subject.length > 23) {
+            subjectToShow = subjectToShow.substr(0, 23) + "...";
+            subjectOverflows = true;
+        }
 
         var senderClass = "exchange-sender tooltip" + rowNumber;
         var recipientClass = "exchange-recipients tooltip" + rowNumber;
@@ -674,10 +716,6 @@ function displayMoreExchangeResults(results, expectedNumResults) {
             "</tr>";
 
         $("table.exchange tr").last().after(inputRow);
-
-        var senderOverflows = checkOverflow(document.getElementById("exchangeSender" + rowNumber));
-        var recipientOverflows = checkOverflow(document.getElementById("exchangeRecipient" + rowNumber));
-        var subjectOverflows = checkOverflow(document.getElementById("exchangeSubject" + rowNumber));
 
         if (senderOverflows) {
             addTooltip(EXCHANGE_CLASS, rowNumber, sender, SENDER_COL, TOOLTIP_DELAY);
@@ -763,20 +801,6 @@ function findMatchingRecipient(recipients) {
     return selectedRecipient;
 }
 
-function checkOverflow(span)
-{
-    var curOverflow = span.style.overflow;
-    if ( !curOverflow || curOverflow === "visible" ) {
-        span.style.overflow = "hidden";
-    }
-
-    var isOverflowing = (span.clientWidth < span.scrollWidth);
-
-    span.style.overflow = curOverflow;
-
-    return isOverflowing;
-}
-
 function addTooltip(tableClass, rowNumber, data, colType, delay) {
     $("table."+tableClass+" tr td span."+tableClass+"-"+colType+".tooltip" + rowNumber).tooltip({
         content: data,
@@ -818,3 +842,18 @@ function getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_re
     }
     return scoreClass;
 }
+
+
+/*function checkOverflow(span)
+ {
+ var curOverflow = span.style.overflow;
+ if ( !curOverflow || curOverflow === "visible" ) {
+ span.style.overflow = "hidden";
+ }
+
+ var isOverflowing = (span.clientWidth < span.scrollWidth);
+
+ span.style.overflow = curOverflow;
+
+ return isOverflowing;
+ }*/
