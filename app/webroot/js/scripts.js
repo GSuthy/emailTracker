@@ -73,8 +73,12 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                displayMoreCanItResults(data, params["max_results"]);
-                numResults[CANIT_CLASS] += data.length;
+                if (Object.prototype.toString.call(data) === '[object Array]') {
+                    displayMoreCanItResults(data, params["max_results"]);
+                    numResults[CANIT_CLASS] += data.length;
+                } else {
+                    alert("Error");
+                }
             });
     }
 

@@ -65,7 +65,8 @@ class Exchange extends AppModel {
         );
 
         $conditions = array();
-        $conditions['Exchange.date_time BETWEEN ? AND ?'] = array(date_format($startDttm, "Y-m-d H:i:s"), date_format($endDttm, "Y-m-d H:i:s"));
+        $conditions['Exchange.date_time >='] = date_format($startDttm, "Y-m-d H:i:s");
+        $conditions['Exchange.date_time <='] = date_format($endDttm, "Y-m-d H:i:s");
         if(!is_null($sender)) {
             $conditions['Exchange.sender_address LIKE'] = $sender;
         }
@@ -128,7 +129,8 @@ class Exchange extends AppModel {
         $conditions = array();
         if (empty($message_id)) {
             $conditions['Exchange.message_id is'] = 'null';
-            $conditions['Exchange.date_time BETWEEN ? AND ?'] = array(date_format($startDttm, "Y-m-d H:i:s"), date_format($endDttm, "Y-m-d H:i:s"));
+            $conditions['Exchange.date_time >='] = date_format($startDttm, "Y-m-d H:i:s");
+            $conditions['Exchange.date_time <='] = date_format($endDttm, "Y-m-d H:i:s");
 
             if(empty($sender)) {
                 $conditions['Exchange.sender_address is'] = 'null';
