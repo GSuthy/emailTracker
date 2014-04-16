@@ -229,12 +229,15 @@ function buttonClickedExchange() {
 }
 
 function openLog(row) {
-    if($(row).next().hasClass('log')) {
-        $(row).next().remove();
-    } else if (!$(row).hasClass('log-opening')) {
-        $(row).addClass('log-opening');
-        rowExpander($(row));
-    }
+//    var sel = getSelection().toString();
+//    if (!sel) {
+        if($(row).next().hasClass('log')) {
+            $(row).next().remove();
+        } else if (!$(row).hasClass('log-opening')) {
+            $(row).addClass('log-opening');
+            rowExpander($(row));
+        }
+//    }
 }
 
 function rowExpander(clickedRow) {
@@ -494,7 +497,7 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
 
         var inputRow =
-            "<tr class=\"" + even_odd_class + " canit\"'>" +
+            "<tr class='" + even_odd_class + " canit'>" +
                 "<td class='open-log'>"+date+"</td>" +
                 "<td class='open-log'>"+time+"</td>" +
                 "<td class='open-log'>" +
@@ -545,9 +548,16 @@ function displayMoreCanItResults(results, expectedNumResults) {
     });
 
     $("table tr.canit td.open-log").off();
+    var clicked = true;
     $("table tr.canit td.open-log").on("click", function(){
-        openLog($(this).parent());
-    });
+        if (clicked) {
+            openLog($(this).parent());
+        }
+    }).on("mousedown", function(){
+            clicked = true;
+        }).on("mousemove", function(){
+            clicked = false;
+        });
 
     // Set appropriate button
     var button = $("a.results.loading-more.canit");
@@ -609,7 +619,7 @@ function displayMoreRoutersResults(results, expectedNumResults) {
         var recipientClass = "routers-recipients tooltip" + rowNumber;
 
         var inputRow =
-            "<tr class=\"" + even_odd_class + " routers\"' onclick='openLog(this)'>" +
+            "<tr class='" + even_odd_class + " routers'>" +
                 "<td>"+date+"</td>" +
                 "<td>"+time+"</td>" +
                 "<td>" +
@@ -635,6 +645,18 @@ function displayMoreRoutersResults(results, expectedNumResults) {
         is_even = !is_even;
         rowNumber++;
     }
+
+    $("table tr.routers").off();
+    var clicked = true;
+    $("table tr.routers").on("click", function(){
+        if (clicked) {
+            openLog($(this));
+        }
+    }).on("mousedown", function(){
+            clicked = true;
+        }).on("mousemove", function(){
+            clicked = false;
+        });
 
     // Set appropriate button
     var button = $("a.results.loading-more.routers");
@@ -700,7 +722,7 @@ function displayMoreExchangeResults(results, expectedNumResults) {
         var subjectClass = "exchange-subject tooltip" + rowNumber;
 
         var inputRow =
-            "<tr class=\"" + even_odd_class + " exchange\" onclick='openLog(this)'>"+
+            "<tr class='" + even_odd_class + " exchange'>"+
                 "<td>"+date+"</td>"+
                 "<td>"+time+"</td>"+
                 "<td>"+
@@ -730,6 +752,18 @@ function displayMoreExchangeResults(results, expectedNumResults) {
         is_even = !is_even;
         rowNumber++;
     }
+
+    $("table tr.exchange").off();
+    var clicked = true;
+    $("table tr.exchange").on("click", function(){
+        if (clicked) {
+            openLog($(this));
+        }
+    }).on("mousedown", function(){
+            clicked = true;
+        }).on("mousemove", function(){
+            clicked = false;
+        });
 
     // Set appropriate button
     var button = $("a.results.loading-more.exchange");
