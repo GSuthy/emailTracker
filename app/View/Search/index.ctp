@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         'cupertino/jquery-ui-1.10.4.custom.min',
         'global',
 		'mobile',
-		'datepicker'
+		'datepicker',
+        'animations'
 	));
 
 	echo $this->Html->script(array(
@@ -152,13 +153,11 @@ if (!$authorized) {
 				</span>
 			<input type="text" <?php if ($show_table) echo "value='" . $_POST['subject'] . "'"; ?> name="subject">
 		</div>
-
-
-
-		<input type="submit" name="search" value="Search" />
-
-
 	</div>
+    <div class="row">
+        <div class="column-no-border grid_6 message">Logs may 15 to 30 minutes behind.</div>
+        <div class="column-no-border grid_6 form-button"><input class="form-button" type="submit" name="search" value="Search" /></div>
+    </div>
 </form>
 <!-- End Search Box -->
 

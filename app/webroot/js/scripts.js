@@ -64,6 +64,19 @@ $(document).ready(function(realm, stream) {
 
     if($('[name="canitSelect"]').is(':checked')) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[CANIT_CLASS]);
+
+        var spinnerDiv =
+            "<tr>"+
+                "<td class='animation' colspan='8'>"+
+                    "<div class='animation'>" +
+                        "<div class='outer-circle'></div>" +
+                        "<div class='inner-circle'></div>" +
+                    "</div>"+
+                "</td>"+
+            "</tr>";
+
+        $("table.canit").append(spinnerDiv);
+
         $.ajax
         ({
             type: "POST",
@@ -84,6 +97,19 @@ $(document).ready(function(realm, stream) {
 
     if($('[name="routerSelect"]').is(':checked')) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[ROUTERS_CLASS]);
+
+        var spinnerDiv =
+            "<tr>"+
+                "<td class='animation' colspan='5'>"+
+                    "<div class='animation'>" +
+                        "<div class='outer-circle'></div>" +
+                        "<div class='inner-circle'></div>" +
+                    "</div>"+
+                "</td>"+
+            "</tr>";
+
+        $("table.routers").append(spinnerDiv);
+
         $.ajax
         ({
             type: "POST",
@@ -100,6 +126,19 @@ $(document).ready(function(realm, stream) {
 
     if($('[name="exchangeSelect"]').is(':checked')) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[EXCHANGE_CLASS]);
+
+        var spinnerDiv =
+            "<tr>"+
+                "<td class='animation' colspan='5'>"+
+                    "<div class='animation'>" +
+                        "<div class='outer-circle'></div>" +
+                        "<div class='inner-circle'></div>" +
+                    "</div>"+
+                "</td>"+
+            "</tr>";
+
+        $("table.exchange").append(spinnerDiv);
+
         $.ajax
         ({
             type: "POST",
@@ -174,6 +213,18 @@ function buttonClickedCanIt() {
     button.addClass("loading-more");
     button.text("Loading Results");
 
+    var spinnerDiv =
+        "<tr>"+
+            "<td class='animation' colspan='8'>"+
+                "<div class='animation'>" +
+                    "<div class='outer-circle'></div>" +
+                    "<div class='inner-circle'></div>" +
+                "</div>"+
+            "</td>"+
+        "</tr>";
+
+    $("table.canit").append(spinnerDiv);
+
     $.ajax
     ({
         type: "POST",
@@ -196,6 +247,18 @@ function buttonClickedRouters() {
     button.addClass("loading-more");
     button.text("Loading Results");
 
+    var spinnerDiv =
+        "<tr>"+
+            "<td class='animation' colspan='5'>"+
+                "<div class='animation'>" +
+                    "<div class='outer-circle'></div>" +
+                    "<div class='inner-circle'></div>" +
+                "</div>"+
+            "</td>"+
+        "</tr>";
+
+    $("table.routers").append(spinnerDiv);
+
     $.ajax
     ({
         type: "POST",
@@ -217,6 +280,18 @@ function buttonClickedExchange() {
     button.removeClass("view-more");
     button.addClass("loading-more");
     button.text("Loading Results");
+
+    var spinnerDiv =
+        "<tr>"+
+            "<td class='animation' colspan='5'>"+
+                "<div class='animation'>" +
+                    "<div class='outer-circle'></div>" +
+                    "<div class='inner-circle'></div>" +
+                "</div>"+
+            "</td>"+
+        "</tr>";
+
+    $("table.exchange").append(spinnerDiv);
 
     $.ajax
     ({
@@ -441,6 +516,9 @@ function indentWrappedLogLines(array) {
 
 function displayMoreCanItResults(results, expectedNumResults) {
     var is_even;
+
+    $("table.canit.results tr td.animation").parent().remove();
+
     if ($("table.canit tr").last().hasClass('is_even')) {
         is_even = false;
     } else {
@@ -505,13 +583,13 @@ function displayMoreCanItResults(results, expectedNumResults) {
                 "<td class='open-log'>"+date+"</td>" +
                 "<td class='open-log'>"+time+"</td>" +
                 "<td class='open-log'>" +
-                    "<span id='canitSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>" +
+                    "<span id='canitSender"+rowNumber+"' title class='"+senderClass+"'>"+senderToShow+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
                     "<span id='canitRecipients"+rowNumber+"' title class='"+recipientClass+"'>"+recipientToShow+"</span>" +
                 "</td>" +
                 "<td class='open-log'>" +
-                    "<span id='canitSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subject+"</span>" +
+                    "<span id='canitSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subjectToShow+"</span>" +
                 "</td>"+
                 "<td class='open-log'>"+stream+"</td>" +
                 "<td class='open-log'>"+what+"</td>" +
@@ -581,6 +659,9 @@ function displayMoreCanItResults(results, expectedNumResults) {
 }
 
 function displayMoreRoutersResults(results, expectedNumResults) {
+
+    $("table.routers.results tr td.animation").parent().remove();
+
     var is_even;
     if ($("table.routers tr").last().hasClass('is_even')) {
         is_even = false;
@@ -680,6 +761,9 @@ function displayMoreRoutersResults(results, expectedNumResults) {
 }
 
 function displayMoreExchangeResults(results, expectedNumResults) {
+
+    $("table.exchange.results tr td.animation").parent().remove();
+
     var is_even;
     if ($("table.exchange tr").last().hasClass('is_even')) {
         is_even = false;
@@ -704,20 +788,20 @@ function displayMoreExchangeResults(results, expectedNumResults) {
         var id = r['ID'];
 
         var senderOverflows = false;
-        if (sender && sender.length > 23) {
-            senderToShow = senderToShow.substr(0, 23) + "...";
+        if (sender && sender.length > 22) {
+            senderToShow = senderToShow.substr(0, 22) + "...";
             senderOverflows = true;
         }
 
         var recipientOverflows = false;
-        if (recipient && recipient.length > 23) {
-            recipientToShow = recipientToShow.substr(0, 23) + "...";
+        if (recipient && recipient.length > 22) {
+            recipientToShow = recipientToShow.substr(0, 22) + "...";
             recipientOverflows = true;
         }
 
         var subjectOverflows = false;
-        if (subject && subject.length > 23) {
-            subjectToShow = subjectToShow.substr(0, 23) + "...";
+        if (subject && subject.length > 22) {
+            subjectToShow = subjectToShow.substr(0, 22) + "...";
             subjectOverflows = true;
         }
 
@@ -730,13 +814,13 @@ function displayMoreExchangeResults(results, expectedNumResults) {
                 "<td>"+date+"</td>"+
                 "<td>"+time+"</td>"+
                 "<td>"+
-                    "<span id='exchangeSender"+rowNumber+"' title class='"+senderClass+"'>"+sender+"</span>"+
+                    "<span id='exchangeSender"+rowNumber+"' title class='"+senderClass+"'>"+senderToShow+"</span>"+
                 "</td>"+
                 "<td>"+
-                    "<span id='exchangeRecipient"+rowNumber+"' title class='"+recipientClass+"'>"+recipient+"<br/></span>"+
+                    "<span id='exchangeRecipient"+rowNumber+"' title class='"+recipientClass+"'>"+recipientToShow+"<br/></span>"+
                 "</td>"+
                 "<td>"+
-                    "<span id='exchangeSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subject+"</span>"+
+                    "<span id='exchangeSubject"+rowNumber+"' title class='"+subjectClass+"'>"+subjectToShow+"</span>"+
                 "</td>"+
                 "<td class='hidden'>"+id+"</td>"+
             "</tr>";

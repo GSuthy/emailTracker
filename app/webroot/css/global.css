@@ -13,17 +13,23 @@
 .grid_11 {width: 86.25%;} /* 828px / 960px */ 
 .grid_12 {width: 94.5833%;} /* 908px / 960px */ 
 .column {margin: 0 1.04167% 0 1.04167%; /* 10px / 960px */
-         overflow: hidden;
+         /*overflow: hidden;*/
          float: left;
          padding: 0.9375em;
          border: 1px;
          display: inline;}
-.row {width: 60em; /* 960px / 16px  */
-      margin: 0 auto;
-      overflow: hidden;}
-.row .row {margin: 0 -1.04167% 0 -1.04167%; /* 10px / 960px */
-           width: auto;
-           display: inline-block;}
+
+.row {
+    width: 60em; /* 960px / 16px  */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/*.row .row {
+    *//*margin: 0 -1.04167% 0 -1.04167%; *//**//* 10px / 960px *//*
+    width: auto;
+    display: inline-block;
+}*/
 
 /* Global */
 body, html {
@@ -40,6 +46,16 @@ body, html {
 .column {
      border: 1px solid #cacaca;
      margin-bottom: 0.9375em;
+}
+
+.column-no-border {
+    /*overflow: hidden;*/
+    float: left;
+    /*padding: 0.9375em;*/
+    border: 1px;
+    display: inline;
+    margin-bottom: 0.9375em;
+    text-align: center;
 }
 
 #main-header { background: url("../img/header-bg.png") no-repeat scroll center top #025;
@@ -179,7 +195,6 @@ form.search input, form.search input:active {
 	border-radius: 0 3px 3px 0;
 }
 
-
 span.sender input, span.sender input:active {
 	width:58%;
 }
@@ -274,6 +289,7 @@ div.server-select {
 	float: right;
 	overflow: hidden;
 	position: relative;
+    padding-bottom: 25px;
 }
 
 div.server-select h3 {
@@ -291,8 +307,8 @@ div.server-select div.box-selector {
 	height:100px;
 	float:left;
 	border: 1px solid #ccc;
-	margin:0;
-	text-align: center;
+    margin: 10px 0 0;
+    text-align: center;
 	color: #777;
 	position: relative; /* necessary for status-indicator positioning */
 
@@ -365,20 +381,32 @@ div.server-select input[type="checkbox"]
 	position:absolute;
 }
 
+div.message {
+    margin-left: 1.7em;
+    margin-right: 2.55em;
+    margin-top: 7px;
+    color: red;
+}
+
 form.search input[type="submit"], form.search input[type="submit"]:active  {
 	font-family: inherit;
 	font-size: inherit;
 	background: #196499;
 	padding: 5px;
-	float: right;
+	/*float: right;*/
 	border: 1px solid #003b65;
 	color: white;
-	margin: 1px 1.04167% 16px 0;
+	margin: 0px 0 0px 0;
 	border-radius: 3px;
 	/*-webkit-appearance: none;*/
-	width: 47.6%;
-	box-shadow:0 2px 0 #003b65;
+	width: 105%;
+	box-shadow:0 2px 1px #003b65;
 }
+
+/*div.form-button {
+    position: relative;
+    top: -20px;
+}*/
 
 form.search input[type="submit"]:hover {
 	cursor: pointer;
