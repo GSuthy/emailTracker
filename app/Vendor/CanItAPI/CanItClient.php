@@ -51,8 +51,6 @@ class CanItClient {
         $sender = urlencode($sender);
         $subject = urlencode($subject);
 
-//        $search_string = 'log/search/'.$offset.'/'.$maxResults.'?sender='.$sender.'&recipients='.$recipients.'&subject='.$subject.'&start_date='.$start_date.'&end_date='.$end_date;
-
         $search_string =  'log/search/'.$offset.'/'.$maxResults.'?start_date='.$start_date.'&end_date='.$end_date;
 
         if (!empty($sender)) {
@@ -75,20 +73,6 @@ class CanItClient {
                 $search_string .= '&rel_subject=contains';
             }
         }
-
-        /*if (!$startDttm) {
-            return CanItClient::canitError("Must specify a start date");
-        }*/
-
-        /*if ($sender_contains) {
-            $search_string .= '&rel_sender=contains';
-        }*/
-        /*if ($recipients_contains) {
-            $search_string .= '&rel_recipients=contains';
-        }*/
-        /*if ($subject_contains) {
-            $search_string .= '&rel_subject=contains';
-        }*/
 
         $results = $api->do_get($search_string);
 

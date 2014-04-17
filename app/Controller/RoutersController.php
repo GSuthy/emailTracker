@@ -18,13 +18,13 @@ class RoutersController extends AppController {
         $recipient_contains = $this->request->data("recipient_contains");
         $sender = $this->request->data("sender");
         $sender_contains = $this->request->data("sender_contains");
+        $subject = $this->request->data("subject");
         $startDttm = $this->request->data("start_date");
         $endDttm = $this->request->data("end_date");
         $maxResults = $this->request->data("max_results");
         $offset = $this->request->data("offset");
 
-
-        $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $startDttm, $endDttm, $maxResults, $offset);
+        $results = $this->Routers->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $startDttm, $endDttm, $maxResults, $offset);
 
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
     }

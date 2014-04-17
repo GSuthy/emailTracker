@@ -68,13 +68,25 @@ class Exchange extends AppModel {
         $conditions['Exchange.date_time >='] = date_format($startDttm, "Y-m-d H:i:s");
         $conditions['Exchange.date_time <='] = date_format($endDttm, "Y-m-d H:i:s");
         if(!is_null($sender)) {
-            $conditions['Exchange.sender_address LIKE'] = $sender;
+            if ($sender_contains) {
+                $conditions['Exchange.sender_address LIKE'] = $sender;
+            } else {
+                $conditions['Exchange.sender_address'] = $sender;
+            }
         }
         if(!is_null($recipient)) {
-            $conditions['Recipients.recipient_address LIKE'] = $recipient;
+            if ($recipient_contains) {
+                $conditions['Recipients.recipient_address LIKE'] = $recipient;
+            } else {
+                $conditions['Recipients.recipient_address'] = $recipient;
+            }
         }
         if(!is_null($subject)) {
-            $conditions['Exchange.message_subject'] = $subject;
+            if ($subject_contains) {
+            $conditions['Exchange.message_subject LIKE'] = $subject;
+            } else {
+                $conditions['Exchange.message_subject'] = $subject;
+            }
         }
         $conditions['Recipients.recipient_address NOT LIKE'] = '%@ad.byu.edu';
 
