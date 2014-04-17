@@ -403,11 +403,6 @@ form.search input[type="submit"], form.search input[type="submit"]:active  {
 	box-shadow:0 2px 1px #003b65;
 }
 
-/*div.form-button {
-    position: relative;
-    top: -20px;
-}*/
-
 form.search input[type="submit"]:hover {
 	cursor: pointer;
 	background-color: #1B6DA8;
@@ -416,7 +411,7 @@ form.search input[type="submit"]:hover {
 form.search input[type="submit"]:active {
 	background-color: #1E79BA;
 	box-shadow:0 1px 0 #003b65;
-	margin: 2px 1.04167% 15px 0;
+	margin: 0px 1.04167% 0px 0;
 }
 
 /* Table CSS */

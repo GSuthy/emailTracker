@@ -92,8 +92,8 @@ if (!$authorized) {
 					<label>Recipient:</label>
 					<span class="moz-select-wrap">
 						<select name="recipientSearchType">
-							<option <?php if (($show_table && $_POST['recipientSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-							<option <?php if ($show_table && $_POST['recipientSearchType'] === "equals") echo "selected"; ?>>equals</option>
+							<option <?php if ($show_table && $_POST['recipientSearchType'] === "contains") echo "selected"; ?>>contains</option>
+							<option <?php if (($show_table && $_POST['recipientSearchType'] === "equals") || !$show_table) echo "selected"; ?>>equals</option>
 						</select>
 					</span>
 					<input type="text" <?php if ($show_table) echo "value='" . $_POST['recipient'] . "'"; ?> name="recipient">
@@ -103,8 +103,8 @@ if (!$authorized) {
 					<label>Sender:</label>
 					<span class="moz-select-wrap">
 					<select name="senderSearchType">
-						<option <?php if (($show_table && $_POST['senderSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-						<option <?php if ($show_table && $_POST['senderSearchType'] === "equals") echo "selected"; ?>>equals</option>
+						<option <?php if ($show_table && $_POST['senderSearchType'] === "contains") echo "selected"; ?>>contains</option>
+						<option <?php if (($show_table && $_POST['senderSearchType'] === "equals") || !$show_table) echo "selected"; ?>>equals</option>
 					</select>
 					</span>
 					<input type="text" <?php if ($show_table) echo "value='" . $_POST['sender'] . "'"; ?> name="sender">

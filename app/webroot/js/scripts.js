@@ -645,10 +645,10 @@ function displayMoreCanItResults(results, expectedNumResults) {
     var button = $("a.results.loading-more.canit");
     button.removeClass("loading-more");
 
+    $("a.results.canit").off();
     if (results.length == expectedNumResults) {
         button.text('View More Results');
         button.addClass("view-more");
-        $("a.results.view-more.canit").off();
         $("a.results.view-more.canit").on("click", function(){
             buttonClickedCanIt();
         });
@@ -747,10 +747,10 @@ function displayMoreRoutersResults(results, expectedNumResults) {
     var button = $("a.results.loading-more.routers");
     button.removeClass("loading-more");
 
+    $("a.results.routers").off();
     if (results.length == expectedNumResults) {
         button.text('View More Results');
         button.addClass("view-more");
-        $("a.results.view-more.routers").off();
         $("a.results.view-more.routers").on("click", function(){
             buttonClickedRouters();
         });
@@ -857,10 +857,10 @@ function displayMoreExchangeResults(results, expectedNumResults) {
     var button = $("a.results.loading-more.exchange");
     button.removeClass("loading-more");
 
+    $("a.results.exchange").off();
     if (results.length == expectedNumResults) {
         button.text('View More Results');
         button.addClass("view-more");
-        $("a.results.view-more.exchange").off();
         $("a.results.view-more.exchange").on("click", function(){
             buttonClickedExchange();
         });

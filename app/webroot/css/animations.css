@@ -1,5 +1,5 @@
-td.animation:hover {
-    background: #ffffff;
+td.animation, td.animation:hover {
+    background: #EFF6FC;
 }
 
 div.animation {
