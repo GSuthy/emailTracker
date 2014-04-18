@@ -54,23 +54,29 @@ class CanItClient {
         $search_string =  'log/search/'.$offset.'/'.$maxResults.'?start_date='.$start_date.'&end_date='.$end_date;
 
         if (!empty($sender)) {
-            $search_string .= '&sender='.$sender;
+            $search_string .= '&sender='.$sender.'&rel_sender=';
             if ($sender_contains) {
-                $search_string .= '&rel_sender=contains';
+                $search_string .= 'contains';
+            } else {
+                $search_string .= 'is';
             }
         }
 
         if (!empty($recipients)) {
-            $search_string .= '&recipients='.$recipients;
+            $search_string .= '&recipients='.$recipients.'&rel_recipients=';
             if ($recipients_contains) {
-                $search_string .= '&rel_recipients=contains';
+                $search_string .= 'contains';
+            } else {
+                $search_string .= 'is';
             }
         }
 
         if (!empty($subject)) {
-            $search_string .= '&subject='.$subject;
+            $search_string .= '&subject='.$subject.'&rel_subject=';
             if ($subject_contains) {
-                $search_string .= '&rel_subject=contains';
+                $search_string .= 'contains';
+            } else {
+                $search_string .= 'is';
             }
         }
 
