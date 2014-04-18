@@ -155,7 +155,7 @@ if (!$authorized) {
 		</div>
 	</div>
     <div class="row">
-        <div class="column-no-border grid_6 message">Logs may 15 to 30 minutes behind.</div>
+        <div class="column-no-border grid_6 message">Logs may be 15 to 30 minutes behind.</div>
         <div class="column-no-border grid_6 form-button"><input class="form-button" type="submit" name="search" value="Search" /></div>
     </div>
 </form>

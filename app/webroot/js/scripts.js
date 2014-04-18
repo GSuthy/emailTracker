@@ -308,15 +308,12 @@ function buttonClickedExchange() {
 }
 
 function openLog(row) {
-//    var sel = getSelection().toString();
-//    if (!sel) {
-        if($(row).next().hasClass('log')) {
-            $(row).next().remove();
-        } else if (!$(row).hasClass('log-opening')) {
-            $(row).addClass('log-opening');
-            rowExpander($(row));
-        }
-//    }
+    if($(row).next().hasClass('log')) {
+        $(row).next().remove();
+    } else if (!$(row).hasClass('log-opening')) {
+        $(row).addClass('log-opening');
+        rowExpander($(row));
+    }
 }
 
 function rowExpander(clickedRow) {
