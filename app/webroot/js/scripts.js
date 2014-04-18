@@ -308,11 +308,14 @@ function buttonClickedExchange() {
 }
 
 function openLog(row) {
-    if($(row).next().hasClass('log')) {
-        $(row).next().remove();
-    } else if (!$(row).hasClass('log-opening')) {
-        $(row).addClass('log-opening');
-        rowExpander($(row));
+    var selection = window.getSelection();
+    if (selection == 0) {
+        if($(row).next().hasClass('log')) {
+            $(row).next().remove();
+        } else if (!$(row).hasClass('log-opening')) {
+            $(row).addClass('log-opening');
+            rowExpander($(row));
+        }
     }
 }
 
@@ -628,15 +631,9 @@ function displayMoreCanItResults(results, expectedNumResults) {
 
     $("table tr.canit td.open-log").off();
     var clicked = true;
-    $("table tr.canit td.open-log").on("click", function(){
-        if (clicked) {
-            openLog($(this).parent());
-        }
-    }).on("mousedown", function(){
-            clicked = true;
-        }).on("mousemove", function(){
-            clicked = false;
-        });
+    $("table tr.canit td.open-log").on("mouseup", function(){
+        openLog($(this).parent());
+    });
 
     // Set appropriate button
     var button = $("a.results.loading-more.canit");
@@ -729,16 +726,9 @@ function displayMoreRoutersResults(results, expectedNumResults) {
     }
 
     $("table tr.routers").off();
-    var clicked = true;
     $("table tr.routers").on("click", function(){
-        if (clicked) {
-            openLog($(this));
-        }
-    }).on("mousedown", function(){
-            clicked = true;
-        }).on("mousemove", function(){
-            clicked = false;
-        });
+        openLog($(this));
+    });
 
     // Set appropriate button
     var button = $("a.results.loading-more.routers");
@@ -839,16 +829,9 @@ function displayMoreExchangeResults(results, expectedNumResults) {
     }
 
     $("table tr.exchange").off();
-    var clicked = true;
     $("table tr.exchange").on("click", function(){
-        if (clicked) {
-            openLog($(this));
-        }
-    }).on("mousedown", function(){
-            clicked = true;
-        }).on("mousemove", function(){
-            clicked = false;
-        });
+        openLog($(this));
+    });
 
     // Set appropriate button
     var button = $("a.results.loading-more.exchange");
