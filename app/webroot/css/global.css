@@ -185,23 +185,26 @@ form.search input, form.search input:active {
 
 	outline: none;
 	border: 1px solid #c9c9c9;
-	border-left-width: 0;
 	background: #fafafa;
 
 	margin: 0;
 
 	display: inline;
-	width: 52%;
-	border-radius: 0 3px 3px 0;
+	border-radius: 3px 3px 3px 3px;
 }
 
-span.sender input, span.sender input:active {
-	width:58%;
+form.search input.recipient-input {
+    width: 75.5%;
 }
 
-div.subject input, div.subject input:active {
-/*	width: 60%;*/
+form.search input.sender-input {
+    width: 83%;
 }
+
+form.search input.subject-input {
+    width: 81%;
+}
+
 
 div.subject {
 	float: left;

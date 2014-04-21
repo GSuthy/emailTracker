@@ -159,20 +159,16 @@ function getSearchParams(maxResults, offset) {
     var results;
 
     if (table != null) {
-        var row = table.rows[0];
+        var row = table.rows[0];    //TODO: Fix indices
 
         var recipient = row.cells[0].innerHTML;
-        var recipientContains = row.cells[1].innerHTML;
-        var sender = row.cells[2].innerHTML;
-        var senderContains = row.cells[3].innerHTML;
-        var subject = row.cells[4].innerHTML;
-        var subjectContains = row.cells[5].innerHTML;
-        var startDttm = row.cells[6].innerHTML;
-        var endDttm = row.cells[7].innerHTML;
+        var sender = row.cells[1].innerHTML;
+        var subject = row.cells[2].innerHTML;
+        var startDttm = row.cells[3].innerHTML;
+        var endDttm = row.cells[4].innerHTML;
 
-        results = {recipient: recipient, recipient_contains: recipientContains, sender: sender,
-            sender_contains: senderContains, subject: subject, subject_contains: subjectContains,
-            start_date: startDttm, end_date: endDttm, max_results: maxResults, offset: offset};
+        results = {recipient: recipient, sender: sender, subject: subject, start_date: startDttm,
+            end_date: endDttm, max_results: maxResults, offset: offset};
     }
 
     return results;
@@ -631,7 +627,7 @@ function displayMoreCanItResults(results, expectedNumResults) {
 
     $("table tr.canit td.open-log").off();
     var clicked = true;
-    $("table tr.canit td.open-log").on("mouseup", function(){
+    $("table tr.canit td.open-log").on("click", function(){
         openLog($(this).parent());
     });
 
@@ -876,25 +872,17 @@ function printAddressesArray(addresses) {
 }
 
 function findMatchingRecipient(recipients) {
-    var table = document.getElementById("paramsTable");
+    var table = document.getElementById("paramsTable");  //TODO: fix indices
     var row = table.rows[0];
     var recipient = row.cells[0].innerHTML;
-    var recipientContains = row.cells[1].innerHTML;
 
     var selectedRecipient = "";
 
     if (recipients.length == 1) {
         selectedRecipient = recipients[0];
-    } else if (recipientContains) {
-        for (var i = 0; i < recipients.length; i++) {
-            if (recipients[i].indexOf(recipient) != -1) {
-                selectedRecipient = recipients[i] + "...";
-                break;
-            }
-        }
     } else {
         for (var i = 0; i < recipients.length; i++) {
-            if (recipients[i] == recipient) {
+            if (recipients[i].indexOf(recipient) != -1) {
                 selectedRecipient = recipients[i] + "...";
                 break;
             }

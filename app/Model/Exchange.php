@@ -12,22 +12,22 @@ class Exchange extends AppModel {
     public $useTable = 'logmain';
     public $primaryKey = 'id';
 
-    public function getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $limit, $offset) {
+    public function getTable($recipient, $sender, $subject, $startDttm, $endDttm, $limit, $offset) {
         if(empty($sender)) {
             $sender = null;
-        } else if($sender_contains) {
+        } else {
             $sender = "%" . $sender . "%";
         }
 
         if(empty($recipient)) {
             $recipient = null;
-        } else if($recipient_contains) {
+        } else {
             $recipient = "%" . $recipient . "%";
         }
 
         if(empty($subject)) {
             $subject = null;
-        } else if($subject_contains) {
+        } else {
             $subject = "%" . $subject . "%";
         }
 
@@ -68,25 +68,13 @@ class Exchange extends AppModel {
         $conditions['Exchange.date_time >='] = date_format($startDttm, "Y-m-d H:i:s");
         $conditions['Exchange.date_time <='] = date_format($endDttm, "Y-m-d H:i:s");
         if(!is_null($sender)) {
-            if ($sender_contains) {
-                $conditions['Exchange.sender_address LIKE'] = $sender;
-            } else {
-                $conditions['Exchange.sender_address'] = $sender;
-            }
+            $conditions['Exchange.sender_address LIKE'] = $sender;
         }
         if(!is_null($recipient)) {
-            if ($recipient_contains) {
-                $conditions['Recipients.recipient_address LIKE'] = $recipient;
-            } else {
-                $conditions['Recipients.recipient_address'] = $recipient;
-            }
+            $conditions['Recipients.recipient_address LIKE'] = $recipient;
         }
         if(!is_null($subject)) {
-            if ($subject_contains) {
             $conditions['Exchange.message_subject LIKE'] = $subject;
-            } else {
-                $conditions['Exchange.message_subject'] = $subject;
-            }
         }
         $conditions['Recipients.recipient_address NOT LIKE'] = '%@ad.byu.edu';
 

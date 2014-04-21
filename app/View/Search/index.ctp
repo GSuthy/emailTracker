@@ -9,9 +9,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 <html>
 
 <head>
-	<title>
-		Email Tracking and Filtering
-	</title>
+	<title>Email Tracking and Filtering</title>
 
 	<meta name="format-detection" content="telephone=no">
 
@@ -90,24 +88,12 @@ if (!$authorized) {
 
 				<span class="recipient">
 					<label>Recipient:</label>
-					<span class="moz-select-wrap">
-						<select name="recipientSearchType">
-							<option <?php if ($show_table && $_POST['recipientSearchType'] === "contains") echo "selected"; ?>>contains</option>
-							<option <?php if (($show_table && $_POST['recipientSearchType'] === "equals") || !$show_table) echo "selected"; ?>>equals</option>
-						</select>
-					</span>
-					<input type="text" <?php if ($show_table) echo "value='" . $_POST['recipient'] . "'"; ?> name="recipient">
+					<input class="recipient-input" type="text" <?php if ($show_table) echo "value='" . $_POST['recipient'] . "'"; ?> name="recipient">
 				</span>
 
 				<span class="sender">
 					<label>Sender:</label>
-					<span class="moz-select-wrap">
-					<select name="senderSearchType">
-						<option <?php if ($show_table && $_POST['senderSearchType'] === "contains") echo "selected"; ?>>contains</option>
-						<option <?php if (($show_table && $_POST['senderSearchType'] === "equals") || !$show_table) echo "selected"; ?>>equals</option>
-					</select>
-					</span>
-					<input type="text" <?php if ($show_table) echo "value='" . $_POST['sender'] . "'"; ?> name="sender">
+					<input class="sender-input" type="text" <?php if ($show_table) echo "value='" . $_POST['sender'] . "'"; ?> name="sender">
 				</span>
 		</div>
 	</div>
@@ -145,13 +131,7 @@ if (!$authorized) {
 
 		<div class="column grid_6 subject">
 			<label>Subject:</label>
-				<span class="moz-select-wrap">
-					<select name="subjectSearchType">
-						<option <?php if (($show_table && $_POST['subjectSearchType'] === "contains") || !$show_table) echo "selected"; ?>>contains</option>
-						<option <?php if ($show_table && $_POST['subjectSearchType'] === "equals") echo "selected"; ?>>equals</option>
-					</select>
-				</span>
-			<input type="text" <?php if ($show_table) echo "value='" . $_POST['subject'] . "'"; ?> name="subject">
+			<input class="subject-input" type="text" <?php if ($show_table) echo "value='" . $_POST['subject'] . "'"; ?> name="subject">
 		</div>
 	</div>
     <div class="row">
@@ -258,11 +238,8 @@ if ($show_table) {
 	$startDttm = $endDttm = "";
 
 	$recipient = strtolower($_POST['recipient']);
-	$recipientContains = ($_POST['recipientSearchType'] === "contains" ? true : false);
 	$sender = strtolower($_POST['sender']);
-	$senderContains = ($_POST['senderSearchType'] === "contains" ? true : false);
 	$subject = strtolower($_POST['subject']);
-	$subjectContains = ($_POST['subjectSearchType'] === "contains" ? true : false);
 
 	if (empty($_POST['start_date']) || (!empty($_POST['start_date']) && $_POST['start_date'] == "")) {
 		$start_date_error = "Start date required";
@@ -282,11 +259,8 @@ if ($show_table) {
 
 	$paramsTable = "<table id=\"paramsTable\" style=\"display: none\"><tr>".
 		"<td>".$recipient."</td>".
-		"<td>".$recipientContains."</td>".
 		"<td>".$sender."</td>".
-		"<td>".$senderContains."</td>".
 		"<td>".$subject."</td>".
-		"<td>".$subjectContains."</td>".
 		"<td>".$startDttm."</td>".
 		"<td>".$endDttm."</td>".
 		"</tr></table>";

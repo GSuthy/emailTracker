@@ -15,17 +15,14 @@ class ExchangeController extends AppController {
     public function exchangeResults() {
         session_write_close();
         $sender = $this->request->data("sender");
-        $sender_contains = $this->request->data("sender_contains");
         $recipient = $this->request->data("recipient");
-        $recipient_contains = $this->request->data("recipient_contains");
         $subject = $this->request->data("subject");
-        $subject_contains = $this->request->data("subject_contains");
         $start_date = $this->request->data("start_date");
         $end_date = $this->request->data("end_date");
         $max_results = $this->request->data("max_results");
         $offset = $this->request->data("offset");
 
-        $results = $this->Exchange->getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $subject_contains, $start_date, $end_date, $max_results, $offset);
+        $results = $this->Exchange->getTable($recipient, $sender, $subject, $start_date, $end_date, $max_results, $offset);
 
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
     }

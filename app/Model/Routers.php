@@ -7,8 +7,8 @@ class Routers extends AppModel {
     public $useTable = 'emailevents';
 	public $primaryKey = 'id';
 
-    public function getTable($recipient, $recipient_contains, $sender, $sender_contains, $subject, $startDttm, $endDttm, $maxResults, $offset) {
-        $this->formatInput($recipient, $recipient_contains, $sender, $sender_contains, $subject, $startDttm, $endDttm);
+    public function getTable($recipient, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
+        $this->formatInput($recipient, $sender, $subject, $startDttm, $endDttm);
 
         $options = array();
         $options['joins'] = array(
@@ -28,32 +28,18 @@ class Routers extends AppModel {
         $and_array = array();
 
         if (!is_null($sender)) {
-            if ($sender_contains) {
-                $sender_or = array('OR' => array(
-                    array('Routers.sender_receiver LIKE' => $sender),
-                    array('Routers.sender_receiver LIKE' => '<'.$sender.'>')
-                ));
-            } else {
-                $sender_or = array('OR' => array(
-                    array('Routers.sender_receiver =' => $sender),
-                    array('Routers.sender_receiver =' => '<'.$sender.'>')
-                ));
-            }
+            $sender_or = array('OR' => array(
+                array('Routers.sender_receiver LIKE' => $sender),
+                array('Routers.sender_receiver LIKE' => '<'.$sender.'>')
+            ));
             array_push($and_array, $sender_or);
         }
 
         if (!is_null($recipient)) {
-            if ($recipient_contains) {
-                $recipient_or = array('OR' => array(
-                    array('Table2.sender_receiver LIKE' => $recipient),
-                    array('Table2.sender_receiver LIKE' => '<'.$recipient.'>')
-                ));
-            } else {
-                $recipient_or = array('OR' => array(
-                    array('Table2.sender_receiver =' => $recipient),
-                    array('Table2.sender_receiver =' => '<'.$recipient.'>')
-                ));
-            }
+            $recipient_or = array('OR' => array(
+                array('Table2.sender_receiver LIKE' => $recipient),
+                array('Table2.sender_receiver LIKE' => '<'.$recipient.'>')
+            ));
             array_push($and_array, $recipient_or);
         }
 
@@ -114,16 +100,16 @@ class Routers extends AppModel {
         return $results;
     }
 
-    private function formatInput(&$recipient, $recipient_contains, &$sender, $sender_contains, &$subject, &$startDttm, &$endDttm) {
+    private function formatInput(&$recipient, &$sender, &$subject, &$startDttm, &$endDttm) {
         if (empty($sender)) {
             $sender = null;
-        } else if($sender_contains) {
+        } else {
             $sender = "%" . $sender . "%";
         }
 
         if (empty($recipient)) {
             $recipient = null;
-        } else if ($recipient_contains) {
+        } else {
             $recipient = "%" . $recipient . "%";
         }
 

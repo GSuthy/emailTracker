@@ -33,7 +33,7 @@ class CanItClient {
         }
     }
 
-    public static function getCanitResults ($recipients, $recipients_contains, $sender, $sender_contains, $subject, $subject_contains, $startDttm, $endDttm, $maxResults, $offset) {
+    public static function getCanitResults ($recipients, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
@@ -54,30 +54,15 @@ class CanItClient {
         $search_string =  'log/search/'.$offset.'/'.$maxResults.'?start_date='.$start_date.'&end_date='.$end_date;
 
         if (!empty($sender)) {
-            $search_string .= '&sender='.$sender.'&rel_sender=';
-            if ($sender_contains) {
-                $search_string .= 'contains';
-            } else {
-                $search_string .= 'is';
-            }
+            $search_string .= '&sender='.$sender.'&rel_sender=contains';
         }
 
         if (!empty($recipients)) {
-            $search_string .= '&recipients='.$recipients.'&rel_recipients=';
-            if ($recipients_contains) {
-                $search_string .= 'contains';
-            } else {
-                $search_string .= 'is';
-            }
+            $search_string .= '&recipients='.$recipients.'&rel_recipients=contains';
         }
 
         if (!empty($subject)) {
-            $search_string .= '&subject='.$subject.'&rel_subject=';
-            if ($subject_contains) {
-                $search_string .= 'contains';
-            } else {
-                $search_string .= 'is';
-            }
+            $search_string .= '&subject='.$subject.'&rel_subject=contains';
         }
 
         $results = $api->do_get($search_string);
