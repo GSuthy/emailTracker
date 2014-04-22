@@ -130,13 +130,15 @@ class Routers extends AppModel {
         $results = array();
         foreach ($temp_results as $temp_result) {
             $datetime = date_create_from_format('Y-m-d H:i:s', $temp_result['Routers']['received_at']);
+            $status = $temp_result['Table2']['stat'];
+            $status = explode(" ", $status)[0];
 
             $result = array();
             $result['Date'] = $datetime->format('m/d/Y');
             $result['Time'] = $datetime->format('H:i');
             $result['Sender'] = preg_replace("/<|>/", "", $temp_result['Routers']['sender_receiver']);
             $result['Recipients'] = explode(",", preg_replace("/<|>/", "", $temp_result['Table2']['sender_receiver']));
-            $result['Status'] = $temp_result['Table2']['stat'];
+            $result['Status'] = $status;
             $result['Message_ID'] = $temp_result['Routers']['message_id'];
             $result['Next_ID'] = $temp_result['Table2']['next_id'];
 
