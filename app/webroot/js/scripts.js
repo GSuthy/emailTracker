@@ -541,6 +541,15 @@ function rowExpanderExchange(clickedRow) {
         });
 }
 
+/*
+ * When the RoutersController returns an array of data, it is not formatted in a way that is conducive to displaying
+ * in the tables, because it may contain nested arrays with various levels of nesting.  In order to facilitate the
+ * reading and displaying of this data, this method recursively traverses the nested arrays and returns an array
+ * with only two levels of nesting: the first level is the container array, and the second level separates each row
+ * in the table into arrays of related information.
+ *
+ * This method is specific to Routers data.
+ */
 function flattenNestedLogArrays(array) {
     var returnArray = Array();
     for (var i = 0; i < array.length; i++) {
@@ -567,6 +576,9 @@ function flattenNestedLogArrays(array) {
     return returnArray;
 }
 
+/*
+ *
+ */
 function indentWrappedLogLines(array) {
     var logs = "";
     var logLines = new Array();
