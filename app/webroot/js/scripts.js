@@ -1,7 +1,21 @@
 var TOOLTIP_DELAY = 350;
 
+/**
+ * The number of rows to return when the user clicks the 'Search' button.
+ * @type {number}
+ */
 var NUM_INIT_RESULTS = 30;
+
+/**
+ * The number of rows to return when the user clicks any of the three 'View More Results' buttons.
+ * @type {number}
+ */
 var NUM_MORE_RESULTS = 20;
+
+/**
+ * Strings used as constants throughout the file.
+ * @type {string}
+ */
 
 var CANIT_CLASS = "canit";
 var ROUTERS_CLASS = "routers";
@@ -13,10 +27,17 @@ var SUBJECT_COL = "subject";
 
 var TOOLTIP = "tooltip";
 
+/**
+ * Array containing the number of rows in the CanIt, Routers, and Exchange results table.
+ */
 var numResults;
 
+/**
+ * Called on page load.
+ */
 $(document).ready(function(realm, stream) {
 
+    // Initialize the numResults array
     numResults = {'canit': 0, 'routers': 0, 'exchange': 0};
 
     $('#tabs').tabs();
@@ -62,6 +83,11 @@ $(document).ready(function(realm, stream) {
         arrowChecker($(this));
     });
 
+    /*
+     * If the CanIt box is selected, call CanitController's canitResults method via AJAX and return an
+     * array to be displayed. Because this box is automatically selected on page load, searchParamsSet
+     * is called in order to prevent the page from making an API call on empty fields.
+     */
     if($('[name="canitSelect"]').is(':checked') && searchParamsSet()) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[CANIT_CLASS]);
 
@@ -95,6 +121,10 @@ $(document).ready(function(realm, stream) {
             });
     }
 
+    /*
+     * If the Routers box is selected, call RoutersController's routersResults method via AJAX and return an
+     * array to be displayed. This box is automatically deselected on page load.
+     */
     if($('[name="routerSelect"]').is(':checked')) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[ROUTERS_CLASS]);
 
@@ -124,6 +154,10 @@ $(document).ready(function(realm, stream) {
             });
     }
 
+    /*
+     * If the Routers box is selected, call RoutersController's routersResults method via AJAX and return an
+     * array to be displayed. This box is automatically deselected on page load.
+     */
     if($('[name="exchangeSelect"]').is(':checked')) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[EXCHANGE_CLASS]);
 
@@ -154,6 +188,10 @@ $(document).ready(function(realm, stream) {
     }
 });
 
+/*
+ * Checks to see if a search has been made. When the 'Search' button is clicked, the search parameters are stored
+ * in a hidden table on the page.  If this table exists, return true; if the table does not exist, return false.
+ */
 function searchParamsSet() {
     if (document.getElementById("paramsTable") != null) {
         return true;
@@ -162,12 +200,17 @@ function searchParamsSet() {
     }
 }
 
+/*
+ * Retrieves search parameters from a hidden table on the page.  When the 'Search' button is clicked, the search
+ * parameters are stored in a hidden table on the page.  These search parameters are returned in the form of an
+ * array to the function from which they were called and passed directly into the 'data' field of an AJAX call.
+ */
 function getSearchParams(maxResults, offset) {
     var table = document.getElementById("paramsTable");
     var results;
 
     if (table != null) {
-        var row = table.rows[0];    //TODO: Fix indices
+        var row = table.rows[0];
 
         var recipient = row.cells[0].innerHTML;
         var sender = row.cells[1].innerHTML;
@@ -182,6 +225,9 @@ function getSearchParams(maxResults, offset) {
     return results;
 }
 
+/*
+ * 
+ */
 function arrowChecker(currentBox) {
     var prevArrow = $(currentBox).prev('.server-arrow');
     var nextArrow = $(currentBox).next('.server-arrow');
@@ -880,7 +926,7 @@ function printAddressesArray(addresses) {
 }
 
 function findMatchingRecipient(recipients) {
-    var table = document.getElementById("paramsTable");  //TODO: fix indices
+    var table = document.getElementById("paramsTable");
     var row = table.rows[0];
     var recipient = row.cells[0].innerHTML;
 
