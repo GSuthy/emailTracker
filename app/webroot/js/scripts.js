@@ -226,7 +226,7 @@ function getSearchParams(maxResults, offset) {
 }
 
 /*
- * 
+ * Turn the arrow blue if the boxes on both sides are selected.  Otherwise, turn it gray.
  */
 function arrowChecker(currentBox) {
     var prevArrow = $(currentBox).prev('.server-arrow');
@@ -251,10 +251,17 @@ function arrowChecker(currentBox) {
     }
 };
 
+/*
+ * Select or deselect a checkbox if its corresponding box is clicked.
+ */
 function checkboxHandler(name, onOrOff) {
     $(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
+/*
+ * If the 'View More Results' button is clicked at the bottom of the CanIt table, perform the search again and
+ * return additional results, appending them to the end of the CanIt Results table.
+ */
 function buttonClickedCanIt() {
     var params = getSearchParams(NUM_MORE_RESULTS, numResults[CANIT_CLASS]);
 
@@ -289,6 +296,10 @@ function buttonClickedCanIt() {
         });
 }
 
+/*
+ * If the 'View More Results' button is clicked at the bottom of the Routers table, perform the search again and
+ * return additional results, appending them to the end of the Routers Results table.
+ */
 function buttonClickedRouters() {
     var params = getSearchParams(NUM_MORE_RESULTS, numResults[ROUTERS_CLASS]);
 
@@ -323,6 +334,10 @@ function buttonClickedRouters() {
         });
 }
 
+/*
+ * If the 'View More Results' button is clicked at the bottom of the Exchange table, perform the search again and
+ * return additional results, appending them to the end of the Exchange Results table.
+ */
 function buttonClickedExchange() {
     var params = getSearchParams(NUM_MORE_RESULTS, numResults[EXCHANGE_CLASS]);
 
@@ -357,6 +372,11 @@ function buttonClickedExchange() {
         });
 }
 
+/*
+ * When a row from a table is clicked, open an additional-information log underneath the clicked row.
+ * If any text is selected, the additional information will not be displayed in order to prevent the rows
+ * from responding to drag events in which a user drags the mouse to select text.
+ */
 function openLog(row) {
     var selection = window.getSelection();
     if (selection == 0) {
@@ -369,6 +389,9 @@ function openLog(row) {
     }
 }
 
+/*
+ * 
+ */
 function rowExpander(clickedRow) {
     if (clickedRow.hasClass(CANIT_CLASS)) {
         rowExpanderCanIt(clickedRow);
