@@ -6,11 +6,30 @@
  * Time: 5:48 PM
  */
 
+/**
+ * Class Exchange
+ * This model class is used to interface with the exchange table referenced in the database.php file.
+ * Class methods are called from ExchangeController.php
+ */
+
 class Exchange extends AppModel {
     public $name = 'Exchange';
     public $useDbConfig = 'exchange';
     public $useTable = 'logmain';
     public $primaryKey = 'id';
+
+    /**
+     * This method is used to make a general database query for Microsoft Exchange logging tables.
+     *
+     * @param $recipient    The recipient being searched on.  This is a 'contains' search.
+     * @param $sender       The sender being searched on.  This is a 'contains' search.
+     * @param $subject      The subject being searched on.  This is a 'contains' search.
+     * @param $startDttm    The start datetime for the search.
+     * @param $endDttm      The end datetime for the search.
+     * @param $limit        The number of results to return.
+     * @param $offset       Starts the results from the 'offset' index.
+     * @return array        Returns an array of query results.
+     */
 
     public function getTable($recipient, $sender, $subject, $startDttm, $endDttm, $limit, $offset) {
         if(empty($sender)) {
@@ -93,6 +112,16 @@ class Exchange extends AppModel {
         return $results;
     }
 
+    /**
+     * This method returns additional information corresponding to a particular log
+     *
+     * @param $message_id               The ID by which the log will be fetched.
+     * @param $limit                    The limit.
+     * @param null $sender              The name of the sender address.
+     * @param null $subject             The subject line of the email.
+     * @param int $utcMilliseconds      The time of the log in milliseconds.
+     * @return array                    Returns an array of additional information corresponding to the selected log.
+     */
     public function getLogs($message_id, $limit, $sender = NULL, $subject = NULL, $utcMilliseconds = 0) {
         if(is_null($limit) || !is_numeric($limit)) {
             $limit = 20;
@@ -160,6 +189,10 @@ class Exchange extends AppModel {
         return $results;
     }
 
+    /**
+     * @param $temp_results     The array resulting from the query produced in getTable.
+     * @return array            Returns the same information, but the array is formatted in a way that is simpler to manage in the JavaScript portion of the code.
+     */
     private function formatTableOutput($temp_results) {
         $results = array();
         foreach ($temp_results as $temp_result) {
@@ -178,6 +211,11 @@ class Exchange extends AppModel {
         return $results;
     }
 
+
+    /**
+     * @param $temp_results     The array resulting from the query produced in getLogs.
+     * @return array            Returns the same information, but the array is formatted in a way that is simpler to manage in the Javascript portion of the code.
+     */
     private function formatLogOutput($temp_results) {
         $results = array();
         foreach ($temp_results as $temp_result) {

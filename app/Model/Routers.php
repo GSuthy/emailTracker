@@ -1,12 +1,30 @@
 <?php
 App::uses('AppModel', 'Model');
 
+/**
+ * Class Routers
+ * This model class is used to interface with the routers table referenced in the database.php file.
+ * Class methods are called from RoutersController.php
+ */
+
 class Routers extends AppModel {
     public $name = 'Routers';
     public $useDbConfig = 'routers';
     public $useTable = 'emailevents';
 	public $primaryKey = 'id';
 
+    /**
+     * This method is used to make a general database query for mail-routing logging tables.
+     *
+     * @param $recipient    The recipient being searched on.  This is a 'contains' search.
+     * @param $sender       The sender being searched on.  This is a 'contains' search.
+     * @param $subject      The subject being searched on.  This is a 'contains' search.  This field is unused.
+     * @param $startDttm    The start datetime for the search.
+     * @param $endDttm      The end datetime for the search.
+     * @param $maxResults   The number of results to return.
+     * @param $offset       Starts the results from the 'offset' index.
+     * @return array        Returns an array of query results.
+     */
     public function getTable($recipient, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
         $this->formatInput($recipient, $sender, $subject, $startDttm, $endDttm);
 
@@ -69,6 +87,12 @@ class Routers extends AppModel {
         return $results;
     }
 
+    /**
+     * Returns the previous log line in the link by searching for lines whose 'next_id' field is equal to the given message_id.
+     *
+     * @param $message_id   String containing the message ID for the previous additional-information log.
+     * @return array        Array including the log lines preceding the log line with the corresponding ID.
+     */
     public function getPreviousLink($message_id) {
         $conditions = array();
         $conditions['next_id'] = $message_id;
@@ -82,6 +106,12 @@ class Routers extends AppModel {
         return $results;
     }
 
+    /**
+     * Returns the current log line in the link by searching for lines whose 'message_id' field is equal to the given message_id.
+     *
+     * @param $message_id   String containing the message ID for the specified additional-information log.
+     * @return array        Array including the logs lines corresponding to the ID.
+     */
     public function getCurrentLog($message_id) {
         $conditions = array();
         $conditions['message_id'] = $message_id;
@@ -91,6 +121,12 @@ class Routers extends AppModel {
         return $results;
     }
 
+    /**
+     * Returns the next log line in the link by searching for lines whose 'message_id' field is equal to the given next_id.
+     *
+     * @param $next_id      String containing the message ID for the next additional-information log.
+     * @return array        Array including the log lines succeeding the log line with the corresponding next ID.
+     */
     public function getNextLink($next_id) {
         $conditions = array();
         $conditions['message_id'] = $next_id;
@@ -100,6 +136,15 @@ class Routers extends AppModel {
         return $results;
     }
 
+    /**
+     * Formats the fields for use in the MySQL query.
+     *
+     * @param $recipient    String containing the recipient address being searched on.
+     * @param $sender       String containing the sender address being searched on.
+     * @param $subject      String containing the subject being searched on.
+     * @param $startDttm    String containing the start datetime for the query.
+     * @param $endDttm      String containing the end datetime for the query.
+     */
     private function formatInput(&$recipient, &$sender, &$subject, &$startDttm, &$endDttm) {
         if (empty($sender)) {
             $sender = null;
@@ -126,6 +171,10 @@ class Routers extends AppModel {
         $endDttm->add(new DateInterval('P1D'));
     }
 
+    /**
+     * @param $temp_results     Array resulting from the query produced in getTable.
+     * @return array            Returns the same information, but the array is formatted in a way that is simpler to manage in the JavaScript portion of the code.
+     */
     private function formatOutput($temp_results) {
         $results = array();
         foreach ($temp_results as $temp_result) {

@@ -5,15 +5,19 @@
 
 	date_default_timezone_set('America/Denver');
 
+/**
+ * Class CanItClient
+ * This class is used to interface with CanIt's API for obtaining information from the CanIt servers.
+ * Class methods are called from CanitController.php
+ */
+
 class CanItClient {
 
-
-    private static function canitError($errorMessage){
-        unset($errorReturn);
-        $errorReturn["error"] = $errorMessage;
-        return $errorReturn;
-    }
-
+    /**
+     * This method is used to set the thresholds that determin the color of the CanIt Score <span> in the CanIt Results table.
+     *
+     * @return array|null   returns an array containing the upper and lower bounds of the warning levels for CanIt scores.
+     */
     public static function getThresholds() {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
@@ -33,6 +37,18 @@ class CanItClient {
         }
     }
 
+    /**
+     *
+     *
+     * @param $recipients
+     * @param $sender
+     * @param $subject
+     * @param $startDttm
+     * @param $endDttm
+     * @param $maxResults
+     * @param $offset
+     * @return NULL
+     */
     public static function getCanitResults ($recipients, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
