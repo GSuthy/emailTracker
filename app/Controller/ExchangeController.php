@@ -8,10 +8,20 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Class ExchangeController
+ * Receives AJAX calls and returns table information.
+ */
+
 class ExchangeController extends AppController {
 
     public $uses = 'Exchange';
 
+    /**
+     * Receives data from an AJAX request and calls the Exchange model class to get information to display in the Exchange Results table.
+     *
+     * @return CakeResponse     Contains an array of data to be displayed in the Exchange Results table.
+     */
     public function exchangeResults() {
         session_write_close();
         $sender = $this->request->data("sender");
@@ -27,6 +37,11 @@ class ExchangeController extends AppController {
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
     }
 
+    /**
+     * Receives data from an AJAX request and calls the Exchange model class to get information to display when a row in the Exchange Results table is clicked.
+     *
+     * @return CakeResponse     Contains an array of data to be displayed below the clicked row in the Exchange Results table.
+     */
     public function exchangeLogs() {
         session_write_close();
         $maxResults = $_REQUEST['max_results'];

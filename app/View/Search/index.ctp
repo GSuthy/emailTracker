@@ -13,11 +13,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	<meta name="format-detection" content="telephone=no">
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!--	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 
 	<?php
 	echo $this->Html->css(array(
-//        'tooltips',
         'cupertino/jquery-ui-1.10.4.custom.min',
         'global',
 		'mobile',
@@ -26,6 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 	));
 
 	echo $this->Html->script(array(
+        '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js',
         'jquery-ui-1.10.4.custom.min',
 		'scripts'
 	));

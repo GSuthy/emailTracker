@@ -21,13 +21,13 @@ class Exchange extends AppModel {
     /**
      * This method is used to make a general database query for Microsoft Exchange logging tables.
      *
-     * @param $recipient    The recipient being searched on.  This is a 'contains' search.
-     * @param $sender       The sender being searched on.  This is a 'contains' search.
-     * @param $subject      The subject being searched on.  This is a 'contains' search.
-     * @param $startDttm    The start datetime for the search.
-     * @param $endDttm      The end datetime for the search.
-     * @param $limit        The number of results to return.
-     * @param $offset       Starts the results from the 'offset' index.
+     * @param $recipient    String containing the recipient being searched on.  This is a 'contains' search.
+     * @param $sender       String containing the sender being searched on.  This is a 'contains' search.
+     * @param $subject      String containing the subject being searched on.  This is a 'contains' search.
+     * @param $startDttm    String containing the start datetime for the search.
+     * @param $endDttm      String containing the end datetime for the search.
+     * @param $limit        Integer denoting the number of results to return.
+     * @param $offset       Integer denoting offset index for the search results.
      * @return array        Returns an array of query results.
      */
 
@@ -115,8 +115,8 @@ class Exchange extends AppModel {
     /**
      * This method returns additional information corresponding to a particular log
      *
-     * @param $message_id               The ID by which the log will be fetched.
-     * @param $limit                    The limit.
+     * @param $message_id               Integer denoting the ID by which the log will be fetched.
+     * @param $limit                    Integer denoting the limit.
      * @param null $sender              The name of the sender address.
      * @param null $subject             The subject line of the email.
      * @param int $utcMilliseconds      The time of the log in milliseconds.
@@ -190,7 +190,7 @@ class Exchange extends AppModel {
     }
 
     /**
-     * @param $temp_results     The array resulting from the query produced in getTable.
+     * @param $temp_results     Array resulting from the query produced in getTable.
      * @return array            Returns the same information, but the array is formatted in a way that is simpler to manage in the JavaScript portion of the code.
      */
     private function formatTableOutput($temp_results) {
@@ -213,7 +213,7 @@ class Exchange extends AppModel {
 
 
     /**
-     * @param $temp_results     The array resulting from the query produced in getLogs.
+     * @param $temp_results     Array resulting from the query produced in getLogs.
      * @return array            Returns the same information, but the array is formatted in a way that is simpler to manage in the Javascript portion of the code.
      */
     private function formatLogOutput($temp_results) {

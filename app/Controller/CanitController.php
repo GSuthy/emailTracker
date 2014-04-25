@@ -8,8 +8,18 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Class CanitController
+ * Receives AJAX calls and returns table information.
+ */
+
 class CanitController extends AppController {
 
+    /**
+     * Receives data from an AJAX request and calls the CanItClient class to get information to display in the CanIt Results table.
+     *
+     * @return CakeResponse     Contains an array of data to be displayed in the CanIt Results table.
+     */
     public function canitResults() {
         session_write_close();
         App::import('Vendor', 'CanItAPI/CanItClient');
@@ -29,6 +39,11 @@ class CanitController extends AppController {
         return new CakeResponse(array('body' => json_encode($results), 'type' => 'json'));
     }
 
+    /**
+     * Receives data from an AJAX request and calls the CanItClient class to get information to display when a row in the CanIt Results table is clicked.
+     *
+     * @return CakeResponse     Contains an array of data to be displayed below the clicked row in the CanIt Results table.
+     */
     public function canitLogs() {
         session_write_close();
         App::import('Vendor', 'CanItAPI/CanItClient');

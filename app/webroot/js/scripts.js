@@ -62,7 +62,7 @@ $(document).ready(function(realm, stream) {
         arrowChecker($(this));
     });
 
-    if($('[name="canitSelect"]').is(':checked')) {
+    if($('[name="canitSelect"]').is(':checked') && searchParamsSet()) {
         var params = getSearchParams(NUM_INIT_RESULTS, numResults[CANIT_CLASS]);
 
         var spinnerDiv =
@@ -153,6 +153,14 @@ $(document).ready(function(realm, stream) {
             });
     }
 });
+
+function searchParamsSet() {
+    if (document.getElementById("paramsTable") != null) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function getSearchParams(maxResults, offset) {
     var table = document.getElementById("paramsTable");
@@ -932,18 +940,3 @@ function getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_re
     }
     return scoreClass;
 }
-
-
-/*function checkOverflow(span)
- {
- var curOverflow = span.style.overflow;
- if ( !curOverflow || curOverflow === "visible" ) {
- span.style.overflow = "hidden";
- }
-
- var isOverflowing = (span.clientWidth < span.scrollWidth);
-
- span.style.overflow = curOverflow;
-
- return isOverflowing;
- }*/

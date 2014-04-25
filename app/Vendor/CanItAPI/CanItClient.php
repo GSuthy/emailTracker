@@ -38,16 +38,16 @@ class CanItClient {
     }
 
     /**
+     * This method is used to make an API call to get log lines from CanIt's server.
      *
-     *
-     * @param $recipients
-     * @param $sender
-     * @param $subject
-     * @param $startDttm
-     * @param $endDttm
-     * @param $maxResults
-     * @param $offset
-     * @return NULL
+     * @param $recipients   String containing the recipient being searched on.  This is a 'contains' search.
+     * @param $sender       String containing the sender being searched on.  This is a 'contains' search.
+     * @param $subject      String containing the subject being searched on.  This is a 'contains' search.  This field is unused.
+     * @param $startDttm    String containing the start datetime for the search.
+     * @param $endDttm      String containing the end datetime for the search.
+     * @param $maxResults   Integer denoting the number of results to return.
+     * @param $offset       Integer denoting offset index for the search results.
+     * @return NULL         Returns an array of API call results.
      */
     public static function getCanitResults ($recipients, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
@@ -91,6 +91,11 @@ class CanItClient {
         }
     }
 
+    /**
+     * @param $queue_id         String containing the queue ID corresponding to the additional logs being pulled.
+     * @param $reporting_host   String containing the reporting host, used to get the logs corresponding to the selected row in the table.
+     * @return null             Returns an array containing a additional log information corresponding to the selected table row.
+     */
     public static function getLogs($queue_id, $reporting_host) {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);

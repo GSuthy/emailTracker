@@ -16,13 +16,13 @@ class Routers extends AppModel {
     /**
      * This method is used to make a general database query for mail-routing logging tables.
      *
-     * @param $recipient    The recipient being searched on.  This is a 'contains' search.
-     * @param $sender       The sender being searched on.  This is a 'contains' search.
-     * @param $subject      The subject being searched on.  This is a 'contains' search.  This field is unused.
-     * @param $startDttm    The start datetime for the search.
-     * @param $endDttm      The end datetime for the search.
-     * @param $maxResults   The number of results to return.
-     * @param $offset       Starts the results from the 'offset' index.
+     * @param $recipient    String containing the recipient being searched on.  This is a 'contains' search.
+     * @param $sender       String containing the sender being searched on.  This is a 'contains' search.
+     * @param $subject      String containing the subject being searched on.  This is a 'contains' search.  This field is unused.
+     * @param $startDttm    String containing the start datetime for the search.
+     * @param $endDttm      String containing the end datetime for the search.
+     * @param $maxResults   Integer denoting the number of results to return.
+     * @param $offset       Integer denoting offset index for the search results.
      * @return array        Returns an array of query results.
      */
     public function getTable($recipient, $sender, $subject, $startDttm, $endDttm, $maxResults, $offset) {
