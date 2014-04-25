@@ -375,7 +375,8 @@ function buttonClickedExchange() {
 /*
  * When a row from a table is clicked, open an additional-information log underneath the clicked row.
  * If any text is selected, the additional information will not be displayed in order to prevent the rows
- * from responding to drag events in which a user drags the mouse to select text.
+ * from responding to drag events in which a user drags the mouse to select text.  If the log line is closed,
+ * call rowExpander.  If the log line is open, remove the div containing additional information to "close" it.
  */
 function openLog(row) {
     var selection = window.getSelection();
@@ -390,7 +391,8 @@ function openLog(row) {
 }
 
 /*
- * 
+ * Determines which table the clicked row was from and calls a handler method for the particular class'
+ * additional-information log lines.
  */
 function rowExpander(clickedRow) {
     if (clickedRow.hasClass(CANIT_CLASS)) {
@@ -402,6 +404,11 @@ function rowExpander(clickedRow) {
     }
 }
 
+/*
+ * Gets additional log information for the clicked row by passing the queueId and reportingHost from hidden
+ * columns in the row into CanitController's getLogs method via AJAX.  Inserts the additional log info into a
+ * div directly below the clicked row, effectively "opening" the logs.
+ */
 function rowExpanderCanIt(clickedRow) {
     var queueId = clickedRow[0]['cells'][8].innerHTML;
     var reportingHost = clickedRow[0]['cells'][9].innerHTML;
@@ -425,6 +432,11 @@ function rowExpanderCanIt(clickedRow) {
         });
 }
 
+/*
+ * Gets additional log information for the clicked row by passing the message_id and next_id from hidden
+ * columns in the row into RoutersController's getLogs method via AJAX.  Inserts the additional log info into a
+ * div directly below the clicked row, effectively "opening" the logs.
+ */
 function rowExpanderRouters(clickedRow) {
     var message_id = clickedRow[0]['cells'][5].innerHTML;
     var next_id = clickedRow[0]['cells'][6].innerHTML;
@@ -460,6 +472,11 @@ function rowExpanderRouters(clickedRow) {
         });
 }
 
+/*
+ * Gets additional log information for the clicked row by passing the messageId, maxResults, utcMilliseconds,
+ * sender, and subject from hidden and unhidden columns in the row into ExchangeController's getLogs method via AJAX.
+ * Inserts the additional log info into a div directly below the clicked row, effectively "opening" the logs.
+ */
 function rowExpanderExchange(clickedRow) {
     var messageId = clickedRow[0]['cells'][5].innerHTML;
     var maxResults = 1000;
