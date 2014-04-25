@@ -577,23 +577,26 @@ function flattenNestedLogArrays(array) {
 }
 
 /*
- *
+ * This function splits log lines an array of lines that fit within a designated length, splitting lines on
+ * white space, semi-colons, and commas.  Indentation is added to all lines except for the first.
  */
 function indentWrappedLogLines(array) {
+
+    // Split the logs into segments to be arranged into lines of acceptable lengths
     var logs = "";
     var logLines = new Array();
     for (var i = 0; i < array.length; i++) {
         var lines = new Array();
         var lineLength = 100;
 
-        var logDelimited = array[i].split(/[\s;,]/g);
+        var logLineSegments = array[i].split(/[\s;,]/g);
         var line = "";
-        for (var j = 0; j < logDelimited.length; j++) {
-            var tempLine = line + " " + logDelimited[j];
+        for (var j = 0; j < logLineSegments.length; j++) {
+            var tempLine = line + " " + logLineSegments[j];
             if (tempLine.length > lineLength) {
                 lines.push(line);
-                line = logDelimited[j];
-            } else if (tempLine.length <= lineLength && j < logDelimited.length - 1) {
+                line = logLineSegments[j];
+            } else if (tempLine.length <= lineLength && j < logLineSegments.length - 1) {
                 line = tempLine;
             } else {
                 lines.push(tempLine);
@@ -602,6 +605,7 @@ function indentWrappedLogLines(array) {
         logLines.push(lines);
     }
 
+    // Indent all but the first line
     for (var i = 0; i < logLines.length; i++) {
         for (var j = 0; j < logLines[i].length; j++) {
             if (j > 0) {
