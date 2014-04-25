@@ -572,7 +572,7 @@ function displayMoreCanItResults(results, expectedNumResults) {
         var recipientClass = "canit-recipients tooltip" + rowNumber;
         var subjectClass = "canit-subject tooltip" + rowNumber;
         var scoreClass = getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_reject_spam_score);
-        var incidentIdClass = (r['incident_id'] ? "class='has-incident' " : "");
+        var incidentIdClass = (r['incident_id'] ? "has-incident " : "");
 
         var inputRow =
             "<tr class='" + even_odd_class + " canit'>" +
@@ -595,7 +595,7 @@ function displayMoreCanItResults(results, expectedNumResults) {
                 "<td class='hidden'>"+queueId+"</td>" +
                 "<td class='hidden'>"+reportingHost+"</td>" +
                 "<td class='hidden'>"+realm+"</td>" +
-                "<td class='"+incidentIdClass+"hidden>"+incidentId+"</td>" +
+                "<td class='"+incidentIdClass+"hidden'>"+incidentId+"</td>" +
             "</tr>";
 
         $("table.canit tr").last().after(inputRow);
@@ -922,13 +922,13 @@ function formatSpamScore(number) {
 function getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_reject_spam_score) {
     var scoreClass = (incidentId ? "has-incident" : "");
     if (!score) {
-        scoreClass += "spam-score-empty";
+        scoreClass += " spam-score-empty";
     } else if (score < warning_level_spam_score) {
-        scoreClass += "spam-score-good";
+        scoreClass += " spam-score-good";
     } else if (score < auto_reject_spam_score) {
-        scoreClass += "spam-score-quarantined";
+        scoreClass += " spam-score-quarantined";
     } else {
-        scoreClass += "spam-score-rejected";
+        scoreClass += " spam-score-rejected";
     }
     return scoreClass;
 }
