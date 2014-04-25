@@ -113,7 +113,7 @@ $(document).ready(function(realm, stream) {
             .done(function(data)
             {
                 if (Object.prototype.toString.call(data) === '[object Array]') {
-                    displayMoreCanItResults(data, params["max_results"]);
+                    displayCanItResults(data, params["max_results"]);
                     numResults[CANIT_CLASS] += data.length;
                 } else {
                     alert("Error");
@@ -149,7 +149,7 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                displayMoreRoutersResults(data, params["max_results"]);
+                displayRoutersResults(data, params["max_results"]);
                 numResults[ROUTERS_CLASS] += data.length;
             });
     }
@@ -182,7 +182,7 @@ $(document).ready(function(realm, stream) {
         })
             .done(function(data)
             {
-                displayMoreExchangeResults(data, params["max_results"]);
+                displayExchangeResults(data, params["max_results"]);
                 numResults[EXCHANGE_CLASS] += data.length;
             });
     }
@@ -191,6 +191,8 @@ $(document).ready(function(realm, stream) {
 /*
  * Checks to see if a search has been made. When the 'Search' button is clicked, the search parameters are stored
  * in a hidden table on the page.  If this table exists, return true; if the table does not exist, return false.
+ *
+ * @returns {boolean}   Boolean denoting whether there are stored search parameters.
  */
 function searchParamsSet() {
     if (document.getElementById("paramsTable") != null) {
@@ -204,6 +206,10 @@ function searchParamsSet() {
  * Retrieves search parameters from a hidden table on the page.  When the 'Search' button is clicked, the search
  * parameters are stored in a hidden table on the page.  These search parameters are returned in the form of an
  * array to the function from which they were called and passed directly into the 'data' field of an AJAX call.
+ *
+ * @param maxResults    Max number of results to return from the AJAX call.
+ * @param offset        Offset to be used to implement pagination of results.
+ * @returns {*}         Array of search parameters.
  */
 function getSearchParams(maxResults, offset) {
     var table = document.getElementById("paramsTable");
@@ -227,6 +233,8 @@ function getSearchParams(maxResults, offset) {
 
 /*
  * Turn the arrow blue if the boxes on both sides are selected.  Otherwise, turn it gray.
+ *
+ * @param currentBox    Clicked box.
  */
 function arrowChecker(currentBox) {
     var prevArrow = $(currentBox).prev('.server-arrow');
@@ -253,12 +261,15 @@ function arrowChecker(currentBox) {
 
 /*
  * Select or deselect a checkbox if its corresponding box is clicked.
+ *
+ * @param name      Name of the checkbox.
+ * @param onOrOff   On/Off status of the checkbox.
  */
 function checkboxHandler(name, onOrOff) {
     $(document).find('input[value="' + name + '"]').prop('checked',onOrOff);
 };
 
-/*
+/**
  * If the 'View More Results' button is clicked at the bottom of the CanIt table, perform the search again and
  * return additional results, appending them to the end of the CanIt Results table.
  */
@@ -291,12 +302,12 @@ function buttonClickedCanIt() {
     })
         .done(function(data)
         {
-            displayMoreCanItResults(data, params["max_results"]);
+            displayCanItResults(data, params["max_results"]);
             numResults[CANIT_CLASS] += data.length;
         });
 }
 
-/*
+/**
  * If the 'View More Results' button is clicked at the bottom of the Routers table, perform the search again and
  * return additional results, appending them to the end of the Routers Results table.
  */
@@ -329,12 +340,12 @@ function buttonClickedRouters() {
     })
         .done(function(data)
         {
-            displayMoreRoutersResults(data, params["max_results"]);
+            displayRoutersResults(data, params["max_results"]);
             numResults[ROUTERS_CLASS] += data.length;
         });
 }
 
-/*
+/**
  * If the 'View More Results' button is clicked at the bottom of the Exchange table, perform the search again and
  * return additional results, appending them to the end of the Exchange Results table.
  */
@@ -367,7 +378,7 @@ function buttonClickedExchange() {
     })
         .done(function(data)
         {
-            displayMoreExchangeResults(data, params["max_results"]);
+            displayExchangeResults(data, params["max_results"]);
             numResults[EXCHANGE_CLASS] += data.length;
         });
 }
@@ -377,6 +388,8 @@ function buttonClickedExchange() {
  * If any text is selected, the additional information will not be displayed in order to prevent the rows
  * from responding to drag events in which a user drags the mouse to select text.  If the log line is closed,
  * call rowExpander.  If the log line is open, remove the div containing additional information to "close" it.
+ *
+ * @param row   The clicked HTML <tr></tr> element.
  */
 function openLog(row) {
     var selection = window.getSelection();
@@ -393,6 +406,8 @@ function openLog(row) {
 /*
  * Determines which table the clicked row was from and calls a handler method for the particular class'
  * additional-information log lines.
+ *
+ * @param clickedRow    The clicked HTML <tr></tr> element.
  */
 function rowExpander(clickedRow) {
     if (clickedRow.hasClass(CANIT_CLASS)) {
@@ -408,6 +423,8 @@ function rowExpander(clickedRow) {
  * Gets additional log information for the clicked row by passing the queueId and reportingHost from hidden
  * columns in the row into CanitController's getLogs method via AJAX.  Inserts the additional log info into a
  * div directly below the clicked row, effectively "opening" the logs.
+ *
+ * @param clickedRow    The clicked HTML <tr></tr> element.
  */
 function rowExpanderCanIt(clickedRow) {
     var queueId = clickedRow[0]['cells'][8].innerHTML;
@@ -436,6 +453,8 @@ function rowExpanderCanIt(clickedRow) {
  * Gets additional log information for the clicked row by passing the message_id and next_id from hidden
  * columns in the row into RoutersController's getLogs method via AJAX.  Inserts the additional log info into a
  * div directly below the clicked row, effectively "opening" the logs.
+ *
+ * @param clickedRow    The clicked HTML <tr></tr> element.
  */
 function rowExpanderRouters(clickedRow) {
     var message_id = clickedRow[0]['cells'][5].innerHTML;
@@ -476,6 +495,8 @@ function rowExpanderRouters(clickedRow) {
  * Gets additional log information for the clicked row by passing the messageId, maxResults, utcMilliseconds,
  * sender, and subject from hidden and unhidden columns in the row into ExchangeController's getLogs method via AJAX.
  * Inserts the additional log info into a div directly below the clicked row, effectively "opening" the logs.
+ *
+ * @param clickedRow    The clicked HTML <tr></tr> element.
  */
 function rowExpanderExchange(clickedRow) {
     var messageId = clickedRow[0]['cells'][5].innerHTML;
@@ -542,13 +563,16 @@ function rowExpanderExchange(clickedRow) {
 }
 
 /*
- * When the RoutersController returns an array of data, it is not formatted in a way that is conducive to displaying
- * in the tables, because it may contain nested arrays with various levels of nesting.  In order to facilitate the
- * reading and displaying of this data, this method recursively traverses the nested arrays and returns an array
- * with only two levels of nesting: the first level is the container array, and the second level separates each row
- * in the table into arrays of related information.
+ * When the RoutersController's getLogs method returns an array of data, it is not formatted in a way that is
+ * conducive to displaying in the tables, because it may contain nested arrays with various levels of nesting.
+ * In order to facilitate the reading and displaying of this data, this method recursively traverses the nested
+ * arrays and returns an array with only two levels of nesting: the first level is the container array, and the
+ * second level separates each row in the table into arrays of related information.
  *
- * This method is specific to Routers data.
+ * This method is specific to Routers log data.
+ *
+ * @param array     Array of additional information logs directly from the Routers model class.
+ * @returns {*}     Array of log information that is easier to iterate for display.
  */
 function flattenNestedLogArrays(array) {
     var returnArray = Array();
@@ -577,8 +601,12 @@ function flattenNestedLogArrays(array) {
 }
 
 /*
- * This function splits log lines an array of lines that fit within a designated length, splitting lines on
- * white space, semi-colons, and commas.  Indentation is added to all lines except for the first.
+ * This function creates a string of additional-information logs from raw logs, splitting log lines on
+ * white space, semi-colons, and commas so that they do not overflow the display table.  Indentation is added
+ * to all lines except for the first.
+ *
+ * @param array         Array containing raw additional-information logs.
+ * @returns {string}    Returns a string containing formatted logs.
  */
 function indentWrappedLogLines(array) {
 
@@ -620,7 +648,14 @@ function indentWrappedLogLines(array) {
     return logs;
 }
 
-function displayMoreCanItResults(results, expectedNumResults) {
+/*
+ * Take the data returned from the AJAX call and insert it into the CanIt Results table, setting appropriate
+ * behavior for row and button clicks.
+ *
+ * @param results               Array of data returned from CanitController's canitResults method.
+ * @param expectedNumResults    The number of results expected back from the canitResults method (30 on initial search, 20 on 'View More Results').
+ */
+function displayCanItResults(results, expectedNumResults) {
     var is_even;
 
     $("table.canit.results tr td.animation").parent().remove();
@@ -758,7 +793,14 @@ function displayMoreCanItResults(results, expectedNumResults) {
     }
 }
 
-function displayMoreRoutersResults(results, expectedNumResults) {
+/*
+ * Take the data returned from the AJAX call and insert it into the Routers Results table, setting appropriate
+ * behavior for row clicks.
+ *
+ * @param results               Array of data returned from RoutersController's routersResults method.
+ * @param expectedNumResults    The number of results expected back from the routersResults method (30 on initial search, 20 on 'View More Results').
+ */
+function displayRoutersResults(results, expectedNumResults) {
 
     $("table.routers.results tr td.animation").parent().remove();
 
@@ -853,7 +895,14 @@ function displayMoreRoutersResults(results, expectedNumResults) {
     }
 }
 
-function displayMoreExchangeResults(results, expectedNumResults) {
+/*
+ * Take the data returned from the AJAX call and insert it into the Exchange Results table, setting appropriate
+ * behavior for row clicks.
+ *
+ * @param results               Array of data returned from ExchangeController's exchangeResults method.
+ * @param expectedNumResults    The number of results expected back from the exchangeResults method (30 on initial search, 20 on 'View More Results').
+ */
+function displayExchangeResults(results, expectedNumResults) {
 
     $("table.exchange.results tr td.animation").parent().remove();
 
@@ -956,6 +1005,13 @@ function displayMoreExchangeResults(results, expectedNumResults) {
     }
 }
 
+/**
+ * Prints the array an array of addresses in such a way that it can be displayed in a tooltip with table formatting.
+ * Each time the array size exceeds a factor of 10, a new column is added to the table.
+ *
+ * @param addresses     Array of addresses to be formatted.
+ * @returns {string}    Table string containing addresses.
+ */
 function printAddressesArray(addresses) {
     var size = addresses.length;
     var numRows = 10;
@@ -981,6 +1037,13 @@ function printAddressesArray(addresses) {
     return addressString;
 }
 
+/**
+ * Returns the appropriate recipient address to display in the results table. To choose the appropriate recipient,
+ * the method returns the one that matches the search's recipient field.
+ *
+ * @param recipients    Array containing recipients of the particular email.
+ * @returns {string}    String containing the recipient address to display.
+ */
 function findMatchingRecipient(recipients) {
     var table = document.getElementById("paramsTable");
     var row = table.rows[0];
@@ -1001,6 +1064,15 @@ function findMatchingRecipient(recipients) {
     return selectedRecipient;
 }
 
+/**
+ * Adds a hover-over tooltip to the appropriate row in the appropriate table
+ *
+ * @param tableClass    Denotes which table contains the row.
+ * @param rowNumber     Denotes which row will receive the tooltip.
+ * @param data          Contains data to be displayed in the tooltip.
+ * @param colType       Denotes which column the tooltip corresponds to: sender, recipients, or subject.
+ * @param delay         Delay before showing the tooltip.
+ */
 function addTooltip(tableClass, rowNumber, data, colType, delay) {
     $("table."+tableClass+" tr td span."+tableClass+"-"+colType+".tooltip" + rowNumber).tooltip({
         content: data,
@@ -1012,6 +1084,12 @@ function addTooltip(tableClass, rowNumber, data, colType, delay) {
     });
 }
 
+/**
+ * Adds a leading 0 to single-digit numbers.
+ *
+ * @param number    Number to be formatted
+ * @returns {*}     Formatted number
+ */
 function padToTwo(number) {
     if (number <= 9) {
         number = ("0" + number).slice(-2);
@@ -1019,6 +1097,12 @@ function padToTwo(number) {
     return number;
 }
 
+/**
+ * Formats numbers so that they have two decimal places of accuracy
+ *
+ * @param number    Number to be formatted
+ * @returns {*}     Formatted number
+ */
 function formatSpamScore(number) {
     var score;
     if (number == null) {
@@ -1029,6 +1113,16 @@ function formatSpamScore(number) {
     return score;
 }
 
+/**
+ * Based on its spam score, returns a string containing the correct CSS class to assign to the span in the
+ * row's 'Score' column.
+ *
+ * @param incidentId                    If the row has no incident ID, make the span clickable.
+ * @param score                         Spam score.
+ * @param warning_level_spam_score      Lower threshold for warning level.
+ * @param auto_reject_spam_score        Lower threshold for auto reject.
+ * @returns {string}                    String containing the CSS class names.
+ */
 function getCanItScoreClass(incidentId, score, warning_level_spam_score, auto_reject_spam_score) {
     var scoreClass = (incidentId ? "has-incident" : "");
     if (!score) {
