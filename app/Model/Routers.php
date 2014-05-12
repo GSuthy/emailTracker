@@ -168,7 +168,6 @@ class Routers extends AppModel {
         $endDttm = (date_create_from_format('m/d/Y H:i:s', $endDttm . " 00:00:00") ?
                     date_create_from_format('m/d/Y H:i:s', $endDttm . " 00:00:00") :
                     date_create_from_format('Y-m-d H:i:s.u', str_replace('T', ' ', $endDttm)));
-        $endDttm->add(new DateInterval('P1D'));
     }
 
     /**
