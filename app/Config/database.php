@@ -72,6 +72,18 @@ class DATABASE_CONFIG {
         //'encoding' => 'utf8',
     );
 
+    public $canit = array(
+        'datasource' => 'CanItSource',
+        'database' => 'dummy',
+        'uri' => array(
+            'scheme' => 'https',
+            'host' => 'emailfilter.byu.edu'
+        ),
+        'login' => 'base:greplog',
+        'password' => '%]u2vF;;)/oW',
+        'basePath' => 'canit/api/2.0'
+    );
+
     public $routers = array(
         'datasource' => 'Database/Mysql',
         'persistent' => false,

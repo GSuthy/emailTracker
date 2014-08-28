@@ -3,6 +3,8 @@ App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
 
+    public $uses = array('PersonDirectory');
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('logout');
@@ -16,7 +18,7 @@ class UsersController extends AppController {
 				return $this->redirect($authRedirect);
 			}
 			else {
-				$this->redirect(array('controller'=>'search', 'action'=>'index'));
+				$this->redirect(array('controller' => 'search', 'action' => 'index'));
 			}
 		} 
 		else {
