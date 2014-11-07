@@ -218,11 +218,11 @@ function getSearchParams(maxResults, offset) {
     if (table != null) {
         var row = table.rows[0];
 
-        var recipient = row.cells[0].innerHTML;
-        var sender = row.cells[1].innerHTML;
-        var subject = row.cells[2].innerHTML;
-        var startDttm = row.cells[3].innerHTML;
-        var endDttm = row.cells[4].innerHTML;
+        var recipient = row.cells[0].innerHTML.trim();
+        var sender = row.cells[1].innerHTML.trim();
+        var subject = row.cells[2].innerHTML.trim();
+        var startDttm = row.cells[3].innerHTML.trim();
+        var endDttm = row.cells[4].innerHTML.trim();
 
         results = {recipient: recipient, sender: sender, subject: subject, start_date: startDttm,
             end_date: endDttm, max_results: maxResults, offset: offset};
