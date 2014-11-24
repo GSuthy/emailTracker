@@ -109,6 +109,7 @@ class Exchange extends AppModel {
 
         $temp_results = $this->find('all', $options);
         $results = $this->formatTableOutput($temp_results);
+
         return $results;
     }
 
