@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 		<div id="header-top" class="wrapper">
 			<div id="logo">
 				<a href="http://www.byu.edu/" class="byu">
-					<?php echo $this->Html->image('byu-logo.gif', array()); ?>
+					<?php echo $this->Html->image('byu.gif', array()); ?>
 				</a>
 			</div>
 			<div id="button-container">
