@@ -84,12 +84,24 @@ class DATABASE_CONFIG {
         'basePath' => 'canit/api/2.0'
     );
 
-    public $routers = array(
+    public $syslog = array(
         'datasource' => 'Database/Mysql',
         'persistent' => false,
         'host' => 'sienna.byu.edu',
         'login' => 'oit#greplog',
         'password' => 'HiddyH0Neighbor',
+        'database' => 'syslog',
+        'prefix' => '',
+        'port' => '3306',
+        //'encoding' => 'utf8',
+    );
+
+    public $gatewayqueues = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'root',
+        'password' => 'n0RT#3rNmysql',
         'database' => 'syslog',
         'prefix' => '',
         'port' => '3306',

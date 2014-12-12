@@ -9,7 +9,7 @@ App::uses('AppModel', 'Model');
 
 class Routers extends AppModel {
     public $name = 'Routers';
-    public $useDbConfig = 'routers';
+    public $useDbConfig = 'syslog';
     public $useTable = 'emailevents';
 	public $primaryKey = 'id';
 
