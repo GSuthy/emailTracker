@@ -1,62 +1,52 @@
-<?php
-/**
- *
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'Email Tracking and Filtering');
-?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
 
-		//echo $this->Html->css('cake.generic');
+    <meta name="format-detection" content="telephone=no">
 
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
+    <?php
+    echo $this->Html->charset();
+    echo $this->Html->meta('icon');
+
+    echo $this->fetch('meta');
+
+    echo $this->Html->css(array(
+        '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600',
+        'global',
+        'animations',
+        'header',
+        'menu',
+        'footer'
+    ));
+
+    echo $this->Html->script(array(
+        'jquery-ui-1.10.3.custom.min',
+        'scripts'
+    ));
+
+    echo $this->fetch('css');
+    echo $this->fetch('script');
+    ?>
+
+    <!-- these are for fonts -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <title>Email Tracking & Filtering</title>
+
+    <?= $this->element('google-analytics'); ?>
+
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<!--<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>-->
-		</div>
-		<div id="content">
+<div id="popup-overlay"></div>
+<div id="content">
+    <?= $this->element('header') ?>
+    <?= $this->element('menu') ?>
+    <?php echo $this->fetch('content'); ?>
+</div>
+<?= $this->element('footer') ?>
 
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<!--<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>-->
-		</div>
-	</div>
-	<?php echo $this->element('sql_dump'); ?>
-    <?php $this->Js->writeBuffer(); ?>
 </body>
 </html>

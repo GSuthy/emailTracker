@@ -1,88 +1,42 @@
 <?php
-$show_table = false;
-if($_SERVER['REQUEST_METHOD'] == "POST") {
-	$show_table = true;
-}
+$this->start('script');
+echo $this->Html->script(array(
+    '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js',
+    'jquery-ui-1.10.4.custom.min',
+    'scripts'
+));
+$this->end();
+$this->start('css');
+echo $this->Html->css(array(
+    'cupertino/jquery-ui-1.10.4.custom.min',
+    'datepicker'
+));
+$this->end();
 ?>
 
-<!DOCTYPE html>
-<html>
+<?php if (!$authorized): ?>
 
-<head>
-	<title>Email Tracking and Filtering</title>
+    <div class='container-error''>
+	<form class='error'>
+        <div class='rowError'>
+            <h1>Email Tracking &amp; Filtering</h1>
+            <h2>You are not authorized to view this page.</h2>
+            <h2>If you believe you have received this message in error, please contact the Office of Information Technology's help desk at 801-422-4000</h2>
+        </div>
+    </form>
+	</div>
 
-	<meta name="format-detection" content="telephone=no">
-
-<!--	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
-
-	<?php
-	echo $this->Html->css(array(
-        'cupertino/jquery-ui-1.10.4.custom.min',
-        'global',
-		'mobile',
-		'datepicker',
-        'animations'
-	));
-
-	echo $this->Html->script(array(
-        '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js',
-        'jquery-ui-1.10.4.custom.min',
-		'scripts'
-	));
-	?>
-
-	<!-- these are for fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900,100italic,400italic,300italic' rel='stylesheet' type='text/css'>
-	<link href='//fonts.googleapis.com/css?family=PT+Serif:400,700' rel='stylesheet' type='text/css'>
-	<link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-
-</head>
-<body>
-
-<div id="banner">
-	<header id="main-header">
-		<div id="header-top" class="wrapper">
-			<div id="logo">
-				<a href="http://www.byu.edu/" class="byu">
-					<?php echo $this->Html->image('byu.gif', array()); ?>
-				</a>
-			</div>
-			<div id="button-container">
-				<?php echo $this->Html->link('Logout', array(
-						'controller' => 'Users',
-						'action' => 'logout'), array('class' => 'button')
-				); ?>
-			</div>
-		</div>
-	</header>
-</div>
-
-<?php
-
-if (!$authorized) {
-	echo "<div class='container-error''>";
-	echo "<form class='error'>";
-	echo "<div class='rowError'>";
-	echo "<h1>Email Tracking &amp; Filtering</h1>";
-	echo "<h2>You are not authorized to view this page.";
-	echo "<h2>If you believe you have received this message in error, please contact...";
-	echo "</div>";
-	echo "</form>";
-	echo "</div>";
-	die();
-}
-
+<?php else:
+        $show_table = false;
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $show_table = true;
+        }
 ?>
 
 <div class="container">
 
 <!-- Start Search box -->
 <form method="POST" class="search">
-	<div class="row">
-		<h1>Email Tracking &amp; Filtering</h1>
-	</div>
-
-
 	<div class="row">
 		<div class="column grid_12">
 
@@ -272,15 +226,4 @@ if ($show_table) {
 }
 ?>
 
-<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-47977201-1', 'byu.edu');
-	ga('send', 'pageview');
-</script>
-
-</body>
-
-</html>
+<?php endif; ?>
