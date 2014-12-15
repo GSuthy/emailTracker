@@ -32,7 +32,12 @@ class QueuesController extends AppController {
     }
 
     public function add() {
-        $data = $this->request->data;
+        $data = $this->request->input('json_decode');
+        if ($data == null) {
+            $data = $this->request->data;
+        } else {
+            $data = (array)$data;
+        }
 
         $valid = true;
         $valid &= array_key_exists('server', $data) && $data['server'] != "";
@@ -41,9 +46,9 @@ class QueuesController extends AppController {
 
         $response = new CakeResponse();
         if ($valid) {
-            $server = $this->request->data['server'];
-            $active_queue = $this->request->data['active_queue'];
-            $deferred_queue = $this->request->data['deferred_queue'];
+            $server = $data['server'];
+            $active_queue = $data['active_queue'];
+            $deferred_queue = $data['deferred_queue'];
 
             $this->GatewayQueues->id = $server;
             $success = $this->GatewayQueues->updateAll(
