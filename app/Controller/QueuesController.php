@@ -8,16 +8,26 @@
 
 App::uses('AppController', 'Controller');
 
-class RestController extends AppController {
+class QueuesController extends AppController {
 
     public $uses = "GatewayQueues";
 
-    public function index() {
-        $result = $this->GatewayQueues->find('all');
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('add');
+    }
 
+    public function index() {
+        $results = $this->GatewayQueues->find('all');
+        $this->set('results', $results);
+    }
+
+    public function getTable() {
+        $results = $this->GatewayQueues->find('all');
         $response = new CakeResponse();
         $response->statusCode(200);
-        $response->body(json_encode(array('result' => $result), JSON_PRETTY_PRINT));
+        $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
+        $response->type('json');
         return $response;
     }
 

@@ -7,8 +7,8 @@
                     array('class' => 'navItem transition' . ($controller == 'search' ? ' selected' : ''))); ?>
             </li>
             <li class='navItem currentPage currentQueues'>
-                <?= $this->Html->link('Queues', array('controller' => 'rest', 'action' => 'index'),
-                    array('class' => 'navItem transition' . ($controller == 'rest' ? ' selected' : ''))) ?>
+                <?= $this->Html->link('Queues', array('controller' => 'queues', 'action' => 'index'),
+                    array('class' => 'navItem transition' . ($controller == 'queues' ? ' selected' : ''))) ?>
             </li>
         </ul>
     </div>

@@ -3,6 +3,7 @@ $this->start('script');
 echo $this->Html->script(array(
     '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js',
     'jquery-ui-1.10.4.custom.min',
+//    'jquery-ui-1.10.3.custom.min',
     'scripts'
 ));
 $this->end();
@@ -111,77 +112,69 @@ $this->end();
 <?php if (!empty($_POST['canitSelect'])): ?>
 	<div id="canit-results">
 		<?php
-		$warning_level_spam_score = $scoreThresholds['hold_threshold'];
-		$auto_reject_spam_score = $scoreThresholds['auto_reject'];
+		    $warning_level_spam_score = $scoreThresholds['hold_threshold'];
+		    $auto_reject_spam_score = $scoreThresholds['auto_reject'];
+        ?>
 
-		$warningDiv = "<div id=\"warningDiv\" hidden>".$warning_level_spam_score."</div>";
-		$rejectDiv = "<div id=\"rejectDiv\" hidden>".$auto_reject_spam_score."</div>";
-		echo $warningDiv;
-		echo $rejectDiv;
+        <div id="warningDiv" hidden><?= $warning_level_spam_score ?></div>
+        <div id="rejectDiv" hidden><?= $auto_reject_spam_score ?></div>
 
-		$canit_table_string = "<table class='results canit'>" .
-			"<tbody>" .
-			"<th>Date</th>" .
-			"<th>Time</th>" .
-			"<th>Sender</th>" .
-			"<th>Recipients</th>" .
-			"<th>Subject</th>" .
-			"<th>Stream</th>" .
-			"<th>Status</th>" .
-			"<th>Score</th>" .
-			"<th class='hidden'>Queue ID</th>" .
-			"<th class='hidden'>Reporting Host</th>" .
-			"<th class='hidden'>Realm</th>" .
-			"<th class='hidden'>Incident ID</th>" .
-			"</tr>";
-		$canit_table_string .= "</tbody></table>";
-		$canit_table_string .= "<a class='results loading-more canit'>Loading Results</a>";
-		$canit_table_string .= "<br/>";
-		echo $canit_table_string;
-		?>
-	</div>
+        <table class='results canit'>
+            <tbody>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Sender</th>
+                <th>Recipients</th>
+                <th>Subject</th>
+                <th>Stream</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th class='hidden'>Queue ID</th>
+                <th class='hidden'>Reporting Host</th>
+                <th class='hidden'>Realm</th>
+                <th class='hidden'>Incident ID</th>
+            </tr>
+            </tbody>
+        </table>
+        <a class='results loading-more canit'>Loading Results</a>
+        <br/>
+    </div>
 <?php endif; ?>
 <?php if (!empty($_POST['routerSelect'])) : ?>
-	<div id="routers-results" class="hidden">
-		<?php
-
-		$router_table_string = "<table class='results routers'>" .
-			"<tbody>" .
-			"<th>Date</th>" .
-			"<th>Time</th>" .
-			"<th>Sender</th>" .
-			"<th>Recipients</th>" .
-			"<th>Status</th>" .
-			"<th class='hidden'>Current ID</th>" .
-			"<th class='hidden'>Next ID</th>" .
-			"</tr>";
-		$router_table_string .= "</tbody></table>";
-		$router_table_string .= "<a class='results loading-more routers'>Loading Results</a>";
-		$router_table_string .= "<br/>";
-		echo $router_table_string;
-		?>
-	</div>
+    <div id="routers-results" class="hidden">
+        <table class='results routers'>
+            <tbody>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Sender</th>
+            <th>Recipients</th>
+            <th>Status</th>
+            <th class='hidden'>Current ID</th>
+            <th class='hidden'>Next ID</th>
+            </tr>
+            </tbody>
+        </table>
+        <a class='results loading-more routers'>Loading Results</a>
+        <br/>
+    </div>
 <?php endif; ?>
 <?php if(!empty($_POST['exchangeSelect'])) : ?>
-<div id="exchange-results" class="hidden">
-	<?php
-
-	$exchange_table_string = "\n<table class='results exchange'>\n" .
-		"<tbody>" .
-		"<th>Date</th>" .
-		"<th>Time</th>" .
-		"<th>Sender</th>" .
-		"<th>Recipient</th>" .
-		"<th>Subject</th>" .
-		"<th class='hidden'>Message ID</th>" .
-		"</tr>\n";
-	$exchange_table_string .= "</tbody></table>";
-	$exchange_table_string .= ("<a class='results loading-more exchange'>Loading Results</a>");
-	$exchange_table_string .= "<br/>";
-
-	echo $exchange_table_string;
-	?>
-</div>
+    <div id="exchange-results" class="hidden">
+        <table class="results exchange">
+            <tbody>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Subject</th>
+            <th class="hidden">Message ID</th>
+            </tr>
+            </tbody>
+        </table>
+        <a class="results loading-more exchange">Loading Results</a>
+        <br/>
+    </div>
 <?php endif; ?>
 
 <!-- Start Results Table -->
@@ -210,20 +203,21 @@ if ($show_table) {
 		$endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
 		$endDttm = substr($date, 6, 4) . "-" . substr($date, 0, 2) .  "-" . substr($date, 3, 2) . "T23:59:59.999";
 	}
-
-	$paramsTable = "<table id=\"paramsTable\" style=\"display: none\"><tr>".
-		"<td>".$recipient."</td>".
-		"<td>".$sender."</td>".
-		"<td>".$subject."</td>".
-		"<td>".$startDttm."</td>".
-		"<td>".$endDttm."</td>".
-		"</tr></table>";
-	echo $paramsTable;
-
-	$max_results = 30;
-
-	$hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
-}
 ?>
 
-<?php endif; ?>
+    <table id="paramsTable" style="display: none">
+        <tr>
+            <td><?= $recipient ?></td>
+            <td><?= $sender ?></td>
+            <td><?= $subject ?></td>
+            <td><?= $startDttm ?></td>
+            <td><?= $endDttm ?></td>
+        </tr>
+    </table>
+
+<?php
+	$max_results = 30;
+	$hasErrors = (!empty($recip_sender_error) || !empty($start_date_error));
+}
+    endif;
+?>

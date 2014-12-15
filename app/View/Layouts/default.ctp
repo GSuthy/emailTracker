@@ -20,8 +20,7 @@
     ));
 
     echo $this->Html->script(array(
-        'jquery-ui-1.10.3.custom.min',
-        'scripts'
+        'jquery-2.1.1.min'
     ));
 
     echo $this->fetch('css');

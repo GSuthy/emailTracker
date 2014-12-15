@@ -1,0 +1,7 @@
+div.container { border: 1px solid #ccc; border-top-width: 0; padding-bottom: 15px; }
+table#queueTable { width: 50%; margin: 0 auto; border-collapse: collapse; }
+table#queueTable tr:nth-child(even) { background: #EFF6FC; }
+table#queueTable tr:nth-child(odd) { background: white; }
+table#queueTable tr th { background: #236597; color: white; font-weight: normal; padding: 5px; width: 33%; }
+table#queueTable tr td { text-align: center; padding: 3px; width: 33%; }
+table#queueTable tfoot tr td { background: #236597; height: 5px; }
