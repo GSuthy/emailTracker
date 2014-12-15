@@ -38,7 +38,7 @@
  */
 	CakePlugin::routes();
 
-    Router::mapResources('rest');
+    Router::mapResources('queues');
     Router::parseExtensions();
 
 /**
