@@ -96,18 +96,6 @@ class DATABASE_CONFIG {
         //'encoding' => 'utf8',
     );
 
-    public $gatewayqueues = array(
-        'datasource' => 'Database/Mysql',
-        'persistent' => false,
-        'host' => 'localhost',
-        'login' => 'root',
-        'password' => 'n0RT#3rNmysql',
-        'database' => 'syslog',
-        'prefix' => '',
-        'port' => '3306',
-        //'encoding' => 'utf8',
-    );
-
     public $exchange = array(
         'datasource' => 'Database/Mysql',
         'persistent' => false,
