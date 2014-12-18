@@ -21,12 +21,19 @@ $this->end();
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($results as $result): ?>
-            <tr>
-                <td><?= $result['GatewayQueues']['server'] ?></td>
-                <td><?= $result['GatewayQueues']['active_queue'] ?></td>
-                <td><?= $result['GatewayQueues']['deferred_queue'] ?></td>
+        <?php foreach ($results as $description => $resultArray): ?>
+            <tr class="sub-header">
+                <td colspan="3"><?= $description ?></td>
             </tr>
+            <?php
+            $i = 0;
+            foreach ($resultArray as $result): ?>
+                <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
+                    <td><?= $result['server'] ?></td>
+                    <td><?= $result['active_queue'] ?></td>
+                    <td><?= $result['deferred_queue'] ?></td>
+                </tr>
+            <?php endforeach; ?>
         <?php endforeach; ?>
         </tbody>
         <tfoot>
