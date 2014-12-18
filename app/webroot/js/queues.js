@@ -8,25 +8,32 @@ function refreshQueuesTable() {
     $.ajax
     ({
         type: "GET",
-        url: "queues/getTable",
+        url: "queues/index",
         dataType: "json"
     })
         .done(function(data)
         {
+            var rowCount = 0;
             $('div table#queueTable tbody tr').remove();
-            for (var i = 0; i < data["results"].length; i++) {
-                var gatewayQueue = data["results"][i]["GatewayQueues"];
-                var server = gatewayQueue["server"] == null ? "" : gatewayQueue["server"];
-                var activeQueue = gatewayQueue["active_queue"] == null ? "" : gatewayQueue["active_queue"];
-                var deferredQueue = gatewayQueue["deferred_queue"] == null ? "" : gatewayQueue["deferred_queue"];
+            var clusters = data["results"];
+            for (var key in clusters) {
+                var subHeader = "<tr class='sub-header'>" +
+                                    "<td colspan='3'>" + key + "</td>" +
+                                "</tr>";
+                $('div table#queueTable tbody').append(subHeader);
 
-                var rowString = "<tr>" +
-                    "<td>" + server + "</td>" +
-                    "<td>" + activeQueue + "</td>" +
-                    "<td>" + deferredQueue + "</td>" +
-                    "</tr>";
+                for (var i in clusters[key]) {
+                    var server = clusters[key][i]["server"] == null ? "" : clusters[key][i]["server"];
+                    var activeQueue = clusters[key][i]["active_queue"] == null ? "" : clusters[key][i]["active_queue"];
+                    var deferredQueue = clusters[key][i]["deferred_queue"] == null ? "" : clusters[key][i]["deferred_queue"];
 
-                $('div table#queueTable tbody').append(rowString);
+                    var rowString = "<tr class='" + (i++ % 2 == 0 ? "even" : "odd") + "'>" +
+                        "<td>" + server + "</td>" +
+                        "<td>" + activeQueue + "</td>" +
+                        "<td>" + deferredQueue + "</td>" +
+                        "</tr>";
+                    $('div table#queueTable tbody').append(rowString);
+                }
             }
         });
 }

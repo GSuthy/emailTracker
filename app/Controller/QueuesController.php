@@ -18,17 +18,43 @@ class QueuesController extends AppController {
     }
 
     public function index() {
-        $results = $this->GatewayQueues->find('all');
-        $this->set('results', $results);
+        $results = $this->getTable();
+        if (!$this->request->is('ajax')) {
+            $this->set('results', $results);
+        } else {
+            $response = new CakeResponse();
+            $response->statusCode(200);
+            $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
+            $response->type('json');
+            return $response;
+        }
     }
 
-    public function getTable() {
-        $results = $this->GatewayQueues->find('all');
-        $response = new CakeResponse();
-        $response->statusCode(200);
-        $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
-        $response->type('json');
-        return $response;
+    private function getTable() {
+        $descriptions = $this->getDescriptions();
+        $results = array();
+        foreach ($descriptions as $description) {
+            $params = array(
+                'conditions' => array(
+                    'description' => $description
+                ),
+                'fields' => array('server', 'active_queue', 'deferred_queue'),
+            );
+            $routers = $this->GatewayQueues->find('all', $params);
+            $routers = Set::classicExtract($routers, '{n}.GatewayQueues');
+            $results[$description] = $routers;
+        }
+        return $results;
+    }
+
+    private function getDescriptions() {
+        $params = array(
+            'fields' => 'description',
+            'group' => 'description'
+        );
+        $descriptions = $this->GatewayQueues->find('all', $params);
+        $descriptions = Set::classicExtract($descriptions, '{n}.GatewayQueues.description');
+        return $descriptions;
     }
 
     public function add() {
@@ -69,5 +95,4 @@ class QueuesController extends AppController {
 
         return $response;
     }
-
 } 
