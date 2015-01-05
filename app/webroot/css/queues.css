@@ -1,5 +1,5 @@
 div.container { border: 1px solid #ccc; border-top-width: 0; padding-bottom: 15px; }
-table#queueTable { width: 50%; margin: 0 auto; border-collapse: collapse; }
+table#queueTable { width: 50%; margin: 0 auto !important; border-collapse: collapse; }
 table#queueTable tr.even { background: #FFF; }
 table#queueTable tr.odd { background: #EFF6FC; }
 table#queueTable tr th { background: #236597; color: white; font-weight: normal; padding: 5px; width: 33%; }
