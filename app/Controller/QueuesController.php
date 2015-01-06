@@ -18,15 +18,20 @@ class QueuesController extends AppController {
     }
 
     public function index() {
-        $results = $this->getTable();
-        if (!$this->request->is('ajax')) {
-            $this->set('results', $results);
+
+        if (!$this->isAuthorizedQueues()) {
+            $this->redirect(array('controller' => 'search'));
         } else {
-            $response = new CakeResponse();
-            $response->statusCode(200);
-            $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
-            $response->type('json');
-            return $response;
+            $results = $this->getTable();
+            if (!$this->request->is('ajax')) {
+                $this->set('results', $results);
+            } else {
+                $response = new CakeResponse();
+                $response->statusCode(200);
+                $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
+                $response->type('json');
+                return $response;
+            }
         }
     }
 
