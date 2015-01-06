@@ -41,5 +41,13 @@ class AppController extends Controller {
         $userInfo = $this->Auth->user();
         $userRoles = explode(',', $userInfo['memberOf']);
         $this->set('authorized', in_array("infra_communication", $userRoles) || in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
+        $this->set('queues_authorized', in_array("infra_communication", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
 	}
+
+    public function isAuthorizedQueues() {
+        $this->Auth->authenticate = array('Cas');
+        $userInfo = $this->Auth->user();
+        $userRoles = explode(',', $userInfo['memberOf']);
+        return in_array("infra_communication", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles);
+    }
 }
