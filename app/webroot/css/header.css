@@ -1,0 +1,7 @@
+#username-welcome { color: white; position: relative; top: -23px; left: 6px; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+#welcome {float: right; margin-right: 10px; position: relative;}
+#stream {float: right; height: 32px;}
+input[type=text]#stream {display: none; }
+.header-button { border: none; position: relative; top: -5px; color: #fff; display: block; background: transparent; padding: 4px 17px; float: right; text-decoration: none; cursor: pointer; border-radius: 4px; -webkit-transition: all ease-in-out .25s; -moz-transition: all ease-in-out .25s; -ms-transition: all ease-in-out .25s; -o-transition: all ease-in-out .25s; transition: all ease-in-out .25s;}
+.header-button:hover { background: #628CB6;}
+.appName {text-decoration: none; color: white; position: relative; top: -2px; font-size: 18px}

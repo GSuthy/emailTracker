@@ -9,7 +9,7 @@ App::uses('AppModel', 'Model');
 
 class GatewayQueues extends AppModel {
     public $name = 'GatewayQueues';
-    public $useDbConfig = 'gatewayqueues';
+    public $useDbConfig = 'syslog';
     public $useTable = 'gatewayqueues';
 	public $primaryKey = 'server';
 }

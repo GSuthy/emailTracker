@@ -40,7 +40,7 @@ $(document).ready(function(realm, stream) {
     // Initialize the numResults array
     numResults = {'canit': 0, 'routers': 0, 'exchange': 0};
 
-    $('#tabs').tabs();
+    $('div#tabs').tabs();
 
     // Initialize the datepickers
     $( "#datepickerStart" ).datepicker({

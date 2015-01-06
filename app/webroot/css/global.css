@@ -588,7 +588,7 @@ table.results td span.spam-score-rejected {
 
 a.results {
     display: block;
-    color: white;
+    color: white!important;
     margin: 8px 0 0;
     padding: 5px 0;
     text-align: center;
