@@ -43,8 +43,9 @@
 <div id="content">
     <?= $this->element('header') ?>
     <?= $this->element('menu') ?>
-    <?php echo $this->fetch('content'); ?>
+    <?= $this->fetch('content'); ?>
 </div>
+<!--</div>-->
 <?= $this->element('footer') ?>
 
 </body>

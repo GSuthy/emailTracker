@@ -4,7 +4,7 @@ a.navItem {text-decoration: none; color: #444444; padding-top: 5px;}
 a.navItem:hover {color: #628CB6}
 a.navItem.selected { border-top: solid 3px #336699; color: #336699 }
 a.navItem.selected:hover { border-top: solid 3px #628CB6; color: #628CB6}
-.menu-row {width: 940px; margin: 0 auto; height: auto}
+.menu-row {width: 940px; margin: 0 auto; height: auto; border-left: 1px solid black; border-right: 1px solid black;}
 .menu-column {float: left; display: inline; margin: 0 1.04167% 0 1.04167%;  /*10px / 960px*/}
 .noSelect { -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 .transition { -webkit-transition: all ease-in-out .19s; -moz-transition: all ease-in-out .19s; -ms-transition: all ease-in-out .19s; -o-transition: all ease-in-out .19s; transition: all ease-in-out .19s;}

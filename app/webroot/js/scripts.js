@@ -392,15 +392,12 @@ function buttonClickedExchange() {
  * @param row   The clicked HTML <tr></tr> element.
  */
 function openLog(row) {
-    var selection = window.getSelection();
-    if (selection == 0) {
         if($(row).next().hasClass('log')) {
             $(row).next().remove();
         } else if (!$(row).hasClass('log-opening')) {
             $(row).addClass('log-opening');
             rowExpander($(row));
         }
-    }
 }
 
 /*
@@ -771,10 +768,23 @@ function displayCanItResults(results, expectedNumResults) {
     });
 
     $("table tr.canit td.open-log").off();
-    var clicked = true;
-    $("table tr.canit td.open-log").on("click", function(){
-        openLog($(this).parent());
-    });
+
+    var isDragging = false;
+    $("table tr.canit td.open-log").mousedown(function(){
+        $(window).mousemove(function() {
+            isDragging = true;
+            $(window).unbind("mousemove");
+        });
+    })
+        .mouseup(function() {
+            var wasDragging = isDragging;
+            isDragging = false;
+            $(window).unbind("mousemove");
+            if (!wasDragging) {
+                openLog($(this).parent());
+            }
+        });
+
 
     // Set appropriate button
     var button = $("a.results.loading-more.canit");
@@ -874,9 +884,22 @@ function displayRoutersResults(results, expectedNumResults) {
     }
 
     $("table tr.routers").off();
-    $("table tr.routers").on("click", function(){
-        openLog($(this));
-    });
+
+    var isDragging = false;
+    $("table tr.routers").mousedown(function(){
+        $(window).mousemove(function() {
+            isDragging = true;
+            $(window).unbind("mousemove");
+        });
+    })
+        .mouseup(function() {
+            var wasDragging = isDragging;
+            isDragging = false;
+            $(window).unbind("mousemove");
+            if (!wasDragging) {
+                openLog($(this));
+            }
+        });
 
     // Set appropriate button
     var button = $("a.results.loading-more.routers");
@@ -984,9 +1007,22 @@ function displayExchangeResults(results, expectedNumResults) {
     }
 
     $("table tr.exchange").off();
-    $("table tr.exchange").on("click", function(){
-        openLog($(this));
-    });
+
+    var isDragging = false;
+    $("table tr.exchange").mousedown(function(){
+        $(window).mousemove(function() {
+            isDragging = true;
+            $(window).unbind("mousemove");
+        });
+    })
+        .mouseup(function() {
+            var wasDragging = isDragging;
+            isDragging = false;
+            $(window).unbind("mousemove");
+            if (!wasDragging) {
+                openLog($(this));
+            }
+        });
 
     // Set appropriate button
     var button = $("a.results.loading-more.exchange");

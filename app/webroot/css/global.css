@@ -118,14 +118,17 @@ div#banner img {
 	margin-top:12px;
 }
 
+div.content-menu-wrapper {border-top: 1px solid #000; border-bottom: 1px solid #000;}
+
 div.container {
 	width:62em;
 	margin:0 auto;
+    clear: both;
 }
 
 form.search {
-	border: 1px solid #ccc;
-	border-top-width: 0;
+	/*border: 1px solid #ccc;*/
+	/*border-top-width: 0;*/
 }
 
 form.search h1 {
