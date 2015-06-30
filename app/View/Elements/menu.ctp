@@ -12,6 +12,10 @@
                 <?= $this->Html->link('Queues', array('controller' => 'queues', 'action' => 'index'),
                     array('class' => 'navItem transition' . ($controller == 'queues' ? ' selected' : ''))) ?>
             </li>
+            <li class='navItem currentPage currentHealth'>
+                <?= $this->Html->link('Health', array('controller' => 'health', 'action' => 'index'),
+                    array('class' => 'navItem transition' . ($controller == 'health' ? ' selected' : ''))) ?>
+            </li>
             <?php endif; ?>
         </ul>
     </div>

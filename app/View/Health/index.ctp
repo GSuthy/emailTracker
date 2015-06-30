@@ -14,14 +14,14 @@ $this->end();
 <?php if (!$queues_authorized): ?>
 
     <div class='container-error''>
-	<form class='error'>
+    <form class='error'>
         <div class='rowError'>
             <h1>Email Tracking &amp; Filtering</h1>
             <h2>You are not authorized to view this page.</h2>
             <h2>If you believe you have received this message in error, please contact the Office of Information Technology's help desk at 801-422-4000</h2>
         </div>
     </form>
-	</div>
+    </div>
 
 <?php else: ?>
 
@@ -63,7 +63,3 @@ $this->end();
 </div>
 
 <?php endif; ?>
-<?php
-$authUser = AuthComponent::user();
-var_dump($authUser);
-?>

@@ -19,7 +19,7 @@ class CasAuthenticate extends BaseAuthenticate {
                        Configure::read('CAS.uri'));
 
 		$certServer = Configure::read('CAS.cert_path');
-		if (empty($certServer)) {
+		 if (empty($certServer)) {
 			phpCAS::setNoCasServerValidation();
 		} else {
 	        phpCAS::setCasServerCACert($certServer);
