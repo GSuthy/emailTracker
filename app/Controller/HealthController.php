@@ -20,20 +20,15 @@ class HealthController extends AppController {
 
     public function index() {
 
-        if (!$this->isAuthorizedQueues()) {
-            $this->redirect(array('controller' => 'search'));
-        } else {
-            $results = $this->getTable();
-            if (!$this->request->is('ajax')) {
-                $this->set('results', $results);
-            } else {
-                $response = new CakeResponse();
-                $response->statusCode(200);
-                $response->body(json_encode(array('results' => $results), JSON_PRETTY_PRINT));
-                $response->type('json');
-                return $response;
-            }
-        }
+        App::import('Vendor', 'CanItAPI/CanItClient');
+        App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
+        App::import('Vendor', 'ExchangeAPI/ExchangeClient');
+        App::import('Vendor', 'settings');
+
+        echo "<pre>";
+        print_r(CanItClient::systemCheck());
+        echo "</pre>";
+        exit();
     }
 
     private function getTable() {
@@ -103,6 +98,4 @@ class HealthController extends AppController {
     }
 } 
 ?>
-<?php
-echo "Michael";
-?>
+
