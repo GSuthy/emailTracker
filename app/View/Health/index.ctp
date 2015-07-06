@@ -61,5 +61,7 @@ $this->end();
         </table>
     </div>
 </div>
-
+<?php
+echo "Michael";
+?>
 <?php endif; ?>

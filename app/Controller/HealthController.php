@@ -102,3 +102,7 @@ class HealthController extends AppController {
         return $response;
     }
 } 
+?>
+<?php
+echo "Michael";
+?>

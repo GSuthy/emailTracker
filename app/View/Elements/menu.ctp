@@ -10,7 +10,7 @@
             <?php endif; if($queues_authorized) : ?>
             <li class='navItem currentPage currentQueues'>
                 <?= $this->Html->link('Queues', array('controller' => 'queues', 'action' => 'index'),
-                    array('class' => 'navItem transition' . ($controller == 'queues' ? ' selected' : ''))) ?>
+                    array('class' => 'navItem transition' . ($controller == 'health' ? ' selected' : ''))) ?>
             </li>
                <li class='navItem currentPage currentHealth'>
                 <?= $this->Html->link('Health', array('controller' => 'queues', 'action' => 'index'),
