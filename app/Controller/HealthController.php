@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Created by PhpStorm.
@@ -8,7 +9,7 @@
 
 App::uses('AppController', 'Controller');
 
-class QueuesController extends AppController {
+class HealthController extends AppController {
 
     public $uses = "GatewayQueues";
 
