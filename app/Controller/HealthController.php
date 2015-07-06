@@ -26,7 +26,7 @@ class HealthController extends AppController {
         App::import('Vendor', 'settings');
 
         echo "<pre>";
-        print_r(CanItClient::systemCheck());
+        print_r(CanItClient::searchLog());
         echo "</pre>";
         exit();
     }
