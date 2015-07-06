@@ -113,7 +113,7 @@ class CanItClient {
     }
 
 
-    public static function systemCheck() {
+    public static function searchLog() {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
