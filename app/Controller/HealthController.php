@@ -12,7 +12,7 @@ App::uses('AppController', 'Controller');
 class SearchLogsObject {
        public function SearchLogsObject($hostname, $status) {
         $this->hostname = $hostname;
-        $this->status = $stats;
+        $this->status = $status;
     }
 
     public function hostName() {
