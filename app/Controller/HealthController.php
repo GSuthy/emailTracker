@@ -13,10 +13,10 @@ class SearchLogsObject {
     private $hostname;
 
     public function SearchLogsObject($hostname) {
-        $this->stream = $hostname;
+        $this->$hostname = $hostname;
     }
 
-    public function getStream() {
+    public function hostName() {
         return $this->hostname;
     }
 
@@ -39,8 +39,8 @@ class HealthController extends AppController {
 
         $searchLogObjects = array();
         foreach($searchLogs as $log) {
-            $temp = new SearchLogsObject($log["hostname"]);
-            echo($temp->gethostname() . "<br>");
+            $temp = new SearchLogsObject($log["stream"]);
+            echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
 
