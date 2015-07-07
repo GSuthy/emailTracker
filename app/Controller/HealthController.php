@@ -11,13 +11,15 @@ App::uses('AppController', 'Controller');
 
 class HealthController extends AppController {
 
+    public $uses = 'SearchLogObject';
+
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('add');
     }
 
     public function index() {
-
         App::import('Vendor', 'CanItAPI/CanItClient');
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
