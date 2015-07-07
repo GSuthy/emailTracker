@@ -9,10 +9,21 @@
 
 App::uses('AppController', 'Controller');
 
+class SearchLogsObject {
+    private $stream;
+
+    public function SearchLogsObject($stream) {
+        $this->stream = $stream;
+    }
+
+    public function getStream() {
+        return $this->stream;
+    }
+
+}
+
+
 class HealthController extends AppController {
-
-    public $uses = 'SearchLogsObject';
-
 
     public function beforeFilter() {
         parent::beforeFilter();
