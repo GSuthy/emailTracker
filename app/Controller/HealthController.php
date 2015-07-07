@@ -41,7 +41,11 @@ class HealthController extends AppController {
         foreach($searchLogs as $log) {
             $temp = new SearchLogsObject($log["stream"]);
             echo($temp->getStream() . "<br>");
+            array_push($searchLogObjects, $temp);
         }
+
+        echo(count($searchLogObjects));
+
 
         echo "<pre>";
         print_r($searchLogs);
