@@ -117,7 +117,7 @@ class CanItClient {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
-        $results = $api->do_get("log/queue_id/dst_relay_ip");
+        $results = $api->do_get("/log/search/0/20?src_relay_ip");
 
         if (!$api->succeeded()) {
             print "GET request failed: " . $api->get_last_error() . "\n";
