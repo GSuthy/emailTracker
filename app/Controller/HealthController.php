@@ -24,7 +24,8 @@ class HealthController extends AppController {
         App::import('Vendor', 'settings');
         $searchLogs = array(CanItClient::searchlog()); 
         echo "<pre>";
-        print "Array has" .sizeof($searchLogs) . "elements";
+        print "Array has " .sizeof($searchLogs) . " elements";
+        print $searchLogs;
         echo "</pre>";
         exit();
 
