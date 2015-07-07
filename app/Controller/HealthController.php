@@ -23,6 +23,13 @@ class HealthController extends AppController {
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
         App::import('Vendor', 'settings');
         $searchLogs = CanItClient::searchlog(); 
+
+        $searchLogObjects = array();
+        foreach($searchLogs as $log) {
+            $temp = new SearchLogObject($log["stream"]);
+            print_r("<h1>$temp</h1>");
+        }
+
         echo "<pre>";
         print_r($searchLogs);
         echo "</pre>";

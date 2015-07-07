@@ -42,7 +42,7 @@ class AppController extends Controller {
 
         $userInfo = $this->Auth->user();
         //Only uncomnment the line below if working on localhost
-        $userInfo["memberOf"] = "infra_communication";
+        // $userInfo["memberOf"] = "infra_communication";
         $userRoles = explode(',', $userInfo['memberOf']);
         $this->set('authorized', in_array("infra_communication", $userRoles) || in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
         $this->set('queues_authorized', in_array("infra_communication", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
@@ -53,7 +53,7 @@ class AppController extends Controller {
        
         $userInfo = $this->Auth->user();
         // Only uncomment the line below if working on localhost
-        $userInfo["memberOf"] = "infra_communication";
+        // $userInfo["memberOf"] = "infra_communication";
         $userRoles = explode(',', $userInfo['memberOf']);
         return in_array("infra_communication", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles);
     }
