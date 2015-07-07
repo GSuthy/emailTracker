@@ -117,7 +117,7 @@ class CanItClient {
         $canit_url = "https://emailfilter.byu.edu/canit/api/2.0";
         $api = new CanItAPIClient($canit_url);
         $success = $api->login(settings::$credentials['username'], settings::$credentials['password']);
-        $results = $api->do_get("/incident/incident_id");
+        $results = $api->do_get("/realm/byu-edu/stream/default/incidents/status/3");
 
         if (!$api->succeeded()) {
             print "GET request failed: " . $api->get_last_error() . "\n";
