@@ -38,8 +38,10 @@ class HealthController extends AppController {
         $searchLogObjects = array();
         foreach($searchLogs as $log) {
             $temp = new SearchLogsObject($log["test_ok"]);
+            if ($temp == 1){
             echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
+        }
         }
 
         echo(count($searchLogObjects));
