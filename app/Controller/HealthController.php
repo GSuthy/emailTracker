@@ -46,6 +46,14 @@ class HealthController extends AppController {
 
         echo(count($searchLogObjects));
 
+        foreach($searchLogObjects as $test) {
+
+            if ($test.Status == 1){
+                echo ($test);
+
+            }
+        }
+
 
         echo "<pre>";
         print_r($searchLogs);
