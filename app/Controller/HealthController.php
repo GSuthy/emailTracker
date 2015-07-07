@@ -22,9 +22,9 @@ class HealthController extends AppController {
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
         App::import('Vendor', 'settings');
-        $searchLogs = CanItClient::searchlog(); 
+        $searchLogs = array(CanItClient::searchlog()); 
         echo "<pre>";
-        print_r($searchLogs.Stream);
+        print "Array has" .sizeof($searchLogs) . "elements";
         echo "</pre>";
         exit();
 
