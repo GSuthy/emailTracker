@@ -10,14 +10,16 @@
 App::uses('AppController', 'Controller');
 
 class SearchLogsObject {
-    private $hostname;
-
-    public function SearchLogsObject($hostname) {
+       public function SearchLogsObject($hostname, $status) {
         $this->hostname = $hostname;
+        $this->status = $stats;
     }
 
     public function hostName() {
         return $this->hostname;
+    }
+    public function statusTest() {
+        return $this->statusTest;
     }
 
 }
@@ -44,15 +46,14 @@ class HealthController extends AppController {
             array_push($searchLogObjects, $temp);
         }
 
-        echo(count($searchLogObjects));
-
-        foreach($searchLogObjects as $test) {
-
-            if ($test.Status == 1){
-                echo ($test);
-
-            }
+        $searchLogObjects = array();
+        foreach ($searchLogObjects as $status1) {
+            $temp = new SearchLogsObject ($status1["stats"]);
+            echo($temp->statusTest() . "<br>");
+            array_push($searchLogObjects, $temp);
         }
+
+        echo(count($searchLogObjects));
 
 
         echo "<pre>";
