@@ -1,7 +1,8 @@
 <?php
 
+App::uses('AppModel', 'Model');
 
-class SearchLogObject {
+class SearchLogObject extends AppModel {
     private $stream;
 
     public function SearchLogObject($stream) {
