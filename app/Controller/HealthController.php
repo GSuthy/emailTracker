@@ -10,14 +10,14 @@
 App::uses('AppController', 'Controller');
 
 class SearchLogsObject {
-    private $stream;
+    private $hostname;
 
-    public function SearchLogsObject($stream) {
-        $this->stream = $stream;
+    public function SearchLogsObject($hostname) {
+        $this->stream = $hostname;
     }
 
     public function getStream() {
-        return $this->stream;
+        return $this->hostname;
     }
 
 }
@@ -39,8 +39,8 @@ class HealthController extends AppController {
 
         $searchLogObjects = array();
         foreach($searchLogs as $log) {
-            $temp = new SearchLogsObject($log["stream"]);
-            echo($temp->getStream() . "<br>");
+            $temp = new SearchLogsObject($log["hostname"]);
+            echo($temp->gethostname() . "<br>");
             array_push($searchLogObjects, $temp);
         }
 
