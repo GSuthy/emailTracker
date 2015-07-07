@@ -123,7 +123,7 @@ class CanItClient {
             print "GET request failed: " . $api->get_last_error() . "\n";
             return null;
         } else {
-            return $results;
+            return $results[0][''];
         }
 
 
