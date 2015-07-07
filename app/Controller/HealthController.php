@@ -24,7 +24,7 @@ class HealthController extends AppController {
         App::import('Vendor', 'settings');
         $searchLogs = CanItClient::searchlog(); 
         echo "<pre>";
-        print $searchLogs;
+        print_r($searchLogs);
         echo "</pre>";
         exit();
 
