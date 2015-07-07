@@ -22,9 +22,8 @@ class HealthController extends AppController {
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
         App::import('Vendor', 'settings');
-        $searchLogs = array(CanItClient::searchlog()); 
+        $searchLogs = CanItClient::searchlog(); 
         echo "<pre>";
-        print "Array has " .sizeof($searchLogs) . " elements";
         print $searchLogs;
         echo "</pre>";
         exit();
