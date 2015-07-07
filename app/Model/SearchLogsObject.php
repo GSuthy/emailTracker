@@ -2,10 +2,10 @@
 
 App::uses('AppModel', 'Model');
 
-class SearchLogObject extends AppModel {
+class SearchLogsObject extends AppModel {
     private $stream;
 
-    public function SearchLogObject($stream) {
+    public function SearchLogsObject($stream) {
         $this->stream = $stream;
     }
 

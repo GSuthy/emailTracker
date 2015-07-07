@@ -11,7 +11,7 @@ App::uses('AppController', 'Controller');
 
 class HealthController extends AppController {
 
-    public $uses = 'SearchLogObject';
+    public $uses = 'SearchLogsObject';
 
 
     public function beforeFilter() {
@@ -28,7 +28,7 @@ class HealthController extends AppController {
 
         $searchLogObjects = array();
         foreach($searchLogs as $log) {
-            $temp = new SearchLogObject($log["stream"]);
+            $temp = new SearchLogsObject($log["stream"]);
             print_r("<h1>$temp</h1>");
         }
 
