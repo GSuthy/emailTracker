@@ -13,7 +13,7 @@ class SearchLogsObject {
     private $hostname;
 
     public function SearchLogsObject($hostname) {
-        $this->$hostname = $hostname;
+        $this->hostname = $hostname;
     }
 
     public function hostName() {
