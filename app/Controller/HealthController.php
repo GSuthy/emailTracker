@@ -53,9 +53,14 @@ class HealthController extends AppController {
                     array_push($working, $check['hostname'] . " currently has more than 10$ free disk space");
 
             }
+            else {
+                    array_pus($notWorking, $check['hostname'] . "currently is not working");
+                }
+            }
         }
-    }    
+       
         print_r($working);
+        print_r($notWorking);
         "<br>";
          "<br>";
           "<br>";
