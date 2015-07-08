@@ -46,7 +46,9 @@ class HealthController extends AppController {
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
             if ($temp['message'] === "All mounted volumes have at least 10% free disk space and inodes") {
-            if ($temp['test_ok'] == 1 ) {
+            if ($temp['test_ok'] == 1 ) 
+                if ($temp['hostname'] === "gw10.byu.edu")
+                {
                 echo "working ";
             }
             else
