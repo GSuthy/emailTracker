@@ -52,13 +52,13 @@ class HealthController extends AppController {
                     if ($check['hostname'] === "gw10.byu.edu" || "gw3.byu.edu") {
 
       array_push($working, $check['hostname'] . " currently has more than 10$ free disk space");
-
+    print_r($working);
             }
         }
     }    
         }
 
-        print_r($check['hostname']);
+    
     
         "<br>";
          "<br>";
