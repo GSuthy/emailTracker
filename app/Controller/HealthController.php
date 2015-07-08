@@ -39,13 +39,13 @@ class HealthController extends AppController {
         foreach($searchLogs as $log) {
             $temp = new SearchLogsObject($log["hostname"]);
             
-            echo($temp->hostName() . "<br>");
+            // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
-            if ($temp->hostname() === "gw10") {
-            echo ($temp->hostname() . "<br>" . "this is working");
+            if ($temp->hostName() === "gw10") {
+            echo ($temp->hostName() . "<br>" . "is working");
         }
     }
 
