@@ -19,7 +19,7 @@ class SearchLogsObject {
     }
 
 }
-    
+
 
 class HealthController extends AppController {
 
@@ -37,14 +37,13 @@ class HealthController extends AppController {
 
         $searchLogObjects = array();
         foreach($searchLogs as $log) {
-            $temp = new SearchLogsObject($log["test_ok"]);
+            $temp = new SearchLogsObject($log["message"]);
             
             echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
 
-        echo(count($searchLogObjects));
-
+        if
 
         echo "<pre>";
         print_r($searchLogs);
@@ -55,4 +54,3 @@ class HealthController extends AppController {
     }
 }
 ?>
-
