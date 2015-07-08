@@ -36,20 +36,17 @@ $this->end();
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($working as $message => $resultArray): ?>
-                <tr class="sub-header">
-                    <td colspan="3"><?= $description ?></td>
-                </tr>
+    
                 <?php
                 $i = 0;
-                foreach ($resultArray as $result): ?>
+                $data = $message;
+                foreach ($data as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
-                        <td><?= $result['server'] ?></td>
-                        <td><?= $result['active_queue'] ?></td>
-                        <td><?= $result['deferred_queue'] ?></td>
+                        <td><?= $result['hostname'] ?></td>
+                        <td><?= $result['test_ok'] ?></td>
+                        <td><?= $result['message'] ?></td>
                     </tr>
                 <?php endforeach; ?>
-            <?php endforeach; ?>
             </tbody>
             <tfoot>
             <tr>
