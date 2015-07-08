@@ -42,9 +42,11 @@ class HealthController extends AppController {
             // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
-        if ($temp->hostname() === "All mounted volumes have at least 10% free disk space and inodes") {
+        foreach ($message as $temp) {
+            if ($temp->hostname() === "All mounted volumes have at least 10% free disk space and inodes") {
             echo ($temp->hostname() . "<br>");
         }
+    }
 
         echo "<pre>";
         print_r($searchLogs);
