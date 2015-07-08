@@ -39,7 +39,7 @@ $this->end();
     
                 <?php
                 $i = 0;
-                $data = $message;
+                $data = CanItClient::searchlog();
                 foreach ($data as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname'] ?></td>
