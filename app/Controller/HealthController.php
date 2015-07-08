@@ -10,12 +10,12 @@
 App::uses('AppController', 'Controller');
 
 class SearchLogsObject {
-       public function SearchLogsObject($hostname) {
-        $this->hostname = $hostname;
+       public function SearchLogsObject($message) {
+        $this->message = $message;
     }
 
-    public function hostName() {
-        return $this->hostname;
+    public function messageM() {
+        return $this->message;
     }
 
 }
@@ -45,8 +45,8 @@ class HealthController extends AppController {
 
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
-            if ($temp['hostname'] === "All mounted volumes have at least 10% free disk space and inodes") {
-            echo ($temp['hostname'] . "<br>" . "is working");
+            if ($temp['message'] === "All mounted volumes have at least 10% free disk space and inodes") {
+            echo ($temp['message'] . "<br>" . "is working");
         }
     }
 
