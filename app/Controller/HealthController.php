@@ -42,10 +42,9 @@ class HealthController extends AppController {
             // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
+
         $working = array();
         $message = CanItClient::searchlog();
-
-
         foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
                 if ($check['test_ok'] == 1){
@@ -58,7 +57,8 @@ class HealthController extends AppController {
     }    
         }
         print_r($working);
-        echo count($working);
+        echo $working;
+        echo $message[2];
         "<br>";
          "<br>";
           "<br>";
