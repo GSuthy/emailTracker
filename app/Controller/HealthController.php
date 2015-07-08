@@ -43,8 +43,6 @@ class HealthController extends AppController {
             array_push($searchLogObjects, $temp);
         }
 
-        if
-
         echo "<pre>";
         print_r($searchLogs);
         echo "</pre>";
