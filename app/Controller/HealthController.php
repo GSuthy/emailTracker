@@ -9,16 +9,16 @@
 
 App::uses('AppController', 'Controller');
 
-class SearchLogsObject {
-       public function SearchLogsObject($message) {
-        $this->message = $message;
-    }
+// class SearchLogsObject {
+//        public function SearchLogsObject($message) {
+//         $this->message = $message;
+//     }
 
-    public function messageM() {
-        return $this->message;
-    }
+//     public function messageM() {
+//         return $this->message;
+//     }
 
-}
+// }
   
  
 class HealthController extends AppController {
