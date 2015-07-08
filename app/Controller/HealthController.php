@@ -58,7 +58,7 @@ class HealthController extends AppController {
     }    
         }
 
-        print_r($check);
+        print_r($check['hostname']);
     
         "<br>";
          "<br>";
