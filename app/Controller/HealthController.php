@@ -49,11 +49,8 @@ class HealthController extends AppController {
         
                 echo "working ";
             }
-            else {
-                echo 1;
-            }
-
-}
+           
+        }
         echo "<pre>";
         print_r($searchLogs);
         echo "</pre>";
