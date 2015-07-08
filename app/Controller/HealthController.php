@@ -47,8 +47,7 @@ class HealthController extends AppController {
         foreach ($message as $temp) {
             if ($temp['message'] == "All mounted volumes have at least 10% free disk space and inodes"){
                 // && $temp['test_ok'] == 1 && $temp['hostname'] == "gw10.byu.edu" || "gw5.byu.edu" || "gw3.byu.edu") {
-        
-                echo "working";
+            echo "working";
             }
            
         }
@@ -56,7 +55,11 @@ class HealthController extends AppController {
         print_r($searchLogs);
         echo "</pre>";
         exit();
-
+        
+$array[] = "item";
+$array[$key] = "item";
+array_push($array, "item", "another item");
+var_dump($array);
 
     }
 }
