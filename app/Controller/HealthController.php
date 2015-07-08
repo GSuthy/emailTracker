@@ -56,6 +56,7 @@ class HealthController extends AppController {
     }    
         }
         print_r($working);
+        echo count($working);
         "<br>";
          "<br>";
           "<br>";
