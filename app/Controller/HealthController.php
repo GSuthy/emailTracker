@@ -45,10 +45,11 @@ class HealthController extends AppController {
 
         $working = array();
         $message = CanItClient::searchlog();
-        foreach ($message as $check) {
+
+                foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
                 if ($check['test_ok'] == 1){
-                    if ($check['hostname'] === "gw10.byu.edu") {
+                    if ($check['hostname'] === "gw10.byu.edu" || "gw3.byu.edu") {
 
       array_push($working, $check['hostname'] . " currently has more than 10$ free disk space");
 
@@ -56,7 +57,8 @@ class HealthController extends AppController {
         }
     }    
         }
-        print_r($working);
+
+        print_r($working . "<br>");
     
         print_r($message[2]);
         "<br>";
