@@ -58,9 +58,8 @@ class HealthController extends AppController {
     }    
         }
 
-        print_r($working);
+        print_r($check);
     
-        print_r($message[2]);
         "<br>";
          "<br>";
           "<br>";
