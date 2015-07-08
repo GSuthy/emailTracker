@@ -44,6 +44,7 @@ class HealthController extends AppController {
         }
  
         $working = array();
+        $notWorking = array();
         $message = CanItClient::searchlog();
 
                 foreach ($message as $check) {
