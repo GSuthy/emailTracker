@@ -19,7 +19,7 @@ class SearchLogsObject {
     }
 
 }
-
+    
 
 class HealthController extends AppController {
 
