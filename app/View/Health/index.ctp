@@ -37,13 +37,18 @@ $this->end();
             </thead>
             <tbody>
     
+
                 <?php
+                $okay = array(); 
+        if ($result['hostname'] == 1) {
+            array_push($okay, "okay");
+        }
                 $i = 0;
                 $data = CanItClient::searchlog();
                 foreach ($data as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname'] ?></td>
-                        <td><?= $result['test_ok'] ?></td>
+                        <td><?= $okay ?></td>
                         <td><?= $result['message'] ?></td>
                     </tr>
                 <?php endforeach; ?>
