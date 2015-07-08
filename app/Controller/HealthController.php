@@ -54,13 +54,15 @@ class HealthController extends AppController {
         echo "<pre>";
         print_r($searchLogs);
         echo "</pre>";
-        exit();
+       
+
 $array = array();      
 $array[] = "item";
 $array[$key] = "item";
 array_push($array, "item", "another item");
 var_dump($array);
 
+exit();
     }
 }
 ?>
