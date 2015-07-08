@@ -57,8 +57,6 @@ class HealthController extends AppController {
        
 
 $array = array();      
-$array[] = "item";
-$array[$key] = "item";
 array_push($array, "item", "another item");
 var_dump($array);
 
