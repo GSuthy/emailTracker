@@ -51,7 +51,7 @@ class HealthController extends AppController {
                 if ($temp['test_ok'] == 1){
                     if ($temp['hostname'] === "gw10.byu.edu") {
 
-      array_push($working, "work");
+      array_push($working, $message);
 
             }
         }
