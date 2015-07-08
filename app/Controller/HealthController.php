@@ -45,7 +45,7 @@ class HealthController extends AppController {
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
             if ($temp->hostname() === "gw10") {
-            echo ($temp->hostname() . "<br>");
+            echo ($temp->hostname() . "<br>" . "this is working");
         }
     }
 
