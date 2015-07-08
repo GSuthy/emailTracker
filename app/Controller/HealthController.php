@@ -42,7 +42,7 @@ class HealthController extends AppController {
             // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
-
+ 
         $working = array();
         $message = CanItClient::searchlog();
 
@@ -58,7 +58,7 @@ class HealthController extends AppController {
     }    
         }
 
-        print_r($working . "<br>");
+        print_r($working);
     
         print_r($message[2]);
         "<br>";
