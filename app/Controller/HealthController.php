@@ -20,7 +20,7 @@ class SearchLogsObject {
 
 }
 
-
+ 
 class HealthController extends AppController {
 
     public function beforeFilter() {
@@ -42,12 +42,12 @@ class HealthController extends AppController {
             // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
-
+        $working = array();
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
             if ($temp['message'] == "All mounted volumes have at least 10% free disk space and inodes"){
                 // && $temp['test_ok'] == 1 && $temp['hostname'] == "gw10.byu.edu" || "gw5.byu.edu" || "gw3.byu.edu") {
-            echo "working";
+            array_push($array, $temp['hostname']);
             }
            
         }
