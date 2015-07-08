@@ -36,7 +36,7 @@ $this->end();
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($results as $description => $resultArray): ?>
+            <?php foreach ($working as $description => $resultArray): ?>
                 <tr class="sub-header">
                     <td colspan="3"><?= $description ?></td>
                 </tr>

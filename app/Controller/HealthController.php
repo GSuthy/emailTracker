@@ -55,21 +55,15 @@ class HealthController extends AppController {
 
             }
             else {
-                    array_pus($notWorking, $check['hostname'] . "currently is not working");
+                    array_push($notWorking, $check['hostname'] . "currently is not working");
                 }
             }
         }
        
         print_r($working);
         print_r($notWorking);
-        "<br>";
-         "<br>";
-          "<br>";
-           "<br>";
-            "<br>";
-        echo "<pre>";
-        // print_r($searchLogs);
-        echo "</pre>";
+            // print_r($searchLogs);
+        
        
 
 // $array = array();      
