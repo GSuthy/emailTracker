@@ -42,12 +42,15 @@ class HealthController extends AppController {
             // echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
+
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
+            var_dump($temp);
             if ($temp->hostName() === "gw10") {
             echo ($temp->hostName() . "<br>" . "is working");
         }
     }
+
 
         echo "<pre>";
         print_r($searchLogs);
