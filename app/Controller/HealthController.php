@@ -39,15 +39,15 @@ class HealthController extends AppController {
         foreach($searchLogs as $log) {
             $temp = new SearchLogsObject($log["message"]);
             
-            // echo($temp->hostName() . "<br>");
+            echo($temp->hostName() . "<br>");
             array_push($searchLogObjects, $temp);
         }
-    //     $message = CanItClient::searchlog();
-    //     foreach ($message as $temp) {
-    //         if ($temp->hostname() === "All mounted volumes have at least 10% free disk space and inodes") {
-    //         echo ($temp->hostname() . "<br>");
-    //     }
-    // }
+        $message = CanItClient::searchlog();
+        foreach ($message as $temp) {
+            if ($temp->hostname() === "gw10") {
+            echo ($temp->hostname() . "<br>");
+        }
+    }
 
         echo "<pre>";
         print_r($searchLogs);
