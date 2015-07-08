@@ -43,7 +43,7 @@ class HealthController extends AppController {
             array_push($searchLogObjects, $temp);
         }
         $working = array();
-        $message = CanItClient::searchlog();
+        // $message = CanItClient::searchlog();
 
 
         foreach ($message as $temp) {
