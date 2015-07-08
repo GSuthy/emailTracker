@@ -33,15 +33,15 @@ class HealthController extends AppController {
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
         App::import('Vendor', 'settings');
-        $searchLogs = CanItClient::searchlog(); 
+        // $searchLogs = CanItClient::searchlog(); 
 
-        $searchLogObjects = array();
-        foreach($searchLogs as $log) {
-            $temp = new SearchLogsObject($log["message"]);
+        // $searchLogObjects = array();
+        // foreach($searchLogs as $log) {
+        //     $temp = new SearchLogsObject($log["message"]);
             
-            // echo($temp->hostName() . "<br>");
-            array_push($searchLogObjects, $temp);
-        }
+        //     // echo($temp->hostName() . "<br>");
+        //     array_push($searchLogObjects, $temp);
+        // }
  
         $working = array();
         $notWorking = array();
