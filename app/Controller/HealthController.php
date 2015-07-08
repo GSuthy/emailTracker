@@ -47,8 +47,10 @@ class HealthController extends AppController {
         foreach ($message as $temp) {
             if ($temp['message'] === "All mounted volumes have at least 10% free disk space and inodes") {
             if ($temp['test_ok'] == 1 ) {
-                echo "this worked";
+                echo "working ";
             }
+            else
+                echo " this isn't working ";
         }
     }
 
