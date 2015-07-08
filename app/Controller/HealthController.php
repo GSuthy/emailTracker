@@ -52,7 +52,7 @@ class HealthController extends AppController {
                 if ($check['test_ok'] == 1){
                     // if ($check['hostname'] === "gw10.byu.edu") {
                     array_push($working, $check['hostname'] . " currently has more than 10$ free disk space " . "<br>");
-
+                return $working;
             }
             else {
                     array_push($notWorking, $check['hostname'] . "currently is not working");
