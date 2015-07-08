@@ -45,10 +45,9 @@ class HealthController extends AppController {
 
         $message = CanItClient::searchlog();
         foreach ($message as $temp) {
-            var_dump($temp);
-            //if ($temp->hostName() === "gw10") {
-            //echo ($temp->hostName() . "<br>" . "is working");
-        // }
+            if ($temp['hostname'] === "gw10.byu.edu") {
+            echo ($temp['hostname'] . "<br>" . "is working");
+        }
     }
 
 
