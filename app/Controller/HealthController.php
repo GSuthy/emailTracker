@@ -57,7 +57,7 @@ class HealthController extends AppController {
                 }      
                 }                        
             }
-            rsort($working);
+            asort($working);
            return $working;
        }
    
