@@ -54,13 +54,13 @@ class HealthController extends AppController {
                 if ($check['test_ok'] == 1){
                     // if ($check['hostname'] === "gw10.byu.edu") {
                     array_push($working, $check['hostname']);
-                    echo $working; 
+                    print_r($working); 
                 }
              
             else {
                     array_push($notWorking, $check['hostname'] . "currently is not working");
                 }
-                 return $working;
+                 print_r($working);
             }
 
         }
