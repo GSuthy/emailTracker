@@ -46,7 +46,7 @@ $this->end();
                 foreach ($data as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname'] ?></td>
-                        <td><?= $result['hostname'] ?></td>
+                        <td><?= $result['test_ok'] ?></td>
                         <td><?= $result['message'] ?></td>
                     </tr>
                 <?php endforeach; ?>
