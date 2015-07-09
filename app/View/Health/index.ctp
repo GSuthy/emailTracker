@@ -83,7 +83,7 @@ $this->end();
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname']?></td>
-                        <td><?= "Error" ?></td>
+                        <td><?= <FONT COLOR = "B90000"> "Error" </FONT>?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
