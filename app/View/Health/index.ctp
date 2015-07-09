@@ -41,7 +41,7 @@ $this->end();
                 <?php
              
                 $table = HealthController::data1(); 
-                print_r($working);
+                print_r($table);
                 $i = 0;
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
