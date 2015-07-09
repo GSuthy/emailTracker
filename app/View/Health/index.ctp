@@ -27,7 +27,7 @@ $this->end();
 
 <div class="container">
     <div class="tableHolder">
-        <table id="queueTable">
+        <table id="healthTable">
             <thead>
             <tr>
                 <th>Hostname</th>
@@ -52,7 +52,7 @@ $this->end();
             <tfoot>
             <tr>
                 <td colspan="3">
-                    <button id="refreshQueuesTable" type="button">Refresh</button>
+                    <button id="healthTable" type="button">Refresh</button>
                 </td>
             </tr>
             </tfoot>
