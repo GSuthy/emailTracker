@@ -53,7 +53,7 @@ class HealthController extends AppController {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
                 if ($check['test_ok'] == 1){
                     // if ($check['hostname'] === "gw10.byu.edu") {
-                    array_push($working, $check['hostname'] . " currently has more than 10$ free disk space " . "<br>");
+                    array_push($working, $check['hostname']);
                 return $working;
             }
             else {
