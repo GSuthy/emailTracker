@@ -42,8 +42,8 @@ $this->end();
 
 
                 $i = 0;
-                $data = CanItClient::searchlog();
-                foreach ($data as $result): ?>
+                
+                foreach ($working as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname'] ?></td>
                         <td><?= $result['test_ok'] ?></td>
