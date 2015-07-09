@@ -41,8 +41,27 @@ $this->end();
                 <?php
 
 
+
+        $working = array();
+        $notWorking = array();
+        $message = CanItClient::searchlog();
+
+                foreach ($message as $check) {
+            if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
+                if ($check['test_ok'] == 1){
+                    // if ($check['hostname'] === "gw10.byu.edu") {
+                    array_push($working, $check['hostname'] . " currently has more than 10$ free disk space " . "<br>");
+                return $message;
+                return $working;
+            }
+            else {
+                    array_push($notWorking, $check['hostname'] . "currently is not working");
+                }
+            }
+        }
+       
+
                 $i = 0;
-                
                 foreach ($working as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname'] ?></td>
