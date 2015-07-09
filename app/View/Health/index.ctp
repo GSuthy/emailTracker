@@ -27,9 +27,14 @@ $this->end();
 
 <div class="container">
     <div class="tableHolder">
+    <table id="queueTable">
+    <thead>
+            <tr>
+                <th>10% Disk Space or More</th>
+            </tr>
+            </thead>
         <table id="queueTable">
             <thead>
-            <title>Contains more than 10% of Free Disk Space</title> <br>
             <tr>
                 <th>Hostname</th>
                 <th>Status</th>
