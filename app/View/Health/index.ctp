@@ -53,6 +53,37 @@ $this->end();
         </table>
     </div>
 </div>
+
+<div class="container">
+    <div class="tableHolder">
+        <table id="queueTable">
+            <thead>
+            <tr>
+                <th>Hostname</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+    
+
+                <?php
+             
+                $table = HealthController::error(); 
+                // print_r($table);
+                $i = 0;
+                foreach ($table as $result): ?>
+                    <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
+                        <td><?= $result['hostname']?></td>
+                        <td><?= "Error" ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        
+        </table>
+    </div>
+</div>
+
+
 <?php endif; ?>
 
 

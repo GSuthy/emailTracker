@@ -47,21 +47,37 @@ class HealthController extends AppController {
 
         public static function data1() {
         $working = array();
-        $notWorking = array();
+
         $message = CanItClient::searchlog();
             foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-            
+                if ($check['test_ok'] == 1) {            
                     // if ($check['hostname'] === "gw10.byu.edu") {
                     array_push($working, $check);
-                }                              
-            else {
-                    array_push($notWorking, $check['hostname'] . "currently is not working");
-                }
+                }      
+                }                        
             }
             rsort($working);
            return $working;
        }
-    
-}
+   
+
+       public function error() {
+
+        $notWorking = array();
+        $message = CanItClient::searchlog();
+            foreach ($message as $check) {
+            if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
+                if ($check['test_ok'] == 0) {
+            
+                    // if ($check['hostname'] === "gw10.byu.edu") {
+                    array_push($notWorking, $check);
+                }  
+            }                            
+            }
+            
+           return $notWorking;
+       }
+    }
+
 ?>
