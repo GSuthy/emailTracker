@@ -52,7 +52,9 @@ $this->end();
             <tfoot>
             <tr>
                 <td colspan="3">
-                    
+                    <br>
+                    <br>
+                    <br>
                 </td>
             </tr>
             </tfoot>
