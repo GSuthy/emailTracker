@@ -49,6 +49,13 @@ $this->end();
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3">
+                    
+                </td>
+            </tr>
+            </tfoot>
         
         </table>
     </div>
