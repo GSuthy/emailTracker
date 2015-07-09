@@ -42,12 +42,14 @@ class HealthController extends AppController {
         //     // echo($temp->hostName() . "<br>");
         //     array_push($searchLogObjects, $temp);
         // }
- 
+        exit();
+         }
+
+        public static function data1() {
         $working = array();
         $notWorking = array();
         $message = CanItClient::searchlog();
-
-                foreach ($message as $check) {
+            foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
                 if ($check['test_ok'] == 1){
                     // if ($check['hostname'] === "gw10.byu.edu") {
@@ -60,7 +62,8 @@ class HealthController extends AppController {
                 }
             }
         }
-       
+       }
+
         // print_r($working);
         // print_r($notWorking);
             // print_r($searchLogs);
@@ -71,7 +74,7 @@ class HealthController extends AppController {
 // array_push($array, "item", "another item");
 // var_dump($array);
 
-exit();
-    }
+
+    
 }
 ?>
