@@ -42,7 +42,7 @@ class HealthController extends AppController {
         //     // echo($temp->hostName() . "<br>");
         //     array_push($searchLogObjects, $temp);
         // }
-        exit();
+        
          }
 
         public static function data1() {
@@ -60,12 +60,11 @@ class HealthController extends AppController {
             else {
                     array_push($notWorking, $check['hostname'] . "currently is not working");
                 }
-                print_r($working);
             }
         }
        }
 
-        
+        // print_r($working);
         // print_r($notWorking);
             // print_r($searchLogs);
         
