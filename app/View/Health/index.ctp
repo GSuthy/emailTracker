@@ -59,8 +59,7 @@ $this->end();
             <tr>
                 <td colspan="3">
                     <br>
-                    <br>
-                    <br>
+                   
                 </td>
             </tr>
             </tfoot>
@@ -71,6 +70,13 @@ $this->end();
 
 <div class="container">
     <div class="tableHolder">
+    <table id="queueTable">
+    <thead>
+            <tr>
+                <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th>
+            </tr>
+            </thead>
+            <br>
         <table id="queueTable">
             <thead>
             <tr>
