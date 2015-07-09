@@ -29,6 +29,7 @@ $this->end();
     <div class="tableHolder">
         <table id="queueTable">
             <thead>
+            <title>Contains more than 10% of Free Disk Space</title> <br>
             <tr>
                 <th>Hostname</th>
                 <th>Status</th>
@@ -83,7 +84,7 @@ $this->end();
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname']?></td>
-                        <td><FONT COLOR = "B90000"> "Error" </FONT></td>
+                        <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
