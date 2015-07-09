@@ -59,8 +59,9 @@ class HealthController extends AppController {
             else {
                     array_push($notWorking, $check['hostname'] . "currently is not working");
                 }
-                   return $working;
+
             }
+            return $working;
         }
        }
     
