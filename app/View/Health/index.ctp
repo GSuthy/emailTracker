@@ -39,7 +39,7 @@ $this->end();
     
 
                 <?php
-                App::import('Controller', 'HealthController');
+             
                 $table = CanItClient::SearchLog(); 
                 $i = 0;
                 foreach ($table as $result): ?>
@@ -62,4 +62,5 @@ $this->end();
 </div>
 <?php endif; ?>
 <?php
+   App::import('Controller', 'HealthController');
 print_r($working);
