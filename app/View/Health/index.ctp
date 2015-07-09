@@ -40,7 +40,8 @@ $this->end();
 
                 <?php
              
-                $table = HealthController::Data1(); 
+                $table = HealthController::data1(); 
+                print_r($working);
                 $i = 0;
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
@@ -61,4 +62,5 @@ $this->end();
     </div>
 </div>
 <?php endif; ?>
+
 
