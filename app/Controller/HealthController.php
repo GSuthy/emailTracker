@@ -63,7 +63,7 @@ class HealthController extends AppController {
             }
            
         }
-         print_r($working);
+         return $working;
        }
     
 }
