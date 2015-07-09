@@ -27,7 +27,7 @@ $this->end();
 
 <div class="container">
     <div class="tableHolder">
-        <table id="healthTable">
+        <table id="queueTable">
             <thead>
             <tr>
                 <th>Hostname</th>
@@ -49,13 +49,7 @@ $this->end();
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="3">
-                    <button id="healthTable" type="button">Refresh</button>
-                </td>
-            </tr>
-            </tfoot>
+        
         </table>
     </div>
 </div>
