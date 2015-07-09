@@ -62,7 +62,7 @@ class HealthController extends AppController {
        }
    
 
-       public function error() {
+       public static function error() {
 
         $notWorking = array();
         $message = CanItClient::searchlog();
