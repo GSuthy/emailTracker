@@ -63,7 +63,7 @@ class HealthController extends AppController {
             }
            
         }
-         print_r($working['hostname']);
+         print_r($working);
        }
     
 }
