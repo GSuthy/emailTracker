@@ -30,9 +30,9 @@ $this->end();
         <table id="queueTable">
             <thead>
             <tr>
-                <th>Server</th>
-                <th>Active Queue</th>
-                <th>Deferred Queue</th>
+                <th>Hostname</th>
+                <th>Status</th>
+                <th>System Check</th>
             </tr>
             </thead>
             <tbody>
@@ -60,3 +60,5 @@ $this->end();
     </div>
 </div>
 <?php endif; ?>
+<?php
+print_r($working);
