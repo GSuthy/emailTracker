@@ -64,8 +64,6 @@ $this->end();
 </div>
 
 
-<?php endif;
-
-print_r($arr); ?>
+<?php endif; ?>
 
 
