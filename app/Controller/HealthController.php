@@ -78,7 +78,7 @@ class HealthController extends AppController {
                 }  
             }                            
             }
-           if ($working.count = 0) {
+           if ($working.count == 0) {
             return $correctly
            } 
            else {
