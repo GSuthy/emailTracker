@@ -43,7 +43,7 @@ class HealthController extends AppController {
         //     array_push($searchLogObjects, $temp);
         // }
 
-         }
+    }
          //Inlcuding the lines below only if you are trying to add a table that will include the databases that
          //are in a correct state
        //  public static function data1() {
@@ -69,18 +69,22 @@ class HealthController extends AppController {
         $working = array();
         $working = "All databases are working correctly";
         $message = CanItClient::searchlog();
+
             foreach ($message as $check) {
-            if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-                if ($check['test_ok'] == 0) {
+                if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
+                    if ($check['test_ok'] == 0) {
             
                     // if ($check['hostname'] === "gw10.byu.edu") {
                     array_push($notWorking, $check);
-                }  
-            }                            
-            }
+                    }  
+                                       
+                }
           return $notWorking;
-       }
-       }
-    }
+
+            }
+
+        }
+
+}
 
 ?>
