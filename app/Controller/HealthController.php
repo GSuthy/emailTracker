@@ -79,7 +79,7 @@ class HealthController extends AppController {
             }                            
             }
            if ($working.count == 0) {
-            return $correctly
+            return $correctly;
            } 
            else {
            return $notWorking;
