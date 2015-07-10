@@ -79,15 +79,16 @@ class HealthController extends AppController {
                     }  
                                        
                 }
-          return $notWorking;
+            $arr = $notworking;
+            $arr = (object)$notworking; 
+            return $arr;
 
             }
-            $arr = $notworking;
-            $arr = (object)$notworking;
-           
+          
+
 
         }
-         
+
 }
 
 ?>

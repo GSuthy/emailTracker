@@ -65,7 +65,7 @@ $this->end();
 
 
 <?php endif;
-$objecterror = HealthController::error()
+
 print_r($arr); ?>
 
 
