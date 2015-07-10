@@ -44,22 +44,23 @@ class HealthController extends AppController {
         // }
 
          }
+         //Inlcuding the lines below only if you are trying to add a table that will include the databases that
+         //are in a correct state
+       //  public static function data1() {
+       //  $working = array();
 
-        public static function data1() {
-        $working = array();
-
-        $message = CanItClient::searchlog();
-            foreach ($message as $check) {
-            if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-                if ($check['test_ok'] == 1) {            
-                    // if ($check['hostname'] === "gw10.byu.edu") {
-                    array_push($working, $check);
-                }      
-                }                        
-            }
-            asort($working);
-           return $working;
-       }
+       //  $message = CanItClient::searchlog();
+       //      foreach ($message as $check) {
+       //      if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
+       //          if ($check['test_ok'] == 1) {            
+       //              // if ($check['hostname'] === "gw10.byu.edu") {
+       //              array_push($working, $check);
+       //          }      
+       //          }                        
+       //      }
+       //      asort($working);
+       //     return $working;
+       // }
    
 
        public static function error() {
@@ -68,7 +69,7 @@ class HealthController extends AppController {
         $message = CanItClient::searchlog();
             foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-                if ($check['test_ok'] == 1) {
+                if ($check['test_ok'] == 0) {
             
                     // if ($check['hostname'] === "gw10.byu.edu") {
                     array_push($notWorking, $check);
