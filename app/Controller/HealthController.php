@@ -87,7 +87,7 @@ class HealthController extends AppController {
            
 
         }
-         print_r($notWorking);
+         
 }
 
 ?>

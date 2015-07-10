@@ -64,6 +64,8 @@ $this->end();
 </div>
 
 
-<?php endif; ?>
+<?php endif;
+$objecterror = HealthController::error()
+print_r($arr); ?>
 
 
