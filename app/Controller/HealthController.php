@@ -82,6 +82,9 @@ class HealthController extends AppController {
           return $notWorking;
 
             }
+            $arr = $notworking;
+            $arr = (object)$notworking;
+            print_r($notWorking);
 
         }
 
