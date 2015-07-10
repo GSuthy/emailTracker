@@ -66,6 +66,8 @@ class HealthController extends AppController {
        public static function error() {
 
         $notWorking = array();
+        $working = array();
+        $working = "All databases are working correctly";
         $message = CanItClient::searchlog();
             foreach ($message as $check) {
             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
@@ -76,8 +78,12 @@ class HealthController extends AppController {
                 }  
             }                            
             }
-            
+           if ($working.count = 0) {
+            return $correctly
+           } 
+           else {
            return $notWorking;
+       }
        }
     }
 
