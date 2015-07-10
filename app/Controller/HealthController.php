@@ -66,8 +66,6 @@ class HealthController extends AppController {
        public static function error() {
 
         $notWorking = array();
-        $working = array();
-        $working = "All databases are working correctly";
         $message = CanItClient::searchlog();
 
             foreach ($message as $check) {
@@ -80,7 +78,7 @@ class HealthController extends AppController {
                                        
                 }
            
-            return $notworking;
+            return $notWorking;
             }
           
         }
