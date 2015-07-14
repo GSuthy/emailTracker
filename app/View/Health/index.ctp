@@ -57,9 +57,7 @@ $this->end();
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
 
-                <?php endforeach;
-                App::import('Controller', 'HealthController');
-                print_r($notWorking); ?>
+                <?php endforeach; ?>
             </tbody>
         
         </table>
