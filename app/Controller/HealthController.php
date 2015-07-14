@@ -70,7 +70,7 @@ class HealthController extends AppController {
 
             foreach ($message as $check) {
                 if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-                    if ($check['test_ok'] == 1) {
+                    if ($check['test_ok'] == 0) {
             
                     // if ($check['hostname'] === "gw10.byu.edu") {
                   array_push($notWorking, $check);
