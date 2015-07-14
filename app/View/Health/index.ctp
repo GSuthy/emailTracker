@@ -58,7 +58,8 @@ $this->end();
                     </tr>
 
                 <?php endforeach;
-                print_r$notWorking; ?>
+                include 'HealthController.php';
+                print_r($notWorking); ?>
             </tbody>
         
         </table>
