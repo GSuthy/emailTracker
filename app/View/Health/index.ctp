@@ -47,13 +47,13 @@ $this->end();
     
 
                 <?php
-                $statusOK = "This is working correctly";
+                $statusOK = "There are no servers with less than 10% Disk Space";
              
                 $table = HealthController::error(); 
                 // print_r($table);
                
                 if (count($table) == 0): ?>
-                <td><?= $statusOK ?> </td> <?php
+                <tr><td><?= $statusOK ?> </td> </tr><?php
                     
 
                 else:
