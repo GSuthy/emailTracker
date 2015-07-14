@@ -73,7 +73,7 @@ class HealthController extends AppController {
                     if ($check['test_ok'] == 1) {
             
                     // if ($check['hostname'] === "gw10.byu.edu") {
-                    $this->array_push($notWorking, $check);
+                  array_push($notWorking, $check);
                     }  
                                        
                 }
