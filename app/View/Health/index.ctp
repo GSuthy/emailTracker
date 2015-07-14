@@ -51,7 +51,8 @@ $this->end();
     
 
                 <?php
-                    $dataTable = HealthController::error();         
+                    $dataTable = HealthController::error(); 
+                    print_r($dataTable);        
                      $i = 0;
                 foreach ($dataTable as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
