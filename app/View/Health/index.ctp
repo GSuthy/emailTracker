@@ -47,13 +47,14 @@ $this->end();
     
 
                 <?php
+                $statusOK = "This is working correctly";
              
                 $table = HealthController::error(); 
                 // print_r($table);
                
                 if (count($table) == 0): ?>
                 <tr> class="<?= $statusOK ?> </td>" <?php
-                    echo "this is working";
+                    
 
                 else:
                      $i = 0;
