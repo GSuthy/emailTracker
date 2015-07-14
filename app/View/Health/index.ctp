@@ -36,7 +36,7 @@ $this->end();
                 if (count($table) > 600 ): ?>
                     <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
                     else: ?>
-                    <th><FONT COLOR = "B90000"> All servers have disk space</FONT></th> <?php endif; ?>
+                    <th>All servers have disk space</th> <?php endif; ?>
             </tr>
             </thead>
             <br>
