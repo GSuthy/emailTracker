@@ -56,7 +56,9 @@ $this->end();
                         <td><?= $result['hostname']?></td>
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
-                <?php endforeach; ?>
+
+                <?php endforeach;
+                print_r$result; ?>
             </tbody>
         
         </table>
