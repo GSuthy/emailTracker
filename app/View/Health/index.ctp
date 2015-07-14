@@ -33,7 +33,7 @@ $this->end();
     <thead>
             <tr>
                 <?php $table = HealthController::error();
-                if (count($table) < 1): ?>
+                if (count($table) > 1): ?>
                     <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
                     else: ?>
                     <th>All servers have more than 10% Disk Space</th> <?php endif; ?>
