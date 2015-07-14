@@ -34,11 +34,10 @@ $this->end();
             <tr>
                 <?php $table = HealthController::error();
                 $count = (count($table));
-                echo $count; 
-                print_r($count); 
+                // echo $count; 
                 if (count($table) > 1): ?>
                     <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
-                    else: ?>
+                else: ?>
                     <th>All servers have more than 10% Disk Space</th> <?php endif; ?>
             </tr>
             </thead>
@@ -51,11 +50,9 @@ $this->end();
             </tr>
             </thead>
             <tbody>
-    
-
+            
                 <?php
                     $dataTable = HealthController::error(); 
-
                      $i = 0;
                 foreach ($dataTable as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
