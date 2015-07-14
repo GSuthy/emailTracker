@@ -32,7 +32,11 @@ $this->end();
     <table id="queueTable">
     <thead>
             <tr>
-                <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th>
+                <?php $table = HealthController::error();
+                if (count($table) == 0): ?>
+                    <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
+                    else: ?>
+                    <th><FONT COLOR = "B90000"> All servers have disk space</FONT></th> <?php endif; ?>
             </tr>
             </thead>
             <br>
@@ -47,16 +51,10 @@ $this->end();
     
 
                 <?php
-                $statusOK = "There are no servers with less than 10% Disk Space";
-             
+                          
                 $table = HealthController::error(); 
                 // print_r($table);
                
-                if (count($table) == 0): ?>
-                <tr><td><?= $statusOK ?> </td> </tr><?php
-                    
-
-                else:
                      $i = 0;
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
@@ -64,7 +62,7 @@ $this->end();
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
 
-                <?php endforeach; endif; ?>
+                <?php endforeach;?>
             </tbody>
         
         </table>
