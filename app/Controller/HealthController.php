@@ -78,9 +78,9 @@ class HealthController extends AppController {
                                        
                 }
            
-            return $notWorking;
+            
             }
-          
+          return $notWorking;
         }
 
 }
