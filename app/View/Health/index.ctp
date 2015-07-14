@@ -50,14 +50,19 @@ $this->end();
              
                 $table = HealthController::error(); 
                 // print_r($table);
-                $i = 0;
+               
+                if (count($table) == 0) {
+                    echo "this is working";
+
+                } else {
+                     $i = 0;
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname']?></td>
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
 
-                <?php endforeach; ?>
+                <?php endforeach; }?>
             </tbody>
         
         </table>
