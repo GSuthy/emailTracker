@@ -58,7 +58,7 @@ $this->end();
                     </tr>
 
                 <?php endforeach;
-                include 'HealthController.php';
+                App::import('Controller', 'HealthController');
                 print_r($notWorking); ?>
             </tbody>
         
