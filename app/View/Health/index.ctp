@@ -51,10 +51,11 @@ $this->end();
                 $table = HealthController::error(); 
                 // print_r($table);
                
-                if (count($table) == 0) {
+                if (count($table) == 0): ?>
+                <tr> class="<?= $statusOK ?> </td>" <?php
                     echo "this is working";
 
-                } else {
+                else:
                      $i = 0;
                 foreach ($table as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
@@ -62,7 +63,7 @@ $this->end();
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
 
-                <?php endforeach; }?>
+                <?php endforeach; endif; ?>
             </tbody>
         
         </table>
