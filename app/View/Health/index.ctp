@@ -58,7 +58,7 @@ $this->end();
                     </tr>
 
                 <?php endforeach;
-                print_r$result; ?>
+                print_r$notWorking; ?>
             </tbody>
         
         </table>
