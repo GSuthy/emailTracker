@@ -53,7 +53,7 @@ $this->end();
                 // print_r($table);
                
                 if (count($table) == 0): ?>
-                <tr> class="<?= $statusOK ?> </td>" <?php
+                <tr><?= $statusOK ?> </td>" <?php
                     
 
                 else:
