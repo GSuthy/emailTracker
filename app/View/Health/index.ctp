@@ -51,12 +51,9 @@ $this->end();
     
 
                 <?php
-                          
-                $table = HealthController::error(); 
-                // print_r($table);
-               
+                    $dataTable = HealthController::error();         
                      $i = 0;
-                foreach ($table as $result): ?>
+                foreach ($dataTable as $result): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result['hostname']?></td>
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
