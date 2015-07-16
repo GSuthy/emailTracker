@@ -99,8 +99,8 @@ $this->end();
                         $dateModified = $dateModification['when_checked'];
                     }
                 }
-                print_r($dateModified);
-                $time = date("F j, Y", $dateModified);
+              
+                $time = date("F j, Y, g:i a", $dateModified);
                     
                 foreach ($dataTable2 as $result2): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
