@@ -78,7 +78,7 @@ $this->end();
     <thead>
             <tr>
                 <?php $header = HealthController::copytocluster();
-                explode(HealthController, copytocluster);
+                explode(HealthController::copytocluster());
                 print_r($clusterCheck);
                 $checked = array();
                 $checked = $header['message'];
