@@ -79,7 +79,7 @@ $this->end();
             <tr>
                 <?php $header = HealthController::copytocluster();
                $test = array();
-               foreach ($checker as $header){
+               foreach ($header as $checker){
                     if ($checker['message'] == ['No errors']){
                         array_push($test);
                     }
@@ -105,7 +105,7 @@ $this->end();
                <?php
                     $dataTable2 = HealthController::copytocluster(); 
                      $i = 0;
-                     $dateModiefied = array();
+                     
                      foreach ($dataTable2 as $dateModification) {
                         if ($dateModification['when_checked'] > 1){
                         $dateModified = $dateModification['when_checked'];
