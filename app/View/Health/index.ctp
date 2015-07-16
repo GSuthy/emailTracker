@@ -100,7 +100,7 @@ $this->end();
                     }
                 }
               
-                $time = date("F j, Y, g:i a", $dateModified);
+                $time = date("F j, Y g:i a", $dateModified);
                     
                 foreach ($dataTable2 as $result2): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
