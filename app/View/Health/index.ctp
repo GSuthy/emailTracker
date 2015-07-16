@@ -77,21 +77,16 @@ $this->end();
     <table id="queueTable">
     <thead>
             <tr>
-                <?php $table = HealthController::error();
-                $count = (count($table));
-                // echo $count; 
-                if (count($table) > 1): ?>
-                    <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
-                else: ?>
-                    <th>All servers have more than 10% Disk Space</th> <?php endif; ?>
+              
+                    <th>Copy To Cluster</th> 
             </tr>
             </thead>
             <br>
         <table id="queueTable">
             <thead>
             <tr>
-                <th>Hostname</th>
                 <th>Status</th>
+                <th>Time Checked</th>
             </tr>
             </thead>
             <tbody>
@@ -105,9 +100,12 @@ $this->end();
                     </tr>
 
                 <?php endforeach;?>
+
+
                 <?php
-                $print = CanItClient::searchlog();
-                print_r($print);
+                //uncomment the lines below if you need to print out the CanItClient searchlog
+                // $print = CanItClient::searchlog();
+                // print_r($print);
                 ?>
 
             
