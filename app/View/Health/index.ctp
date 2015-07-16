@@ -79,10 +79,8 @@ $this->end();
             <tr>
                 <?php $header = HealthController::copytocluster();
                
-                $checked = array();
-                print_r($header);
-                $checked = $header['message'];
-                if ($checked == ['No errors']):?>
+
+                if ($header['message'] == ['No errors']):?>
                 <th>Copy To Cluster</th> <?php
                 else: ?> 
                 <th><FONT COLOR = "B90000"> THERE IS AN ISSUE WITH THE COPY CLUSTER</FONT></th> <?php endif; ?>
