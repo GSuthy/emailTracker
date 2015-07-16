@@ -101,7 +101,7 @@ $this->end();
                 foreach ($dataTable2 as $result2): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result2['message']?></td>
-                        <td><FONT COLOR = "B90000"> Error </FONT></td>
+                        <td><?= $result2['when_checked'] ?></td>
                     </tr>
 
                 <?php endforeach;?>
