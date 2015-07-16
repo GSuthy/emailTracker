@@ -71,9 +71,6 @@ $this->end();
 
                 <?php endforeach;?>
 
-                <?php $print = CanItClient::searchlog();
-                print_r($print);
-                ?>
             </tbody>
         
         </table>
@@ -82,5 +79,47 @@ $this->end();
 
 
 <?php endif; ?>
+
+<div class="container">
+    <div class="tableHolder">
+    <table id="queueTable">
+    <thead>
+            <tr>
+                <?php $table = HealthController::error();
+                $count = (count($table));
+                // echo $count; 
+                if (count($table) > 1): ?>
+                    <th><FONT COLOR = "B90000"> 10% Disk Space or Less</FONT></th> <?php
+                else: ?>
+                    <th>All servers have more than 10% Disk Space</th> <?php endif; ?>
+            </tr>
+            </thead>
+            <br>
+        <table id="queueTable">
+            <thead>
+            <tr>
+                <th>Hostname</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+               <?php
+                    $dataTable2 = HealthController::copytocluster(); 
+                     $i = 0;
+                foreach ($dataTable2 as $result2): ?>
+                    <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
+                        <td><?= $result2['message']?></td>
+                        <td><FONT COLOR = "B90000"> Error </FONT></td>
+                    </tr>
+
+                <?php endforeach;?>
+
+            
+            </tbody>
+        
+        </table>
+    </div>
+</div>
+
 
 
