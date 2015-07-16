@@ -85,17 +85,18 @@ class HealthController extends AppController {
 
         public static function copytocluster () {
           $clusterCheck = array();
-          $message = CanItClient::searchlog();
+          $CanItSearch = CanItClient::searchlog();
           
-          foreach ($messages as $check){
+          foreach ($CanItSearch as $checking){
             if ($check['test_name'] == "CopyToCluster") {
               array_push($clusterCheck, $check);
 
             }
           }
-          return $clusterCheck;
-        }
+
         
+        return $clusterCheck;
+  }      
 
 }
 
