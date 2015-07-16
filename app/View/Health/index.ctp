@@ -70,6 +70,10 @@ $this->end();
                     </tr>
 
                 <?php endforeach;?>
+
+                <?php $print = CanItClient::searchlog();
+                print_r($print);
+                ?>
             </tbody>
         
         </table>
