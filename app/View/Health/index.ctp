@@ -83,7 +83,7 @@ $this->end();
                class Index extends HealthController {
 
                 function showCheck (){
-                    print_r($clusterCheck);
+                    $this-> print_r($clusterCheck);
                 }
                }
 
