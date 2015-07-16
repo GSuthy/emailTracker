@@ -93,6 +93,7 @@ $this->end();
                <?php
                     $dataTable2 = HealthController::copytocluster(); 
                      $i = 0;
+                     $dateModiefied = array();
                      foreach ($dataTable2 as $dateModification) {
                         if ($dateModification['when_checked'] > 1){
                         $dateModified += $dateModification;
