@@ -58,19 +58,11 @@ $this->end();
                         <td><?= $result['hostname']?></td>
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
-
+                    <br>
+                    <br>
+                    <br>
                 <?php endforeach;?>
-               <?php
-                    $dataTable2 = HealthController::copytocluster(); 
-                     $i = 0;
-                foreach ($dataTable2 as $result2): ?>
-                    <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
-                        <td><?= $result2['message']?></td>
-                        <td><FONT COLOR = "B90000"> Error </FONT></td>
-                    </tr>
-
-                <?php endforeach;?>
-
+            
             </tbody>
         
         </table>
