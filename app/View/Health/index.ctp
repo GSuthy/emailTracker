@@ -80,9 +80,9 @@ $this->end();
                 <?php $header = HealthController::copytocluster();
                $test = array();
                foreach ($header as $checker){
-                       array_push($test);
+                       array_push($test, $checker);
                 }
-                
+
                print_r($test);
             
                if ($test['message'] == ['No errors']):?>
