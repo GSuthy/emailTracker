@@ -80,12 +80,12 @@ $this->end();
                 <?php $header = HealthController::copytocluster();
                $test = array();
                foreach ($header as $checker){
-                       array_push($test, $checker);
+                       array_push($test, $checker['message']);
                 }
 
                print_r($test);
             
-               if ($test['message'] == ['No errors']):?>
+               if ($test == ['No errors']):?>
                 <th>Copy To Cluster</th> <?php
                 else: ?> 
                 <th><FONT COLOR = "B90000"> THERE IS AN ISSUE WITH THE COPY CLUSTER</FONT></th> <?php endif; ?>
