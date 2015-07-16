@@ -65,7 +65,7 @@ $this->end();
                      $i = 0;
                 foreach ($dataTable2 as $result2): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
-                        <td><?= $result['hostname']?></td>
+                        <td><?= $result['message']?></td>
                         <td><FONT COLOR = "B90000"> Error </FONT></td>
                     </tr>
 
