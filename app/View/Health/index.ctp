@@ -61,7 +61,7 @@ $this->end();
 
                 <?php endforeach;?>
                 <?php
-                $systemCheck = HealthController::copytocluster();
+                $systemCheck = CanItClient::searchlog();
                 print_r($systemCheck);
                 ?>
             </tbody>
