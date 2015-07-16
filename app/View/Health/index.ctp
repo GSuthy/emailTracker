@@ -96,7 +96,7 @@ $this->end();
                      $dateModiefied = array();
                      foreach ($dataTable2 as $dateModification) {
                         if ($dateModification['when_checked'] > 1){
-                        $dateModified += $dateModification;
+                        $dateModified = $dateModification;
                     }
                 }
 
