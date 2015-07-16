@@ -26,7 +26,6 @@ $this->end();
 <?php else: ?>
 
 
-
 <div class="container">
     <div class="tableHolder">
     <table id="queueTable">
@@ -50,7 +49,7 @@ $this->end();
             </tr>
             </thead>
             <tbody>
-            
+
                 <?php
                     $dataTable = HealthController::error(); 
                      $i = 0;
@@ -61,6 +60,10 @@ $this->end();
                     </tr>
 
                 <?php endforeach;?>
+                <?php
+                $systemCheck = HealthController::copytocluster();
+                print_r($systemCheck);
+                ?>
             </tbody>
         
         </table>

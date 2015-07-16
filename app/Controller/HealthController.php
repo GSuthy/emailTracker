@@ -83,6 +83,14 @@ class HealthController extends AppController {
           return $notWorking;
         }
 
+        public static function copytocluster () {
+          $clusterFailed = array();
+          $message = CanItClient::searchlog();
+          
+          return $message;
+        }
+
+
 }
 
 ?>
