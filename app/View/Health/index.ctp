@@ -77,8 +77,13 @@ $this->end();
     <table id="queueTable">
     <thead>
             <tr>
-              
-                    <th>Copy To Cluster</th> 
+                <?php $header = HealthController::copytocluster();
+                $checked = $header['message'];
+                if ($checked == ['No errors']):?>
+                <th>Copy To Cluster</th> <?php
+                else: ?> 
+                <th><FONT COLOR = "B90000"> THERE IS AN ISSUE WITH THE COPY CLUSTER</FONT></th> <?php endif; ?>
+
             </tr>
             </thead>
             <br>
