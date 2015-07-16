@@ -93,10 +93,18 @@ $this->end();
                <?php
                     $dataTable2 = HealthController::copytocluster(); 
                      $i = 0;
+                     foreach ($dataTable2 as $dateModification) {
+                        if ($dateModification['when_checked'] > 1){
+                        $dateModified += $dateModification;
+                    }
+                }
+
+                $time = date("F j, Y, g:i a", $dateModified);
+                    
                 foreach ($dataTable2 as $result2): ?>
                     <tr class="<?= $i++ % 2 == 0 ? 'even' : 'odd' ?>">
                         <td><?= $result2['message']?></td>
-                        <td><?= $result2['when_checked'] ?></td>
+                        <td><?= $time ?></td>
                     </tr>
 
                 <?php endforeach;?>
