@@ -88,8 +88,8 @@ class HealthController extends AppController {
           $CanItSearch = CanItClient::searchlog();
           
           foreach ($CanItSearch as $checking){
-            if ($check['test_name'] == "CopyToCluster") {
-              array_push($clusterCheck, $check);
+            if ($checking['test_name'] == "CopyToCluster") {
+              array_push($clusterCheck, $checking);
 
             }
           }
