@@ -79,7 +79,8 @@ $this->end();
             <tr>
                 <?php $header = HealthController::copytocluster();
                
-
+                $checked = array();
+                $checked = $header['message'];
                 if ($checked == ['No errors']):?>
                 <th>Copy To Cluster</th> <?php
                 else: ?> 
