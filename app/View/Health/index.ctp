@@ -83,7 +83,6 @@ $this->end();
                        array_push($test, $checker['message']);
                 }
 
-               
                if ($test == ['No errors']):?>
                 <th>Copy To Cluster</th> <?php
                 else: ?> 
