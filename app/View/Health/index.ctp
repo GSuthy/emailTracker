@@ -78,8 +78,17 @@ $this->end();
     <thead>
             <tr>
                 <?php $header = HealthController::copytocluster();
-                explode(HealthController::copytocluster());
-                print_r($clusterCheck);
+               
+
+               class Index extends HealthController {
+
+                function showCheck (){
+                    print_r($clusterCheck);
+                }
+               }
+
+               showCheck(); 
+
                 $checked = array();
                 $checked = $header['message'];
                  print_r($checked);
