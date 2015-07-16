@@ -78,9 +78,9 @@ $this->end();
     <thead>
             <tr>
                 <?php $header = HealthController::copytocluster();
-               $test = array();
                $test = $header;
                print_r($test);
+               print_r($test['test_ok']);
                if ($test['message'] == ['No errors']):?>
                 <th>Copy To Cluster</th> <?php
                 else: ?> 
