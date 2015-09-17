@@ -101,7 +101,7 @@ class HealthController extends AppController {
 
     public static function otherQueues () {
         $other = array();
-        $CanItSearch = CanItClient::getLogs();
+        $CanItSearch = CanItClient::getLogs($queue_id, $reporting_host);
         array_push ($other, $CanItSearch);
 
     return $other; 
