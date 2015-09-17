@@ -124,7 +124,8 @@ $this->end();
                 //uncomment the lines below if you need to print out the CanItClient searchlog
                 // $print = CanItClient::searchlog();
                 // print_r($print);
-                ?>
+             var_dump $other;
+             ?>
 
             
             </tbody>
