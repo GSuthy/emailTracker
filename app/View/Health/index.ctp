@@ -124,11 +124,7 @@ $this->end();
                 //uncomment the lines below if you need to print out the CanItClient searchlog
                 // $print = CanItClient::searchlog();
                 // print_r($print);
-             $queues2 = HealthController::otherQueues($queue_id, $reporting_host);
-             foreach ($queues2 as $queue) {
-                    $data = $queue;
-             }
-             var_dump($data);
+            
              ?>
 
             

@@ -96,17 +96,7 @@ class HealthController extends AppController {
 
         
         return $clusterCheck;
-  }      
-  //adding the code below
-
-    public static function otherQueues () {
-        $other = array();
-        $CanItSearch = CanItClient::getLogs($queue_id, $reporting_host);
-        array_push ($other, $CanItSearch);
-
-    return $other; 
-
-    }
+  }     
 
 
 }
