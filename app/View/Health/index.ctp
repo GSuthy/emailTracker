@@ -135,7 +135,48 @@ $this->end();
 </div>
 
 <? //the code below will be the gmail-Checker portion of the dashboard?>
+<div class="container">
+    <div class="tableHolder">
+    <table id="queueTable">
+    <thead>
+            <tr>
+                <?php $header = pythonScript::getData();
+                ?>
+                <th>Copy To Cluster</th> 
+            
+              </tr>
+            </thead>
+            <br>
+        <table id="queueTable">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Time Checked</th>
+            </tr>
+            </thead>
+            <tbody>
+               <?php
+                    $dataTable2 = pythonScript::getData();
+                    ?><tr class="">
+                        <td><?$dataTable2?></td>
+                        
+                    </tr>
 
+
+
+                <?php
+                //uncomment the lines below if you need to print out the CanItClient searchlog
+                // $print = CanItClient::searchlog();
+                // print_r($print);
+            
+             ?>
+
+            
+            </tbody>
+        
+        </table>
+    </div>
+</div>
 
 
 
