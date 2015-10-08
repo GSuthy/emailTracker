@@ -111,7 +111,7 @@ class pythonScript extends AppController{
       array_push($arrayData, $file);
 
     }
-    return $arrayData
+    return $arrayData;
 }
 
 ?>
