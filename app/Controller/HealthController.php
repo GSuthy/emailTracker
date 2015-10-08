@@ -106,11 +106,12 @@ class HealthController extends AppController {
 class pythonScript extends AppController{
 
     public static function getData(){
+      $arrayData = array();
       $file = file_get_contents('./pythonGmailChecker/checker.txt');
-      
+      array_push($arrayData, $file);
 
     }
-    return $file;
+    return $arrayData
 }
 
 ?>
