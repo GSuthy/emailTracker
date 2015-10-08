@@ -157,7 +157,7 @@ $this->end();
             <tbody>
                <?php
                     $dataTable2 = pythonScript::getData();
-                    ?><tr class="">
+                    ?><tr class="tableHolder">
                         <td><?echo $dataTable2?></td>
                         
                     </tr>
