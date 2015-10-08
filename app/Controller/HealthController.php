@@ -101,4 +101,16 @@ class HealthController extends AppController {
 
 }
 
+//Working on incorporating gmail-checker
+
+class pythonScript extends AppController{
+
+    public static function getData(){
+      $file = file_get_contents('./pythonGmailChecker/checker.txt');
+      
+
+    }
+    return $file;
+}
+
 ?>
