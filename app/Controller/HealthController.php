@@ -107,7 +107,7 @@ class pythonScript extends AppController{
 
     public static function getData(){
       $arrayData = array();
-      $file = file_get_contents('./pythonGmailChecker/checker.txt');
+      $file = file_get_contents('/emailttracker/pythonGmailChecker/checker.txt');
       array_push($arrayData, $file);
 
       return $arrayData;
