@@ -110,8 +110,10 @@ class pythonScript extends AppController{
       $file = file_get_contents('./pythonGmailChecker/checker.txt');
       array_push($arrayData, $file);
 
+      return $arrayData;
     }
-    return $arrayData;
+
+    
 }
 
 ?>
