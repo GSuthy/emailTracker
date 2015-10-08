@@ -141,24 +141,12 @@ $this->end();
     <thead>
         <tr>
             <?php $header = pythonScript::getdata();
-            $data = array();
-            array_push($test, $header);
+            echo $header;
             ?><th> Gmail Checker</th>
         </tr>
         </thead>
         <br>
-    <table id="queueTable">
-        <thead>
-        <tr>
-            <th> Status </th>
-        </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $dataTable = pythonScript::getdata();
-            ?> 
-            
-        </tbody>
+
 
 
 
