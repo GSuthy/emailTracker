@@ -157,23 +157,10 @@ $this->end();
             <tbody>
                <?php
                     $dataTable2 = pythonScript::getData();
-                    ?><tr class="tableHolder">
+                    ?>
                         <td><?echo $dataTable2?></td>
-                        
-                    </tr>
-
-
-
-                <?php
-                //uncomment the lines below if you need to print out the CanItClient searchlog
-                // $print = CanItClient::searchlog();
-                // print_r($print);
-            
-             ?>
-
             
             </tbody>
-        
         </table>
     </div>
 </div>
