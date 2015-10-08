@@ -4,7 +4,7 @@ Created by: Michael Matthews
 Date: Oct. 7th 2015
 """
 
-wait = 50
+wait = 150
 
 #importing necessary libraries
 import smtplib
