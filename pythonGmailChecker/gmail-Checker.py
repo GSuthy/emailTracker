@@ -51,13 +51,15 @@ try:
         for response_part in msg_data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_string(response_part[1])
+                print msg
                 sentFrom = msg['from']
                 subject = msg['subject']
-               
-               	""""
+                sent = msg["time"]
+                #print ("Was sent at")
+                #print sent               
                 payload=msg.get_payload()
                 body=extract_body(payload)
-                print(body)"""
+                #print(body)
               
         typ, response = conn.store(num, '+FLAGS', r'(\Seen)')
 finally:
@@ -80,11 +82,14 @@ while True:
 
         if elapsed > 60:
             minutes = elapsed / 60 
-            print ("The was sent and then verified this many minutes later: ")
-            print minutes 
+            file = open("checker.txt", "w")
+            file.write('The email was sent and then received this many minutes later: ' + repr(minutes) + '\n')
+            file.close()
             break
     except NameError:
-        print "Unable to verify email.  Please run a check"
+        file=open("checker.txt", "w")
+        file.write("There was an error. ")
+        file.close()
         break
 
    
