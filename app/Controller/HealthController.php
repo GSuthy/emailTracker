@@ -106,7 +106,7 @@ class HealthController extends AppController {
 class pythonScript extends AppController{
 
     public static function getData(){
-      $arrayData = array("The email was sent and then received this many minutes later: 1.0000000158945719");
+      $arrayData = "The email was sent and then received this many minutes later: 1.0000000158945719";
       //$file = file_get_contents('checker.txt');
       //array_push($arrayData, $file);
 
