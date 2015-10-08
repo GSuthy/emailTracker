@@ -142,7 +142,7 @@ $this->end();
             <tr>
                 <?php $header = pythonScript::getData();
                 ?>
-                <th>Copy To Cluster</th> 
+                <th>Gmail Checker</th> 
             
               </tr>
             </thead>
@@ -158,7 +158,7 @@ $this->end();
                <?php
                     $dataTable2 = pythonScript::getData();
                     ?><tr class="">
-                        <td><?$dataTable2?></td>
+                        <td><?echo $dataTable2?></td>
                         
                     </tr>
 
