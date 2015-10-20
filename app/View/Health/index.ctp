@@ -156,9 +156,9 @@ $this->end();
             </thead>
             <tbody>
                <?php
-                    $dataTable2 = pythonScript::getData();
+                    $pythonData = pythonScript::getData();
                     ?>
-                        <td><?echo $dataTable2?></td>
+                        <td><?echo $pythonData?></td>
             
             </tbody>
         </table>
