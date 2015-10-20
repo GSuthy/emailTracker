@@ -33,34 +33,34 @@ class HealthController extends AppController {
         App::import('Vendor', 'CanItAPIClient', array('file' => 'CanItAPI/canit-api-client.php'));
         App::import('Vendor', 'ExchangeAPI/ExchangeClient');
         App::import('Vendor', 'settings');
-        // $searchLogs = CanItClient::searchlog(); 
+        /* $searchLogs = CanItClient::searchlog(); 
 
-        // $searchLogObjects = array();
-        // foreach($searchLogs as $log) {
-        //     $temp = new SearchLogsObject($log["message"]);
+        $searchLogObjects = array();
+         foreach($searchLogs as $log) {
+            $temp = new SearchLogsObject($log["message"]);
             
-        //     // echo($temp->hostName() . "<br>");
-        //     array_push($searchLogObjects, $temp);
-        // }
+            echo($temp->hostName() . "<br>");
+           array_push($searchLogObjects, $temp);
+        }*/
 
     }
-         //Inlcuding the lines below only if you are trying to add a table that will include the databases that
-         //are in a correct state
-       //  public static function data1() {
-       //  $working = array();
+        /*Inlcuding the lines below only if you are trying to add a table that will include the databases that
+        are in a correct state
+       public static function data1() {
+        $working = array();
 
-       //  $message = CanItClient::searchlog();
-       //      foreach ($message as $check) {
-       //      if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
-       //          if ($check['test_ok'] == 1) {            
-       //              // if ($check['hostname'] === "gw10.byu.edu") {
-       //              array_push($working, $check);
-       //          }      
-       //          }                        
-       //      }
-       //      asort($working);
-       //     return $working;
-       // }
+        $message = CanItClient::searchlog();
+             foreach ($message as $check) {
+             if ($check['message'] == "All mounted volumes have at least 10% free disk space and inodes") {
+                 if ($check['test_ok'] == 1) {            
+                     // if ($check['hostname'] === "gw10.byu.edu") {
+                     array_push($working, $check);
+                 }      
+                 }                        
+             }
+             asort($working);
+            return $working;
+        } */
    
 
        public static function error() {

@@ -150,8 +150,8 @@ $this->end();
         <table id="queueTable">
             <thead>
             <tr>
-                <th>Status</th>
-                <th>Time Checked</th>
+                <th>Sucess</th>
+                <th>Time Ran</th>
             </tr>
             </thead>
             <tbody>
