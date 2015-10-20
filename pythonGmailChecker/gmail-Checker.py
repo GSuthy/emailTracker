@@ -51,7 +51,8 @@ try:
         for response_part in msg_data:
             if isinstance(response_part, tuple):
                 msg = email.message_from_string(response_part[1])
-                print msg
+                date = msg['date']
+                print date
                 sentFrom = msg['from']
                 subject = msg['subject']
                 sent = msg["time"]
