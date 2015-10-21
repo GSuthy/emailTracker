@@ -101,19 +101,5 @@ class HealthController extends AppController {
 
 }
 
-//Working on incorporating gmail-checker
-
-class pythonScript extends AppController{
-
-    public static function getData(){
-      $arrayData = "The email was sent and then received this many minutes later: 1.0000000158945719";
-      //$file = file_get_contents('checker.txt');
-      //array_push($arrayData, $file);
-
-      return $arrayData;
-    }
-
-    
-}
 
 ?>
