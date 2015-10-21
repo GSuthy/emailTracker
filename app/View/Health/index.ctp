@@ -134,37 +134,5 @@ $this->end();
     </div>
 </div>
 
-<? //the code below will be the gmail-Checker portion of the dashboard?>
-<div class="container">
-    <div class="tableHolder">
-    <table id="queueTable">
-    <thead>
-            <tr>
-                <?php $header = pythonScript::getData();
-                ?>
-                <th>Gmail Checker</th> 
-            
-              </tr>
-            </thead>
-            <br>
-        <table id="queueTable">
-            <thead>
-            <tr>
-                <th>Success</th>
-                <th>Time Ran</th>
-            </tr>
-            </thead>
-            <tbody>
-               <?php
-                    $pythonData = pythonScript::getData();
-                    ?>
-                        <td><?echo $pythonData?></td>
-            
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
 
 
