@@ -122,7 +122,8 @@ $this->end();
 
                 <?php
 
-                echo "this is a test line";
+                $myfile = file_get_contents("http://starscream.byu.edu/test.txt");
+                echo $myfile;
                 //uncomment the lines below if you need to print out the CanItClient searchlog
                 // $print = CanItClient::searchlog();
                 // print_r($print);
