@@ -121,6 +121,8 @@ $this->end();
 
 
                 <?php
+
+                echo "this is a test line";
                 //uncomment the lines below if you need to print out the CanItClient searchlog
                 // $print = CanItClient::searchlog();
                 // print_r($print);
