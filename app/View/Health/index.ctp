@@ -122,9 +122,12 @@ $this->end();
 
                 <?php
 
-                $myfile = file_get_contents("http://starscream/test.txt");
-                //$myfile = "test";
-                echo $myfile;
+                
+
+               $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/test.txt');
+               
+
+                echo $output;
                 //uncomment the lines below if you need to print out the CanItClient searchlog
                 // $print = CanItClient::searchlog();
                 // print_r($print);
