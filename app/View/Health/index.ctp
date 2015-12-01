@@ -122,7 +122,7 @@ $this->end();
 
                 <?php
 
-                $myfile = file_get_contents("http://starscream/test.txt");
+                $myfile = file_get_contents("http://starscream.byu.edu/test.txt");
                 //$myfile = "test";
                 echo $myfile;
                 //uncomment the lines below if you need to print out the CanItClient searchlog
