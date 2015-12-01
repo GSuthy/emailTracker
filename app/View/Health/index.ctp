@@ -120,6 +120,10 @@ $this->end();
                 <?php endforeach;?>
 
 
+            </tbody>
+        
+        </table>
+        
                 <?php
 
 
@@ -132,9 +136,6 @@ $this->end();
              ?>
 
             
-            </tbody>
-        
-        </table>
     </div>
 </div>
 
