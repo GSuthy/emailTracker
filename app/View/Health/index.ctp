@@ -125,7 +125,7 @@ $this->end();
         </table>
         
         <br>
-        <table = id="gmail-checker">
+        <table = id="queueTable">
             <thead>
                 <th>Gmail Checker</th>
             </thead>
