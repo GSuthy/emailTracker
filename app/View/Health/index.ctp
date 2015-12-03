@@ -127,7 +127,7 @@ $this->end();
                 <?php
 
 
-               $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/test.txt');
+               $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/testing.txt');
                
 
                 echo $output;
