@@ -137,10 +137,7 @@ $this->end();
                     </td>
                 </tr>
             </tbody>
-
-            
-             ?>
-
+        </table>
             
     </div>
 </div>
