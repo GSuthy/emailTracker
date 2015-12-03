@@ -124,13 +124,19 @@ $this->end();
         
         </table>
         
-                <?php
-
-
-               $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/testing.txt');
-               
-
-                echo $output;
+        <br>
+        <table = id="gmail-checker">
+            <thead>
+                <th>Gmail Checker</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                         <?php  $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/testing.txt');
+                        echo $output; ?>
+                    </td>
+                </tr>
+            </tbody>
 
             
              ?>
