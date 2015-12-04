@@ -132,7 +132,7 @@ $this->end();
             <tbody>
                 <tr>
                     <td>
-                         <?php  $output = shell_exec('wget --output-document - --quiet http://starscream.byu.edu/testing-$(date +%k).txt');
+                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                         echo $output; ?>
                     </td>
                 </tr>
