@@ -135,21 +135,29 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                            for ($i = 0; $i < 20; $i++){
+                         $length = strlen($output);
+                         $start = $length - 69;
+                         $end = $start + 20;
+
+                            for ($i = $start; $i < $end; $i++){
                                echo $output[$i];
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
-                            for ($i = 24; $i < 45; $i++){
+                            $start = $length - 45;
+                            $end = $start + 20;
+                            for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
-                            for ($i = 50; $i < 69; $i++){
+                        $start = $length - 19;
+                        $end = $start + 20;
+                            for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
                             }
                         ?>
