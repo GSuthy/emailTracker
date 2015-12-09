@@ -127,28 +127,30 @@ $this->end();
         <br>
         <table = id="queueTable">
             <thead>
-                <th>Gmail Checker Success</th>
+                <th>Gmail</th>
+                <th>Checker</th>
+                <th>Sucesses</th>
             </thead>
             <tbody>
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                             for ($i = 0; $i < 24; $i++){
-                                echo $output[$i];
+                               // echo $output[$i];
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 24; $i < 48; $i++){
-                                echo $output[$i];
+                               // echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 48; $i < 72; $i++){
-                                echo $output[$i];
+                                //echo $output[$i];
                             }
                         ?>
                     </td>
@@ -160,34 +162,37 @@ $this->end();
         <table = id="queueTable">
            
             <thead>
-                <th><FONT COLOR = "B90000">Gmail Checker Error's</FONT></th>
+                <th><FONT COLOR = "B90000">Gmail</FONT></th>
+                <th><FONT COLOR = "B90000">Checker</FONT></th>
+                <th><FONT COLOR = "B90000">Error's</FONT></th>
             </thead>
             <tbody>
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
+                         echo count($output);
                             for ($i = 0; $i < 24; $i++){
-                                echo $output[$i];
+                                
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 24; $i < 48; $i++){
-                                echo $output[$i];
+                               // echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 48; $i < 72; $i++){
-                                echo $output[$i];
+                               // echo $output[$i];
                             }
                         ?>
                     </td>
                 </tr>
             </tbody>
-             <h4><FONT COLOR = "B90000">Before Alerting Anyone - Please run a check yourself </FONT></h4>
+             <h4><center><FONT COLOR = "B90000">Before Alerting Anyone - Please run a check yourself </FONT></center></h4>
         </table>
             
     </div>
