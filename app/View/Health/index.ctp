@@ -136,21 +136,21 @@ $this->end();
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                             for ($i = 0; $i < 24; $i++){
-                               // echo $output[$i];
+                               echo $output[$i];
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 24; $i < 48; $i++){
-                               // echo $output[$i];
+                                echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 48; $i < 72; $i++){
-                                //echo $output[$i];
+                                echo $output[$i];
                             }
                         ?>
                     </td>
@@ -170,23 +170,24 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                         echo strlen($output);
+                         $length = strlen($output);
+
                             for ($i = 0; $i < 24; $i++){
-                                
+                                echo $output[$i];
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 24; $i < 48; $i++){
-                               // echo $output[$i];
+                               echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
                             for ($i = 48; $i < 72; $i++){
-                               // echo $output[$i];
+                               echo $output[$i];
                             }
                         ?>
                     </td>
