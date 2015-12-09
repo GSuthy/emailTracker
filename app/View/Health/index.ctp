@@ -133,10 +133,12 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                        for ($i = 0; $i < 24; $i++){
-                            echo $output[$i];
+                        for ($x = 0; $x < 3; $x++){
+                            for ($i = 0; $i < 24; $i++){
+                                echo $output[$i];
+                            }
+                            echo "\n";
                         }
-                        print_r("New line?");
                              ?>
                     </td>
                 </tr>
@@ -145,9 +147,9 @@ $this->end();
 
           <br>
         <table = id="queueTable">
+            <h3>Before Alerting Anyone - Please run a check yourself </h3>
             <thead>
                 <th><FONT COLOR = "B90000">Gmail Checker Error's</FONT></th>
-                <th>Before Alerting Anyone - Please run a check yourself </th>
             </thead>
             <tbody>
                 <tr>
