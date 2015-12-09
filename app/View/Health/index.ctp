@@ -133,7 +133,7 @@ $this->end();
             </thead>
             <tbody>
                 <tr>
-                    <td><FONT COLOR = #00FF40>
+                    <td><FONT COLOR = #088A29>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                          $length = strlen($output);
                          $start = $length - 71;
@@ -145,7 +145,7 @@ $this->end();
                          ?>
                     </FONT>
                     </td>
-                    <td><FONT COLOR = #00FF40>
+                    <td><FONT COLOR = #088A29>
                         <?php 
                             $start = $length - 47;
                             $end = $start + 15;
@@ -155,7 +155,7 @@ $this->end();
                         ?>
                     </FONT>
                     </td>
-                    <td><FONT COLOR = #00FF40>
+                    <td><FONT COLOR = #088A29>
                         <?php 
                         $start = $length - 21;
                         $end = $start + 15;
@@ -213,6 +213,7 @@ $this->end();
                     </td>
                 </tr>
             </tbody>
+            <h4><FONT COLOR = #FE2E2E>Before Alerting Anyone Please Run A Check Yourself</FONT></h4>
         </table>
             
     </div>
