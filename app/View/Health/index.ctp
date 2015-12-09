@@ -127,9 +127,9 @@ $this->end();
         <br>
         <table = id="queueTable">
             <thead>
-                <th>Gmail</th>
-                <th>Checker</th>
-                <th>Sucesses</th>
+                <th></th>
+                <th>Gmail Success</th>
+                <th></th>
             </thead>
             <tbody>
                 <tr>
@@ -149,7 +149,7 @@ $this->end();
                     </td>
                     <td>
                         <?php 
-                            for ($i = 50; $i < 68; $i++){
+                            for ($i = 50; $i < 69; $i++){
                                 echo $output[$i];
                             }
                         ?>
@@ -162,32 +162,30 @@ $this->end();
         <table = id="queueTable">
            
             <thead>
-                <th><FONT COLOR = "B90000">Gmail</FONT></th>
-                <th><FONT COLOR = "B90000">Checker</FONT></th>
-                <th><FONT COLOR = "B90000">Error's</FONT></th>
+                <th></th>
+                <th><FONT COLOR = "B90000">Gmail Failures</FONT></th>
+              <th></th>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                         $length = strlen($output);
-
-                            for ($i = 0; $i < 24; $i++){
-                                echo $output[$i];
+                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
+                            for ($i = 0; $i < 20; $i++){
+                               echo $output[$i];
                             }
                          ?>
                     </td>
                     <td>
                         <?php 
-                            for ($i = 24; $i < 48; $i++){
-                               echo $output[$i];
+                            for ($i = 24; $i < 45; $i++){
+                                echo $output[$i];
                             }
                         ?>
                     </td>
                     <td>
                         <?php 
-                            for ($i = 48; $i < 72; $i++){
-                               echo $output[$i];
+                            for ($i = 50; $i < 69; $i++){
+                                echo $output[$i];
                             }
                         ?>
                     </td>
