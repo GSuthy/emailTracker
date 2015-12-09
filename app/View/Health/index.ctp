@@ -201,7 +201,7 @@ $this->end();
                         ?>
                     </FONT>
                     </td>
-                    <td><FONT COLOR = #FE2E2E
+                    <td><FONT COLOR = #FE2E2E>
                         <?php 
                         $start = $length - 21;
                         $end = $start + 15;
