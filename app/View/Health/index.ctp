@@ -133,8 +133,8 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                        echo for ($i = 0; $i < 10; $i++){
-                            $output[$i];
+                        for ($i = 0; $i < 10; $i++){
+                            echo $output[$i];
                             } ?>
                     </td>
                 </tr>
