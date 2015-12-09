@@ -133,7 +133,7 @@ $this->end();
             </thead>
             <tbody>
                 <tr>
-                    <td>
+                    <td><FONT COLOR = #00FF40>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                          $length = strlen($output);
                          $start = $length - 71;
@@ -143,8 +143,9 @@ $this->end();
                                echo $output[$i];
                             }
                          ?>
+                    </FONT>
                     </td>
-                    <td>
+                    <td><FONT COLOR = #00FF40>
                         <?php 
                             $start = $length - 47;
                             $end = $start + 15;
@@ -152,8 +153,9 @@ $this->end();
                                 echo $output[$i];
                             }
                         ?>
+                    </FONT>
                     </td>
-                    <td>
+                    <td><FONT COLOR = #00FF40>
                         <?php 
                         $start = $length - 21;
                         $end = $start + 15;
@@ -161,6 +163,7 @@ $this->end();
                                 echo $output[$i];
                             }
                         ?>
+                    </FONT>
                     </td>
                 </tr>
             </tbody>
@@ -171,35 +174,45 @@ $this->end();
            
             <thead>
                 <th></th>
-                <th><FONT COLOR = "B90000">Gmail Failures</FONT></th>
+                <th>Gmail Failures</th>
               <th></th>
             </thead>
             <tbody>
                 <tr>
-                    <td>
+                    <td><FONT COLOR = #FE2E2E>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                            for ($i = 0; $i < 20; $i++){
+                            $length = strlen($output);
+                         $start = $length - 71;
+                         $end = $start + 15;
+
+                            for ($i = $start; $i < $end; $i++){
                                echo $output[$i];
                             }
                          ?>
+                    </FONT>
                     </td>
-                    <td>
+                    <td><FONT COLOR = #FE2E2E>
                         <?php 
-                            for ($i = 24; $i < 45; $i++){
+                            $start = $length - 47;
+                            $end = $start + 15;
+                            for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
                             }
                         ?>
+                    </FONT>
                     </td>
-                    <td>
+                    <td><FONT COLOR = #FE2E2E
                         <?php 
-                            for ($i = 50; $i < 69; $i++){
+                        $start = $length - 21;
+                        $end = $start + 15;
+                            for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
                             }
                         ?>
+                    </FONT>
                     </td>
                 </tr>
             </tbody>
-             <h4><center><FONT COLOR = "B90000">Before Alerting Anyone - Please run a check yourself </FONT></center></h4>
         </table>
             
     </div>
