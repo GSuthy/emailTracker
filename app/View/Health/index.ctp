@@ -133,13 +133,24 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                        for ($x = 0; $x < 3; $x++){
                             for ($i = 0; $i < 24; $i++){
                                 echo $output[$i];
                             }
-                            echo "\n";
-                        }
-                             ?>
+                         ?>
+                    </td>
+                    <td>
+                        <?php 
+                            for ($i = 24; $i < 48; $i++){
+                                echo $output[$i];
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                            for ($i = 48; $i < 72; $i++){
+                                echo $output[$i];
+                            }
+                        ?>
                     </td>
                 </tr>
             </tbody>
@@ -147,7 +158,7 @@ $this->end();
 
           <br>
         <table = id="queueTable">
-            <h3>Before Alerting Anyone - Please run a check yourself </h3>
+           
             <thead>
                 <th><FONT COLOR = "B90000">Gmail Checker Error's</FONT></th>
             </thead>
@@ -155,10 +166,28 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                        echo $output; ?>
+                            for ($i = 0; $i < 24; $i++){
+                                echo $output[$i];
+                            }
+                         ?>
+                    </td>
+                    <td>
+                        <?php 
+                            for ($i = 24; $i < 48; $i++){
+                                echo $output[$i];
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php 
+                            for ($i = 48; $i < 72; $i++){
+                                echo $output[$i];
+                            }
+                        ?>
                     </td>
                 </tr>
             </tbody>
+             <h4><FONT COLOR = "B90000">Before Alerting Anyone - Please run a check yourself </FONT></h4>
         </table>
             
     </div>
