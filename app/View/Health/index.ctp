@@ -170,7 +170,7 @@ $this->end();
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                         echo count($output);
+                         echo strlen($output);
                             for ($i = 0; $i < 24; $i++){
                                 
                             }
