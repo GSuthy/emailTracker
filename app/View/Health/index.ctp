@@ -127,12 +127,27 @@ $this->end();
         <br>
         <table = id="queueTable">
             <thead>
-                <th>Gmail Checker</th>
+                <th>Gmail Checker Success</th>
             </thead>
             <tbody>
                 <tr>
                     <td>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
+                        echo $output[1]; ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+          <br>
+        <table = id="queueTable">
+            <thead>
+                <th>Gmail Checker Error's</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
                         echo $output; ?>
                     </td>
                 </tr>
