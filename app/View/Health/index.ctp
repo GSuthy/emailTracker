@@ -213,7 +213,7 @@ $this->end();
                     </td>
                 </tr>
             </tbody>
-            <h4><FONT COLOR = #FE2E2E>Before Alerting Anyone Please Run A Check Yourself</FONT></h4>
+            <h4><FONT COLOR = #FE2E2E><center>Before Alerting Anyone Please Run A Check Yourself</center></FONT></h4>
         </table>
             
     </div>
