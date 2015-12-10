@@ -140,8 +140,8 @@ $this->end();
                           <h4><?php
                                  $output_one = explode("!", $output);
                                  $count = count($output_one);
-                                 echo $count;
-                                 echo $output_one[1];
+                                $less = $count - 1;
+                                 echo $output_one[$less];
 
 
 
