@@ -141,7 +141,7 @@ $this->end();
                                  $output_one = explode("!", $output);
                                  $count = count($output_one);
                                  echo $count;
-                                 echo $output_one[9];
+                                 echo $output_one[1];
 
 
 
