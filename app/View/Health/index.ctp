@@ -135,20 +135,14 @@ $this->end();
                 <tr>
                     <td><FONT COLOR = #088A29>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-
-                         ?>
-                          <h4><?php
-                                 $output_one = explode("!", $output);
+                            $output_one = explode("!", $output);
                                  $count = count($output_one);
                                 $less = $count - 2;
                                 $lesser = $count - 3;
                                 $least = $count - 4;
 
 
-
-                                    ?></h4><?
-
-                                    echo $output_one[$less];
+                             echo $output_one[$less];
                         
                          ?>
                     </FONT>
