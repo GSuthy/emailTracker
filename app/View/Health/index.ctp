@@ -141,13 +141,14 @@ $this->end();
                                  $output_one = explode("!", $output);
                                  $count = count($output_one);
                                 $less = $count - 2;
-                                 echo $output_one[$less];
+                                $lesser = $count - 3;
+                                $least = $count - 4;
 
 
 
                                     ?></h4><?
 
-                         //$length = strlen($output);
+                                    echo $output_one[$less];
                         
                          ?>
                     </FONT>
@@ -155,12 +156,13 @@ $this->end();
                     <td><FONT COLOR = #088A29>
                         <?php 
                             
+                            echo $output_one[$lesser];
                         ?>
                     </FONT>
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
-                       
+                            echo $_output_one[$least];
                         ?>
                     </FONT>
                     </td>
