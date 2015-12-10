@@ -147,7 +147,7 @@ $this->end();
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
-                            $start = $length - 45;
+                            $start = $length - 46;
                             $end = $start + 15;
                             for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
