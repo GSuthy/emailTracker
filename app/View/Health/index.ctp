@@ -181,7 +181,15 @@ $this->end();
                 <tr>
                     <td><FONT COLOR = #FE2E2E>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                            $length = strlen($output);
+                         ?>
+                          <h4><?php
+                                 $output_one = explode("!", $output);
+                                 echo $output_one[0];
+
+
+                                    ?></h4><?
+
+                        $length = strlen($output);
                          $start = $length - 71;
                          $end = $start + 15;
 
@@ -214,7 +222,7 @@ $this->end();
                 </tr>
             </tbody>
             <h4><FONT COLOR = #FE2E2E><center>Before Alerting Anyone Please Run A Check Yourself</center></FONT></h4>
-            <h4><?php print_r(date_parse($output));?>
+
         </table>
             
     </div>
