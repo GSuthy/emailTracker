@@ -139,12 +139,15 @@ $this->end();
                          ?>
                           <h4><?php
                                  $output_one = explode("!", $output);
-                                 echo $output_one[0];
+                                 $count = count($output_one);
+                                 echo $output_one[$count - 1];
+
 
 
                                     ?></h4><?
 
-                         $length = strlen($output);
+                         //$length = strlen($output);
+                         $length = 2;
                          $start = $length - 71;
                          $end = $start + 16;
 
