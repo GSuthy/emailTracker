@@ -137,7 +137,7 @@ $this->end();
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
                          $length = strlen($output);
                          $start = $length - 71;
-                         $end = $start + 15;
+                         $end = $start + 16;
 
                             for ($i = $start; $i < $end; $i++){
                                echo $output[$i];
@@ -147,7 +147,7 @@ $this->end();
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
-                            $start = $length - 47;
+                            $start = $length - 45;
                             $end = $start + 15;
                             for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
@@ -194,7 +194,7 @@ $this->end();
                     <td><FONT COLOR = #FE2E2E>
                         <?php 
                             $start = $length - 47;
-                            $end = $start + 15;
+                            $end = $start + 16;
                             for ($i = $start; $i < $end; $i++){
                                 echo $output[$i];
                             }
