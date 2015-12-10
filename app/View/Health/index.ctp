@@ -135,12 +135,21 @@ $this->end();
                 <tr>
                     <td><FONT COLOR = #088A29>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
+
+                         ?>
+                          <h4><?php
+                                 $output_one = explode("!", $output);
+                                 echo $output_one[0];
+
+
+                                    ?></h4><?
+
                          $length = strlen($output);
                          $start = $length - 71;
                          $end = $start + 16;
 
                             for ($i = $start; $i < $end; $i++){
-                               echo $output[$i];
+                              // echo $output[$i];
                             }
                          ?>
                     </FONT>
@@ -150,7 +159,7 @@ $this->end();
                             $start = $length - 46;
                             $end = $start + 15;
                             for ($i = $start; $i < $end; $i++){
-                                echo $output[$i];
+                                //echo $output[$i];
                             }
                         ?>
                     </FONT>
@@ -160,7 +169,7 @@ $this->end();
                         $start = $length - 21;
                         $end = $start + 16;
                             for ($i = $start; $i < $end; $i++){
-                                echo $output[$i];
+                               // echo $output[$i];
                             }
                         ?>
                     </FONT>
@@ -181,20 +190,14 @@ $this->end();
                 <tr>
                     <td><FONT COLOR = #FE2E2E>
                          <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                         ?>
-                          <h4><?php
-                                 $output_one = explode("!", $output);
-                                 echo $output_one[0];
-
-
-                                    ?></h4><?
+                         
 
                         $length = strlen($output);
                          $start = $length - 71;
                          $end = $start + 15;
 
                             for ($i = $start; $i < $end; $i++){
-                               echo $output[$i];
+                               //echo $output[$i];
                             }
                          ?>
                     </FONT>
@@ -204,7 +207,7 @@ $this->end();
                             $start = $length - 47;
                             $end = $start + 16;
                             for ($i = $start; $i < $end; $i++){
-                                echo $output[$i];
+                                //echo $output[$i];
                             }
                         ?>
                     </FONT>
@@ -214,7 +217,7 @@ $this->end();
                         $start = $length - 21;
                         $end = $start + 15;
                             for ($i = $start; $i < $end; $i++){
-                                echo $output[$i];
+                                //echo $output[$i];
                             }
                         ?>
                     </FONT>
