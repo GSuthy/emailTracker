@@ -128,11 +128,9 @@ $this->end();
         <table = id="queueTable">
 
         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                            $output_one = explode("!", $output);
-                                 $count = count($output_one);
-                                $less = $count - 2;
-                                $lesser = $count - 3;
-                                $least = $count - 4;
+                           
+                               
+                               
                 ?>
             <thead>
                 <th></th>
@@ -143,20 +141,28 @@ $this->end();
                 <tr>
                     <td><FONT COLOR = #088A29>
                     <?
-                             echo $output_one[$less];
+                              $output_one = explode("!", $output);
+                                $count = count($output_one);
+                                $less = $count - 2;
+                                echo $output_one[$less];
                         
                          ?>
                     </FONT>
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
-                            
+                             $output_one = explode("!", $output);
+                                $count = count($output_one);
+                                 $lesser = $count - 3;
                             echo $output_one[$lesser];
                         ?>
                     </FONT>
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
+                             $output_one = explode("!", $output);
+                                $count = count($output_one);
+                                 $least = $count - 4;
                             echo $_output_one[$least];
                         ?>
                     </FONT>
