@@ -180,7 +180,7 @@ $this->end();
             <tbody>
                 <tr>
                     <td><FONT COLOR = #FE2E2E>
-                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
+                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
                             $length = strlen($output);
                          $start = $length - 71;
                          $end = $start + 15;
