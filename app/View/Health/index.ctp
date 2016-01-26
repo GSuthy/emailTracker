@@ -134,13 +134,13 @@ $this->end();
 
 
 
-            #$config_results = shell_exec('head -n 1 /opt/phproot/emailtracking_config_file');
+            $config_results = shell_exec('head -n 1 /opt/phproot/emailtracking_config_file');
 
-            #$clear_cache = shell_exec("wget --no-cache {$config_results}");
-            #$clear_cache;
-            #$output = shell_exec("wget --output-document - --quiet -N {$config_results}");
+            $clear_cache = shell_exec("wget --no-cache {$config_results}");
+            $clear_cache;
+            $output = shell_exec("wget --output-document - --quiet -N {$config_results}");
 
-            $output = shell_exec("wget --output-document - --quiet -N http://emailtracking.byu.edu/results.txt")
+
             ?>
             <thead>
                 <th>Sent</th>
@@ -254,13 +254,13 @@ $this->end();
                 #config_errors simply returns the server that this part of the program needs to go to
                 #in order to get the data. However, the reason it is not hardcoded in is so that when we
                 #go from dev->stg->prod we don't manually have to make changes to the different servers
-                /*
+
                 $config_errors = shell_exec('cat /opt/phproot/emailtracking_config_file | grep "." | tail -1');
                 $clear_cache_errors = shell_exec("wget --no-cache {$config_errors}");
                 $clear_cache_errors;
-                $error = shell_exec("wget --output-document - --quiet -N {$config_errors}"); */
+                $error = shell_exec("wget --output-document - --quiet -N {$config_errors}");
 
-                $error = shell_exec("wget --output-document - --quiet -N http://emailtracking.byu.edu/errors.txt")?>
+                ?>
             <thead>
                 <th></th>
                 <th>Email Error Sent Time</th>
