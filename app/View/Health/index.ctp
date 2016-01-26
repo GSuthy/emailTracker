@@ -127,33 +127,43 @@ $this->end();
         <br>
         <table = id="queueTable">
 
-        <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/results.txt');
-                           
-                               
-                               
-                ?>
+        <?php
+
+            #The following line is important because it is the configuration file for each server
+            #That way when we go from dev to stg, there is no need to configure any differences
+
+
+
+            $config_results = shell_exec('head -n 1 /opt/phproot/emailtracking_config_file');
+
+            $clear_cache = shell_exec("wget --no-cache {$config_results}");
+            $clear_cache;
+            $output = shell_exec("wget --output-document - --quiet -N {$config_results}"); ?>
             <thead>
-                <th></th>
-                <th>Gmail Success</th>
-                <th></th>
+                <th>Sent</th>
+                <th>Received</th>
+                <th>IP</th>
             </thead>
             <tbody>
                 <tr>
                     <td><FONT COLOR = #088A29>
-                    <?
-                              $output_one = explode("!", $output);
-                                $count = count($output_one);
-                                $less = $count - 2;
-                                echo $output_one[$less];
-                        
+                    <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            #$less = $count - 3;
+                            #echo $output_one[$less];
+
+                            $less = $count - 2;
+
+                            echo $output_one[$less];
                          ?>
                     </FONT>
                     </td>
                     <td><FONT COLOR = #088A29>
                         <?php 
-                             $output_one = explode("!", $output);
-                                $count = count($output_one);
-                                 $lesser = $count - 3;
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $lesser = $count - 2;
                             echo $output_one[$lesser];
                         ?>
                     </FONT>
@@ -161,47 +171,127 @@ $this->end();
                     <td><FONT COLOR = #088A29>
                         <?php 
                              $output_one = explode("!", $output);
-                                $count = count($output_one);
-                                 $least = $count - 4;
-                            echo $_output_one[$least];
+                             $count = count($output_one);
+                             $least = $count - 4;
+                             echo $output_one[$least];
                         ?>
                     </FONT>
+                    </td>
+                </tr>
+                <tr>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $less = $count - 6;
+                            echo $output_one[$less];
+
+
+                            ?>
+                        </FONT>
+                    </td>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $lesser = $count - 5;
+                            echo $output_one[$lesser];
+                            ?>
+                        </FONT>
+                    </td>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $least = $count - 7;
+                            echo $output_one[$least];
+                            ?>
+                        </FONT>
+                    </td>
+                </tr>
+                <tr>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $less = $count - 9;
+                            echo $output_one[$less];
+
+
+                            ?>
+                        </FONT>
+                    </td>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $lesser = $count - 8;
+                            echo $output_one[$lesser];
+                            ?>
+                        </FONT>
+                    </td>
+                    <td><FONT COLOR = #088A29>
+                            <?php
+                            $output_one = explode("!", $output);
+                            $count = count($output_one);
+                            $least = $count - 10;
+                            echo $output_one[$least];
+                            ?>
+                        </FONT>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-          <br>
+        <br>
         <table = id="queueTable">
-           
+
+        <?php
+
+                #config_errors simply returns the server that this part of the program needs to go to
+                #in order to get the data. However, the reason it is not hardcoded in is so that when we
+                #go from dev->stg->prod we don't manually have to make changes to the different servers
+
+                $config_errors = shell_exec('cat /opt/phproot/emailtracking_config_file | grep "." | tail -1');
+                $clear_cache_errors = shell_exec("wget --no-cache {$config_errors}");
+                $clear_cache_errors;
+                $error = shell_exec("wget --output-document - --quiet -N {$config_errors}"); ?>
             <thead>
                 <th></th>
-                <th>Gmail Failures</th>
+                <th>Email Error Sent Time</th>
               <th></th>
             </thead>
             <tbody>
-                <tr>
-                    <td><FONT COLOR = #FE2E2E>
-                         <?php  $output = shell_exec('wget --output-document - --quiet -N http://starscream.byu.edu/error.txt');
-                         
+            <tr>
+                <td><FONT COLOR = #FE2E2E>
+                        <?php
 
-            
-                         ?>
-                    </FONT>
-                    </td>
-                    <td><FONT COLOR = #FE2E2E>
-                        <?php 
-                          
+                            $output_error = explode("!", $error);
+                            $count = count($output_error);
+                            $less = $count - 2;
+                            echo $output_error[$less];
                         ?>
                     </FONT>
-                    </td>
-                    <td><FONT COLOR = #FE2E2E>
-                        <?php 
-                       
+                </td>
+                <td><FONT COLOR = #FE2E2E>
+                        <?php
+                            $output_error = explode("!", $error);
+                            $count = count($output_error);
+                            $lesser = $count - 3;
+                            echo $output_error[$lesser];
                         ?>
                     </FONT>
-                    </td>
-                </tr>
+                </td>
+                <td><FONT COLOR = #FE2E2E>
+                        <?php
+                            $output_error = explode("!", $error);
+                            $count = count($output_error);
+                            $least = $count - 4;
+                            echo $output_error[$least];
+                        ?>
+                    </FONT>
+                </td>
+            </tr>
             </tbody>
             <h4><FONT COLOR = #FE2E2E><center>Before Alerting Anyone Please Run A Check Yourself</center></FONT></h4>
 
