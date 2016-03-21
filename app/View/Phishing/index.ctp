@@ -27,17 +27,13 @@ $this->end();
 
 
 <?php else: ?>
-  <div class='container-error'>
-<form class='error'>
-      <div class='rowError'>
-          <h1>Phishing and Spam Email Removal</h1>
-            <h3><FONT COLOR = "B90000">Please ensure that you are <b>very</b> careful when removing emails</font><h3>
-      </div>
-  </form>
-</div>
-
-<div class="container">
-
+  <div class="container">
+    <form class='error'>
+          <div class='rowError'>
+              <h1>Phishing and Spam Email Removal</h1>
+                <h3><FONT COLOR = "B90000">Please ensure that you are <b>very</b> careful when removing emails</font><h3>
+          </div>
+    </form>
     <!-- Start Search box -->
     <form method="POST" class="search">
         <div class="row">
@@ -45,12 +41,12 @@ $this->end();
 
 				<span class="recipient">
 					<label>Subject:</label>
-					<input class="recipient-input" type="text" <?php if ($show_table) echo "value='" . $_POST['recipient'] . "'"; ?> name="recipient">
+					<input class="recipient-input" type="text" name="recipient">
 				</span>
 
 				<span class="sender">
 					<label>Sender:</label>
-					<input class="sender-input" type="text" <?php if ($show_table) echo "value='" . $_POST['sender'] . "'"; ?> name="sender">
+					<input class="sender-input" type="text" name="sender">
 				</span>
             </div>
         </div>
