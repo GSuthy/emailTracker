@@ -18,8 +18,7 @@
                     array('class' => 'navItem transition' . ($controller == 'health' ? ' selected' : ''))); ?>
             </li>
 
-            <?php endif; ?>
-          <?php endif; if($queues_authorized) : ?>
+            <?php endif; if($queues_authorized) : ?>
           <li class='navItem notCurrentPage'>
               <?= $this->Html->link('Phishing', array('controller' => 'phishing', 'action' => 'index'),
                   array('class' => 'navItem transition' . ($controller == 'phishing' ? ' selected' : ''))); ?>
