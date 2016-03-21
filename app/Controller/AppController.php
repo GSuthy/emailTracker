@@ -37,7 +37,7 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		//Force authentication to get to the page
 		$this->Auth->authenticate = array('Cas');
-    
+
         $this->set('authUser', $this->Auth->user());
 
         $userInfo = $this->Auth->user();
@@ -46,11 +46,12 @@ class AppController extends Controller {
         $userRoles = explode(',', $userInfo['memberOf']);
         $this->set('authorized', in_array("infra_communication", $userRoles) || in_array("EAMP", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
         $this->set('queues_authorized', in_array("infra_communication", $userRoles) || in_array("csr01", $userRoles) || in_array("csce", $userRoles));
-	}
+        $this->set('phishing_authorized', in_array("infra_communication", $userRoles));
+}
 
     public function isAuthorizedQueues() {
         $this->Auth->authenticate = array('Cas');
-       
+
         $userInfo = $this->Auth->user();
         // Only uncomment the line below if working on localhost
         // $userInfo["memberOf"] = "infra_communication";

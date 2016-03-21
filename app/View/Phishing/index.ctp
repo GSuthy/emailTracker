@@ -11,7 +11,7 @@ echo $this->Html->css(array(
 $this->end();
 ?>
 
-<?php if (!$queues_authorized): ?>
+<?php if (!$phishing_authorized): ?>
 
     <div class='container-error''>
 	<form class='error'>
@@ -28,7 +28,8 @@ $this->end();
   <div class='container-error'>
 <form class='error'>
       <div class='rowError'>
-          <h1>Email Tracking &amp; Filtering</h1>
+          <h1>Phishing/Spam Email Removal</h1>
+            <h3><FONT COLOR = "B90000">Please ensure that you are very careful when removing emails</font><h3>
 
       </div>
   </form>
