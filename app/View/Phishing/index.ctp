@@ -23,9 +23,9 @@ $this->end();
     </form>
 	</div>
 
-<?php else: ?>
 
-  <div class='container-error''>
+<?php else: ?>
+  <div class='container-error'>
 <form class='error'>
       <div class='rowError'>
           <h1>Email Tracking &amp; Filtering</h1>
@@ -33,3 +33,5 @@ $this->end();
       </div>
   </form>
 </div>
+
+<?php endif; ?>
