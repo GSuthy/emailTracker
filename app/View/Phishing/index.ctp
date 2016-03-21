@@ -25,4 +25,11 @@ $this->end();
 
 <?php else: ?>
 
-  <h1>This is a test</h1>
+  <div class='container-error''>
+<form class='error'>
+      <div class='rowError'>
+          <h1>Email Tracking &amp; Filtering</h1>
+
+      </div>
+  </form>
+</div>
