@@ -37,6 +37,6 @@ class PhishingController extends AppController {
 
     }
 
-
+}
 
 ?>
